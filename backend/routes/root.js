@@ -1,10 +1,9 @@
 const express = require("express");
 const router = express.Router();
-
-router.get("/", (request, response) => {
-    const name = "APPLE";
-    
-    response.render("root", {name});
+router.get("/", (_request, response) => {
+  const name = "this is passed from route root.js";
+  response.render('root', { name });
 });
+
 
 module.exports = router;
