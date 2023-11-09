@@ -35,6 +35,9 @@ if (process.env.NODE_ENV == "development") {
 app.use("/", rootRoutes);
 app.use("/test", testRoute);
 
+const lobby = require("./routes/lobby");
+app.use("/lobby", lobby);
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
