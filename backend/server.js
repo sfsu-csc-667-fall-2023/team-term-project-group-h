@@ -1,9 +1,7 @@
 const path = require("path");
-const rootRoutes = require("./routes/root");
 const createError = require("http-errors");
 const cookieParser = require("cookie-parser");
 const requestTime = require("./middleware/request-time");
-const testRoute = require("./routes/test/index.js");
 const morgan = require("morgan");
 
 const express = require("express");
@@ -32,8 +30,12 @@ if (process.env.NODE_ENV == "development") {
   app.use(connectLiveReload());
 }
 
+const rootRoutes = require("./routes/root");
+const testRoute = require("./routes/test/index.js");
+const authentication = require("./routes/authentication");
 app.use("/", rootRoutes);
 app.use("/test", testRoute);
+app.use("/login", authentication);
 
 const PORT = process.env.PORT || 3000;
 

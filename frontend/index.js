@@ -1,3 +1,10 @@
-console.log("Hello from a bundled assets");
+var displayForm = false;
 
-function signUp() {}
+function SignUp(event) {
+  event.preventDefault();
+  var document = document.getElementById("Sign-Up").innerHTML;
+  console.log(displayForm);
+  // if(displayForm === true){
+  //     document = "<form> </form>";
+  // }
+}

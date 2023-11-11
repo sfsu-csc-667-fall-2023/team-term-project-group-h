@@ -7,13 +7,4 @@ router.get("/", (request, response) => {
   response.render("root", { name });
 });
 
-router.get("/login", (request, response) => {
-  response.render("login");
-});
-
-router.post("/login/user", (request, response) => {
-  const { username } = request.body;
-  response.send("Username: " + username);
-});
-
 module.exports = router;
