@@ -7,7 +7,7 @@ function SignUp(event) {
   displayForm = !displayForm;
   if (displayForm === false) {
     form2.innerHTML = `
-    <form method="POST" action="/login/user">
+    <form method="POST" action="/login/signup">
         <button id="close-button" class="btn-close" aria-label="Close" ></button>
         <div class="mb-3">
             <label for="username" class="form-label">Username</label>
