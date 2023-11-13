@@ -33,11 +33,13 @@ if (process.env.NODE_ENV == "development") {
 const rootRoutes = require("./routes/root");
 const testRoute = require("./routes/test/index.js");
 const authentication = require("./routes/authentication");
+const game = require("./routes/game");
+const lobby = require("./routes/lobby");
+
 app.use("/", rootRoutes);
 app.use("/test", testRoute);
 app.use("/login", authentication);
-
-const lobby = require("./routes/lobby");
+app.use("/game", game);
 app.use("/lobby", lobby);
 
 const PORT = process.env.PORT || 3000;
