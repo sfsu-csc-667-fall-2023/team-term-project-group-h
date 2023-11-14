@@ -1,0 +1,46 @@
+
+
+.central{
+    flex-direction: column;
+    display: flex;
+}
+
+.row-central-2{
+    flex-direction: row;
+    display: flex;
+
+}
+
+.row-central-3{
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+}
+
+.row-central-4{
+    flex-direction: row;
+    display: flex;
+}
+
+.col-aside-2{
+    flex-direction: row;
+    display: flex;
+}
+
+
+[class*="col-aside-"]{
+    writing-mode: vertical-rl;
+    text-orientation: sideways;
+    
+}
+
+.card-side{
+    width: 5rem;
+    height: 5rem;
+    transform: rotate(90deg);
+}
+
+.card-central{
+    width: 5rem;
+    height: 5rem;
+}
