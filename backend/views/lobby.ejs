@@ -4,23 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hearts</title>
+    <style>
+        body {
+            background-color: rgb(116, 124, 160);
+        }
+
+        ul {
+            position: absolute;
+            top: 20px;
+            right: 50px;
+        }
+
+        .stdButtons {
+            width: 100px;
+            height: 50px;
+        }
+
+        #lobbyChat {
+            position: absolute;
+            bottom: 50px;
+            right: 50px;
+        }
+
+        #chatInput {
+            width: 300px;
+        }
+
+        h1 {
+            position: absolute;
+            top: 20px;
+            left: 50px;
+        }
+
+        #title {
+            position: absolute;
+            left: 50px;
+        }
+
+        #players {
+            position: absolute;
+            left: 800px;
+        }
+
+        #time {
+            position: absolute;
+            left: 1000px;
+        }
+
+        #labels {
+            position: absolute;
+            top: 150px;
+            left: 50px;
+        }
+
+        .gameList {
+            position: absolute;
+            top: 180px;
+            left: 50px;
+            width: 1100px;
+            height: 600px;
+            background-color: aliceblue;
+        }
+    </style>
 </head>
 <body>
-    Welcome to Hearts!
+    <h1>Welcome to Hearts!</h1>
+    <div id="labels">
+        <div id="title">Title</div>
+        <div id="players">Players</div>
+        <div id="time">Time</div>
+    </div>
+
+    <div class="gameList">
+
+    </div>
+
 
     <ul>
-        <button type="button">
-            <a href="/auth/login">Sign out</a>
-        </button>
-        
-        <button type="button">
+        <button type="button" class="stdButtons">
             Create room
+        </button>
+
+        <button type="button" class="stdButtons">
+            <a href="/login">Sign out</a>
         </button>
     </ul>
 
-    <form>
-        <input type="text" id="chatInput" name="chatInput">
-        <input type="submit" value="Submit">
-    </form>
+    <div id="lobbyChat">
+        <form>
+            <input type="text" id="chatInput" name="chatInput">
+            <input type="submit" value="Submit">
+        </form>
+    </div>
 </body>
 </html>
