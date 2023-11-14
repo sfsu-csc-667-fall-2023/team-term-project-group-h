@@ -1,0 +1,14 @@
+body {
+    background-color: #212529;
+    font-family: sans-serif;
+    color:#dee2e6;
+}
+
+nav {
+    background-color: #616f7d;
+}
+
+a {
+    text-decoration: none;
+    color: #dee2e6;
+}
