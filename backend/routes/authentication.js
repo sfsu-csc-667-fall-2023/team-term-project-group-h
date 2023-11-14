@@ -10,11 +10,23 @@ router.get("/", (request, response) => {
 });
 
 //Login Post
-router.post("/", (request, response) => {
+router.post("/", async (request, response) => {
   const { username, password } = request.body;
-  response.send(
-    "Login Page \n Username: " + username + " Password: " + password,
-  );
+  try{
+    const user = await Users.find_by_username(username);
+    const isValidUser = await bcrypt.compare(password, user.password);
+    if(isValidUser){
+      // TODO Store in session
+
+      response.redirect("/lobby");
+      return;
+    } else {
+      response.redirect("/login");
+    }
+  } catch (error) {
+    console.log(error);
+    response.redirect("/login");
+  }
 });
 
 //Signup route
