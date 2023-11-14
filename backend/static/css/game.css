@@ -1,13 +1,3 @@
-.aside-left{
- flex-direction: row;
- display: flex;
-}
-
-.aside-right{
-    flex-direction: row-reverse;
-    display: flex;
-
-}
 
 
 .central{
