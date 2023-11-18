@@ -44,3 +44,15 @@
     width: 5rem;
     height: 5rem;
 }
+
+.avatar {
+    width: 45px;
+    height: 100%;
+  }
+  
+  .rounded-3 {
+    background-color: #f5f6f7;
+  }
+.card-body{
+    height: 600px;
+}
