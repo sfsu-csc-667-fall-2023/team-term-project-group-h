@@ -3,6 +3,12 @@ const createError = require("http-errors");
 const cookieParser = require("cookie-parser");
 const requestTime = require("./middleware/request-time");
 const morgan = require("morgan");
+const session = require("express-session");
+const {
+  viewSessionData,
+  sessionLocals,
+  isAuthenticated,
+} = require("./middleware/");
 
 const express = require("express");
 require("dotenv").config();
@@ -17,6 +23,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "static")));
 
+
 if (process.env.NODE_ENV == "development") {
   const livereload = require("livereload");
   const connectLiveReload = require("connect-livereload");
@@ -30,17 +37,27 @@ if (process.env.NODE_ENV == "development") {
   app.use(connectLiveReload());
 }
 
-const rootRoutes = require("./routes/root");
-const testRoute = require("./routes/test/index.js");
-const authentication = require("./routes/authentication");
-const game = require("./routes/game");
-const lobby = require("./routes/lobby");
+const sessionMiddleware = session({
+  store: new (require("connect-pg-simple")(session))({
+    createTableIfMissing: true,
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  cookie: { secure: process.env.NODE_ENV !== "development" },
+});
+app.use(sessionMiddleware); 
 
-app.use("/", rootRoutes);
-app.use("/test", testRoute);
-app.use("/login", authentication);
-app.use("/game", game);
-app.use("/lobby", lobby);
+if (process.env.NODE_ENV === "development") {
+  app.use(viewSessionData);
+}
+app.use(sessionLocals);
+
+const Routes = require("./routes");
+
+app.use("/", Routes.root);
+app.use("/login", Routes.authentication);
+app.use("/game", isAuthenticated, Routes.game);
+app.use("/lobby", isAuthenticated,Routes.lobby);
 
 const PORT = process.env.PORT || 3000;
 
