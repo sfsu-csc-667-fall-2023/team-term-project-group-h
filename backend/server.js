@@ -45,6 +45,11 @@ const sessionMiddleware = session({
   resave: false,
   cookie: { secure: process.env.NODE_ENV !== "development" },
 });
+
+if (app.get('env') === 'production') {
+  app.set('trust proxy', 1) // trust first proxy
+}
+
 app.use(sessionMiddleware); 
 
 if (process.env.NODE_ENV === "development") {
