@@ -16,7 +16,7 @@ chatSocket.on(`chat:message:${roomId}`, ({ from, timestamp, message, hash }) => 
     const p = div.querySelector("p");
     const date = new Date(timestamp);
 
-    p.innerText = `(${date.toDateString()}) ${from}: ${message}`;
+    p.innerText = `(${date.toTimeString().split(' ')[0]}) ${from}: ${message}`;
 
     chatMessages.appendChild(div);
 })
@@ -25,7 +25,7 @@ document.querySelector("#chatInput").addEventListener("keydown", (event) => {
     if(event.keyCode === 13) {
         const message = event.target.value;
 
-        fetch("${document.location.pathname}/chat/", {
+        fetch(`${document.location.pathname}/chat/`, {
             method: "post",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({ message })
