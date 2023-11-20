@@ -44,6 +44,7 @@ const sessionMiddleware = session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   cookie: { secure: process.env.NODE_ENV !== "development" },
+  saveUninitialized: false
 });
 
 if (process.env.NODE_ENV === 'production') {
