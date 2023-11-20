@@ -1,9 +1,13 @@
 const path = require("path");
+const { createServer } = require('http');
+
 const createError = require("http-errors");
 const cookieParser = require("cookie-parser");
 const requestTime = require("./middleware/request-time");
 const morgan = require("morgan");
 const session = require("express-session");
+const { Server } = require('socket.io');
+
 const {
   viewSessionData,
   sessionLocals,
@@ -13,6 +17,7 @@ const {
 const express = require("express");
 require("dotenv").config();
 const app = express();
+const httpServer = createServer(app);
 
 app.use(morgan("dev"));
 app.use(requestTime);
@@ -56,18 +61,27 @@ app.use(sessionMiddleware);
 if (process.env.NODE_ENV === "development") {
   app.use(viewSessionData);
 }
+
 app.use(sessionLocals);
+const io = new Server(httpServer);
+io.engine.use(sessionMiddleware);
+app.set("io", io);
+
+io.on("connection", socket => {
+  socket.join(socket.request.session.id);
+})
 
 const Routes = require("./routes");
+const { Http2ServerRequest } = require("http2");
 
 app.use("/", Routes.root);
 app.use("/login", Routes.authentication);
-app.use("/game", isAuthenticated, Routes.game);
-app.use("/lobby", isAuthenticated,Routes.lobby);
+app.use("/game", isAuthenticated, Routes.game, Routes.chat);
+app.use("/lobby", isAuthenticated, Routes.lobby, Routes.chat);
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
 
