@@ -125,9 +125,26 @@
             <div id="time">Time</div>
         </div>
 
-        <button type="button" class="btn btn-dark" id="createRoom">Create Room</button>
 
-        <div class="gameList"></div>
+        <form action="/game/create" method="GET">
+            <button type="submit" class="btn btn-dark" id="createRoom">Create Room</button>
+        </form>
+
+        <div class="gameList">
+            <ul>
+                <% availableGames.forEach(game => { %>
+                <li>
+                  <a href="/game/<%= game.id %>/join">Join <%= game.id %></a>
+                </li>
+                <% }) %>
+              </ul>
+        </div>
+
+        <template id="join-game-entry">
+            <li>
+              <a href=""></a>
+            </li>
+        </template>
 
         <div id="lobbyChat">
             <%- include('partials/chat', { roomId: 0 }) %>

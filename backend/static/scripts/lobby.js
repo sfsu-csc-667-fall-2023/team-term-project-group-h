@@ -464,7 +464,7 @@
       "undefined" != typeof navigator &&
       "string" == typeof navigator.product &&
       "reactnative" === navigator.product.toLowerCase(),
-    z = {
+    J = {
       websocket: class extends C {
         constructor(t) {
           super(t), (this.supportsBinary = !t.forceBase64);
@@ -815,7 +815,7 @@
         }
       },
     },
-    J =
+    z =
       /^(?:(?![^:@\/?#]+:[^:@\/]*@)(http|https|ws|wss):\/\/)?((?:(([^:@\/?#]*)(?::([^:@\/?#]*))?)?@)?((?:[a-f0-9]{0,4}:){2,7}[a-f0-9]{0,4}|[^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/,
     $ = [
       "source",
@@ -844,7 +844,7 @@
         t.substring(0, s) +
         t.substring(s, n).replace(/:/g, ";") +
         t.substring(n, t.length));
-    let i = J.exec(t || ""),
+    let i = z.exec(t || ""),
       r = {},
       o = 14;
     for (; o--; ) r[$[o]] = i[o] || "";
@@ -983,7 +983,7 @@
         },
         this.opts.transportOptions[t],
       );
-      return new z[t](s);
+      return new J[t](s);
     }
     open() {
       let t;
@@ -2143,8 +2143,14 @@
       a.socket(s.path, e)
     );
   }
-  Object.assign(_t, { Manager: wt, Socket: bt, io: _t, connect: _t }),
-    _t({
-      query: { gameSocketId: document.querySelector("#game-socket-id").value },
-    });
+  Object.assign(_t, { Manager: wt, Socket: bt, io: _t, connect: _t });
+  const Et = document.querySelector("#join-game-entry"),
+    At = document.querySelector(".game-list");
+  _t().on("game:created", ({ id: t }) => {
+    const e = Et.content.cloneNode(!0),
+      s = e.querySelector("a");
+    (s.href = `/game/${t}/join`),
+      (s.innerText = `Join ${t}`),
+      At.appendChild(e);
+  });
 })();
