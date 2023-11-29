@@ -2,15 +2,13 @@
 
 exports.shorthands = undefined;
 
-
 /**
- * 
+ *
  * @param {import("node-pg-migrate/dist/types").MigrationBuilder} pgm
  */
-exports.up = pgm => {
-
-    pgm.createTable("games", {
-        /*
+exports.up = (pgm) => {
+  pgm.createTable("games", {
+    /*
         table games {
   table games {
   id int PK // game_id
@@ -29,58 +27,59 @@ exports.up = pgm => {
 }  
         */
 
-        id: {
-            type: "id",
-            primaryKey: true,
-            autoincrement: true
-        },
-        password: {
-            type: "varchar(100)"
-        },
-        active: {
-            type: "bool"
-        },
-        turn_player_id: {
-            type: "int"
-        },
-        turn_number: {
-            type: "int",
-            default: 0
-        },
-        suit_dominant: {
-            type: "card_suits"
-        },
-        player_dominant: {
-            type: "int"
-        },
-        Number_dominant: {
-            type: "card_numbers"
-        },
-        broken_hearts: {
-            type: "bool"
-        },
-        created_at: {
-            type: "timestamp",
-            notNull: true,
-            default: pgm.func("current_timestamp")
-        },
-        updated_at: {
-            type: "timestamp",
-            notNull: true,
-            default: pgm.func("current_timestamp")
-        },
-        started_at: {
-            type: "timestamp"
-        }
-
-
-    });
-       
+    id: {
+      type: "id",
+      primaryKey: true,
+      autoincrement: true,
+    },
+    game_socket_id: {
+      type: "varchar",
+      notNull: true,
+    },
+    password: {
+      type: "varchar(100)",
+    },
+    active: {
+      type: "bool",
+    },
+    turn_player_id: {
+      type: "int",
+    },
+    turn_number: {
+      type: "int",
+      default: 0,
+    },
+    suit_dominant: {
+      type: "card_suits",
+    },
+    player_dominant: {
+      type: "int",
+    },
+    Number_dominant: {
+      type: "card_numbers",
+    },
+    broken_hearts: {
+      type: "bool",
+    },
+    created_at: {
+      type: "timestamp",
+      notNull: true,
+      default: pgm.func("current_timestamp"),
+    },
+    updated_at: {
+      type: "timestamp",
+      notNull: true,
+      default: pgm.func("current_timestamp"),
+    },
+    started_at: {
+      type: "timestamp",
+    },
+  });
 };
 /**
- * 
+ *
  * @param {import("node-pg-migrate/dist/types").MigrationBuilder} pgm
  */
-exports.down = pgm => {
-    pgm.dropTable("games");
+exports.down = (pgm) => {
+  pgm.dropTable("games");
 };
