@@ -1,12 +1,12 @@
 const path = require("path");
-const { createServer } = require("http");
+const { createServer } = require('http');
 
 const createError = require("http-errors");
 const cookieParser = require("cookie-parser");
 const requestTime = require("./middleware/request-time");
 const morgan = require("morgan");
 const session = require("express-session");
-const { Server } = require("socket.io");
+const { Server } = require('socket.io');
 
 const {
   viewSessionData,
@@ -28,6 +28,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "static")));
 
+
 if (process.env.NODE_ENV == "development") {
   const livereload = require("livereload");
   const connectLiveReload = require("connect-livereload");
@@ -48,14 +49,14 @@ const sessionMiddleware = session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   cookie: { secure: process.env.NODE_ENV !== "development" },
-  saveUninitialized: false,
+  saveUninitialized: false
 });
 
-if (process.env.NODE_ENV === "production") {
-  app.set("trust proxy", 1); // trust first proxy
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1) // trust first proxy
 }
 
-app.use(sessionMiddleware);
+app.use(sessionMiddleware); 
 
 if (process.env.NODE_ENV === "development") {
   app.use(viewSessionData);
@@ -66,13 +67,9 @@ const io = new Server(httpServer);
 io.engine.use(sessionMiddleware);
 app.set("io", io);
 
-io.on("connection", (socket) => {
+io.on("connection", socket => {
   socket.join(socket.request.session.id);
-
-  if (socket.handshake.query != undefined) {
-    socket.join(socket.handshake.query.gameSocketId);
-  }
-});
+})
 
 const Routes = require("./routes");
 const { Http2ServerRequest } = require("http2");
@@ -81,7 +78,6 @@ app.use("/", Routes.root);
 app.use("/login", Routes.authentication);
 app.use("/game", isAuthenticated, Routes.game, Routes.chat);
 app.use("/lobby", isAuthenticated, Routes.lobby, Routes.chat);
-app.use("/waiting", isAuthenticated, Routes.waiting, Routes.chat);
 
 const PORT = process.env.PORT || 3000;
 

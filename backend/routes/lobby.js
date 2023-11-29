@@ -1,5 +1,4 @@
 const express = require("express");
-const { Games } = require("../db");
 const router = express.Router();
 const Games = require('../db');
 
