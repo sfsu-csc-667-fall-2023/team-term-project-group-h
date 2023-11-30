@@ -4,13 +4,18 @@ const router = express.Router();
 
 const { Games, Users } = require("../db");
 
-router.get("/create", async (request, response) => {
+router.post("/create", async (request, response) => {
   console.log("create get");
   const { id: userId } = request.session.user;
   const io = request.app.get("io");
 
+
+  const { title } = request.body;
+  console.log(title);
+
   const { id: gameId } = await Games.create(
     crypto.randomBytes(20).toString("hex"),
+    title
   );
   await Games.addUser(userId, gameId);
 

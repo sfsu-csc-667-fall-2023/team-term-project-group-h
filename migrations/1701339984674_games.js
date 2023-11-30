@@ -39,6 +39,9 @@ exports.up = (pgm) => {
     password: {
       type: "varchar(100)",
     },
+    title: {
+      type: "varchar(100)",
+    },
     active: {
       type: "bool",
     },
