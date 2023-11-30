@@ -25,8 +25,8 @@
 
             #lobbyChat {
                 position: absolute;
-                bottom: 50px;
-                right: 10px;
+                bottom: 48.5px;
+                right: -13px;
             }
 
             #chatInput {
@@ -38,8 +38,21 @@
 
             #chatSubmit {
                 position: absolute;
-                bottom: 0.5px;
+                bottom: -2.5px;
                 right: 50px;
+            }
+
+            #chatMessages {
+                position: absolute;
+                bottom: 50px;
+                right: 51px;
+                width: 488.5px;
+                height: 552.5px;
+                background-color: rgb(255, 255, 255);
+            }
+
+            div p{
+                color: black;
             }
 
             #navbar{
@@ -60,10 +73,36 @@
                 color: black;
             }
 
+            .players {
+                position: relative;
+                left: 774px;
+                width: 100px;
+                top: -36.4px;
+            }
+
             #time {
                 position: absolute;
                 left: 1000px;
                 color: black;
+            }
+
+            .time {
+                position: relative;
+                left: 956px;
+                width: 100px;
+                top: -90px;
+            }
+
+            .entry {
+                position: relative;
+                left: -32px;
+                font-size: 25px;
+                background-color: rgba(255, 237, 237, 0.61);
+                border-bottom: 1px solid rgb(0, 0, 0);
+                height: 60px;
+                width: 1100px;
+                padding-left: 33px;
+                padding-top: 10px;
             }
 
             #labels {
@@ -131,20 +170,27 @@
             <button type="submit" class="btn btn-dark" id="createRoom">Create Room</button>
         </form>
 
-        <div class="gameList">
+        <section class="gameList">
             <ul>
                 <% availableGames.forEach(game => { %>
-                <li>
-                  <a href="/game/<%= game.id %>/join">Join <%= game.id %></a>
-                </li>
+                <a href="/game/<%= game.id %>/join" style="text-decoration: none; color: black;">
+                    <div class="entry">
+                        <%= game.title %>
+                        <p class="players">3/4</p>
+                        <p class="time">00:00</p>
+                    </div>
+                </a>
                 <% }) %>
-              </ul>
-        </div>
+            </ul>
+        </section>
 
         <template id="join-game-entry">
-            <li>
-              <a href=""></a>
-            </li>
+            <a href="" style="text-decoration: none; color: black;">
+                <div class="entry">
+                    <p class="players"></p>
+                    <p class="time"></p>
+                </div>
+            </a>
         </template>
 
         <div id="lobbyChat">

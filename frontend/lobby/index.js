@@ -4,7 +4,7 @@ const gameEntryTemplate = document.querySelector("#join-game-entry");
 const gameList = document.querySelector(".game-list");
 
 const socket = io();
-// edit more
+//sockets not working with games list in lobby
 socket.on("game:created", ({ id }) => {
   const entry = gameEntryTemplate.content.cloneNode(true);
   const a = entry.querySelector("a");

@@ -5,13 +5,9 @@ const router = express.Router();
 const { Games, Users } = require("../db");
 
 router.post("/create", async (request, response) => {
-  console.log("create get");
+  const { title } = request.body;
   const { id: userId } = request.session.user;
   const io = request.app.get("io");
-
-
-  const { title } = request.body;
-  console.log(title);
 
   const { id: gameId } = await Games.create(
     crypto.randomBytes(20).toString("hex"),
@@ -30,6 +26,7 @@ router.get("/:id/join", async (request, response) => {
   const io = request.app.get("io");
 
   await Games.addUser(userId, gameId);
+  //TODO need to increment seats in game_users
   io.emit("game:user_added", { userId, userEmail, gameId });
 
   response.redirect(`/game/${gameId}`);

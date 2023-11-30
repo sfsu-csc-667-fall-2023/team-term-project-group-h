@@ -41,6 +41,7 @@ exports.up = (pgm) => {
     },
     title: {
       type: "varchar(100)",
+      notNull: true,
     },
     active: {
       type: "bool",
