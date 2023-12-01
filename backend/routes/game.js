@@ -14,8 +14,8 @@ router.post("/create", async (request, response) => {
     title
   );
   await Games.addUser(userId, gameId);
-
-  io.emit("game:created", { id: gameId });
+    
+  io.emit("game:created", { id: gameId, title });
 
   response.redirect(`/game/${gameId}`);
 });
