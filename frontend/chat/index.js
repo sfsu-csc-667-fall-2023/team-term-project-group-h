@@ -8,7 +8,6 @@ const roomId = document.querySelector("#roomId").value;
 
 chatSocket.on(`chat:message:${roomId}`, ({ from, timestamp, message, hash }) => {
     const div = document.querySelector("#chatMessage").content.cloneNode(true);
-    
     // const img = div.querySelector("img");
     // img.src = `https://gravatar.com/avatar/${hash}?s=50`;
     // img.alt = `Avatar of ${from}`;
