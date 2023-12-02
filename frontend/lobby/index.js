@@ -2,7 +2,6 @@ import { io } from "socket.io-client";
 
 const gameEntryTemplate = document.querySelector("#join-game-entry");
 const gameList = document.querySelector(".gameList");
-
 const socket = io();
 socket.on("game:created", ({ id, title }) => {
   const entry = gameEntryTemplate.content.cloneNode(true);
@@ -19,6 +18,9 @@ socket.on("game:created", ({ id, title }) => {
   gameList.querySelector("ul").appendChild(entry);
 });
 
+const refresh = document.getElementById("refresh");
 
-
+refresh.addEventListener("click", () => {
+  location.reload();
+});
 

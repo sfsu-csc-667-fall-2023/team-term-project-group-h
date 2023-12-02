@@ -4,6 +4,7 @@ module.exports = {
     chat: "./frontend/chat/index.js",
     games: "./frontend/games/index.js",
     lobby: "./frontend/lobby/index.js",
+    signup: "./frontend/signup/index.js"
   },
   output: {
     path: path.join(__dirname, "backend", "static", "scripts"),

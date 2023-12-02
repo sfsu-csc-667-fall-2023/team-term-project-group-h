@@ -6,7 +6,7 @@ const SALT_ROUND = 10;
 
 //Login Page
 router.get("/", (request, response) => {
-  response.render("login");
+  response.render("login",{ links: { lobby: { href: "/lobby", text: "Lobby" } }});
 });
 
 //Login Post
