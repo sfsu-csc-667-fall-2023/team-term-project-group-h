@@ -181,12 +181,10 @@
           
         <section class="gameList">
             <ul>
-                <% availableGames.forEach(game => { %>
+                <% availableGames.forEach((game, index) => { %>
                 <a href="/game/<%= game.id %>/join" style="text-decoration: none; color: black;">
                     <div class="entry">
                         <%= game.title %>
-                        <p class="players">3/4</p>
-                        <p class="time">00:00</p>
                     </div>
                 </a>
                 <% }) %>

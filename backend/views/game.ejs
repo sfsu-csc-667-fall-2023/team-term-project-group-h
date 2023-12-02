@@ -4,6 +4,7 @@
     <%- include('partials/header') %>
     <link rel="stylesheet" href="/css/game.css" />
     <title><%= title %></title>
+    <script src="/scripts/games.js" defer></script>
   </head>
   <body>
     <%- include('partials/navbar') %>
@@ -467,12 +468,24 @@
         </div>
       </div>
     </div>
+
+    <section id="testEle">
+      <form action="/game/<%= id %>/test" method="post" id="test-form">
+        <button type="submit">Test</button>
+      </form>
+    </section>
     <input
-        type="hidden"
-        name="game-socket-id"
-        id="game-socket-id"
-        value="<%= gameSocketId %>"
-      />
+      type="hidden"
+      name="game-socket-id"
+      id="game-socket-id"
+      value="<%= gameSocketId %>"
+    />
+    <input
+      type="hidden"
+      name="user-socket-id"
+      id="user-socket-id"
+      value="<%= userSocketId %>"
+    />  
     <%- include('partials/footer') %>
   </body>
 </html>

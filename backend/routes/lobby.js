@@ -4,8 +4,9 @@ const router = express.Router();
 
 router.get("/", async (request, response) => {
   const availableGames = await Games.getAvailableGames();
+  const playerCount = await Games.userCountAll();
 
-  response.render("lobby", { availableGames });
+  response.render("lobby", { availableGames, playerCount });
 });
 
 module.exports = router;

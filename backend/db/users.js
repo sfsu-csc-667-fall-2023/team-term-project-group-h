@@ -6,7 +6,7 @@ const ADD_USER =
   "INSERT INTO users (email, username, password) VALUES ($1, $2, $3) RETURNING id, username";
 const SIGN_USER_IN = "SELECT * FROM users WHERE username = $1";
 const GET_USER_SOCKET =
-  "select sid from session where sess->'user'->>'id'='$1';";
+  "SELECT sid FROM session WHERE sess->'user'->>'id'='$1' ORDER BY expire DESC LIMIT 1";
 
 const username_exists = (username) =>
   db
