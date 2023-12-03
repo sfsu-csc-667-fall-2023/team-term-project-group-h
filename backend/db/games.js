@@ -55,12 +55,64 @@ const initialize = async (gameId) => {
   ]);
   await db.none(SET_CURRENT_PLAYER, [firstPlayer, gameId]);
 
-  // const users = db.many(GET_USERS, [gameId]);
-  // const cards = db.many(GET_CARDS, [gameId, 4]);
-  // await Promise.all()
+  const users = await db
+    .many(GET_USERS, [gameId])
+    .then((userResult) => {
+      console.log({ userResult });
 
+      return userResult;
+    })
+    .then((userResult) =>
+      Promise.all([
+        userResult,
+        ...userResult.map(({ user_id }) =>
+          Users.getUserSocket(parseInt(user_id)),
+        ),
+      ]),
+    )
+    .then(([userResult, ...userSids]) =>
+      userResult.map(({ user_id }, index) => ({
+        user_id,
+        sid: userSids[index].sid,
+      })),
+    );
 
-}
+  const cards = await db.many(GET_CARDS, [gameId, users.length * 2 + 2]);
+  await Promise.all(
+    cards
+      .slice(0, cards.length - 2)
+      .map(({ card_id }, index) =>
+        db.none(DEAL_CARD, [
+          users[index % users.length].user_id,
+          gameId,
+          card_id,
+        ]),
+      ),
+  );
+  await Promise.all(
+    cards
+      .slice(cards.length - 2)
+      .map(({ card_id }) => db.none(DEAL_CARD, [-1, gameId, card_id])),
+  );
+
+  const hands = await db.many(
+    "SELECT game_cards.*, cards.* FROM game_cards, cards WHERE game_id=$1 AND game_cards.card_id=cards.id",
+    [gameId],
+  );
+
+  console.log({ hands });
+
+  return {
+    current_player: firstPlayer,
+    hands: hands.reduce((memo, entry) => {
+      if (entry.user_id !== 0) {
+        memo[entry.user_id] = memo[entry.user_id] || [];
+        memo[entry.user_id].push(entry);
+      }
+
+      return memo;
+    }, {}),
+  };}
 
 module.exports = {
   create,

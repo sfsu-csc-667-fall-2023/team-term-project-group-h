@@ -49,7 +49,19 @@ router.get("/:id/join", async (request, response) => {
 
   if(userCount === 4) {
     const gameState = await Games.initialize(gameId);
-    io.emit(GAME_CONSTANTS.START, gameState);
+    const { game_socket_id: gameSocketId } = await Games.getGame(gameId);
+
+    io.to(gameSocketId).emit(GAME_CONSTANTS.START, {
+      currentPlayer: gameState.current_player,
+    });
+
+    Object.keys(gameState.hands).forEach((playerId) => {
+      const playerSocket = Users.getUserSocket(playerId);
+
+      io.to(playerSocket).emit(GAME_CONSTANTS.STATE_UPDATED, {
+        hand: gameState.hands[playerId],
+      });
+    });
   }
 
   response.redirect(`/game/${gameId}`);
