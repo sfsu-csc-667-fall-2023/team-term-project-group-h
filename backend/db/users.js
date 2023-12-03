@@ -1,4 +1,5 @@
-const db = require("./connection");
+const database = require("./connection");
+const { connection: db, pgp } = database;
 
 const USER_EXISTENCE = "SELECT username FROM users WHERE username=$1";
 const EMAIL_EXISTENCE = "SELECT email FROM users WHERE email=$1";

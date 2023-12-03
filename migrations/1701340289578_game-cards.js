@@ -33,13 +33,11 @@ table game_cards {
                 user_id: {
                     type: "int",
                     notNull: true,
-                    references: "users(id)"
+                    // references: "users(id)" ----NOTE---- cannot use 0 or -1 because no user with those id's exists, detail: 'Key (user_id)=(0) is not present in table "users".'
                 },
                 card_order: {
                     type: "int"
                 }
-                
-                
             });
 };
 /**
