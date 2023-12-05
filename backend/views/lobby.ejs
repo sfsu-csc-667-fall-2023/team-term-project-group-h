@@ -49,6 +49,8 @@
                 width: 488.5px;
                 height: 552px;
                 background-color: rgb(255, 255, 255);
+                overflow: hidden; 
+                overflow-y: scroll;
             }
 
             div p{
@@ -180,7 +182,7 @@
 
           
         <section class="gameList">
-            <ul>
+            <ul style="overflow: hidden; overflow-y: scroll; max-height: 600px;">
                 <% availableGames.forEach((game, index) => { %>
                 <a href="/game/<%= game.id %>/join" style="text-decoration: none; color: black;">
                     <div class="entry">
