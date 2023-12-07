@@ -2,9 +2,9 @@ const database = require("../connection");
 const { connection: db } = database;
 
 const SET_CURRENT_PLAYER = `
-  UPDATE games SET current_seat=$1
+  UPDATE games SET turn_number=$1
   WHERE id=$2
-  RETURNING current_seat
+  RETURNING turn_number
 `;
 
 const setCurrentPlayer = (seatIndex, gameId) =>

@@ -36,15 +36,13 @@ exports.up = (pgm) => {
       type: "varchar",
       notNull: true,
     },
-    password: {
-      type: "varchar(100)",
-    },
     title: {
       type: "varchar(100)",
       notNull: true,
     },
     active: {
       type: "bool",
+      default: "false"
     },
     turn_player_id: {
       type: "int",

@@ -17,7 +17,7 @@ const handler = async (request, response) => {
   );
   await Games.addUser(userId, gameId);
     
-  io.emit("game:created", { id: gameId, title });
+  io.emit(GAME_CONSTANTS.CREATED, { id: gameId, title, createdBy: userId });
 
   response.redirect(`/game/${gameId}`);
 };

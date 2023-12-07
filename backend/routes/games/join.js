@@ -8,13 +8,16 @@ const GAME_CONSTANTS = require("../../../constants/games");
 const handler = async (request, response) => {
     const { id: gameId } = request.params;
     const { id: userId } = request.session.user;
-    const io = request.app.get("io");
 
     const usersInGame = await Games.usersInGame(gameId);
 
-    const userAlreadyInGame = usersInGame.includes(     //this doesn't work properly, always false
-        (entry) => entry.user_id === userId,
-    );
+    console.log(userId);
+    console.log({ usersInGame });
+
+    const userAlreadyInGame = usersInGame.some(
+        (entry) => entry.user_id === userId)
+
+    console.log(userAlreadyInGame);
 
 
     if(!userAlreadyInGame) {

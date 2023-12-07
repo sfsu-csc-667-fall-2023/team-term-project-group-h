@@ -42,8 +42,11 @@ exports.up = pgm => {
             },
             all_points: {
                 type: "bool"
+            },
+            is_ready: {
+                type: "boolean",
+                default: "false"
             }
-            
         });
 };
 /**
