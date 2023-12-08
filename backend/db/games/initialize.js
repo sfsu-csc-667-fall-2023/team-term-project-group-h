@@ -11,12 +11,13 @@ const initialize = async (gameId) => {
   const { game_socket_id } = await getGame(gameId);
 
   await createShuffledDeck(gameId);
-  const firstPlayer = await getPlayerBySeat(0, gameId).then(({ user_id }) =>
-    setCurrentPlayer(user_id, gameId),
-  );
+
+  // first player is the one with 2 of spades. How query for which player has two of spade after cards are dealt?
+  // const firstPlayer = await getPlayerBySeat(0, gameId).then(({ user_id }) =>
+  //   setCurrentPlayer(user_id, gameId),
+  // );
 
   const users = await getUsers(gameId);
-  // users.push({ user_id: 0 });    adding a dealer, we don't need. maybe we do                                            // TODO: add game sid here
 
   const cards = await drawCards(gameId, 52);
   const dealtCards = await dealCards(users, cards, gameId);

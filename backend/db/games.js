@@ -12,6 +12,8 @@ const { getState } = require("./games/get-state");
 const { getCards } = require("./games/get-cards");
 const { getCurrentPlayer } = require("./games/get-current-player");
 const { setInitialized } = require("./games/set-initialized");
+const { isPlayerInGame } = require("./games/is-player-in-game");
+const { getSuitDominant } = require("./games/get-suit-dominant");
 
 module.exports = {
   create,
@@ -27,5 +29,7 @@ module.exports = {
   getState,
   getCards,
   getCurrentPlayer,
-  setInitialized
+  setInitialized,
+  isPlayerInGame,
+  getSuitDominant
 };

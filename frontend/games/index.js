@@ -9,5 +9,5 @@ gameSocketConfig(gameSocketId)
   .then((_) => userSocketConfig(userSocketId))
   .then((_) => {
     console.log("Fetching");
-    fetch(`/game/${roomId}/ready`, { method: "post" });    //no ready endpoint yet, do we need? Can just start game when 4 players in room
+    fetch(`/game/${roomId}/ready`, { method: "post" });
 });
