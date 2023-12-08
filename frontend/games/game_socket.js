@@ -10,7 +10,7 @@ const configure = (socketId) => {
 
   console.log("Game socket configured");
 
-  return Promise.resolve();
+  return Promise.resolve(gameSocket);
 };
 
 const cardTemplate = document.querySelector("#card");
@@ -30,7 +30,13 @@ const updateHand = (handContainer, cardList) => {
     div.classList.add(`suit-${suits}`);
     div.classList.add(`value-${value}`);
     div.innerText = `${value}`;
-    //add event listener to each card to play individual cards
+    div.addEventListener("click", () => {
+      fetch(`/game/${roomId}/ready`, { method: "post", body: {
+          "suit": suits,
+          "value": value
+        }
+      })
+    });
 
     handContainer.appendChild(div);
   });
@@ -43,7 +49,7 @@ const stateUpdated = ({ game_id, current_player, players }) => {
   // const seatThreeCards = players.find((player) => player.seat === 3).hand;
 
   console.log({ seatZeroCards, seatOneCards });
-  updateHand(playerOneHand, seatZeroCards);
+  updateHand(playerOneHand, seatZeroCards, );
   updateHand(playerTwoHand, seatOneCards);
   // updateHand(playerThreeHand, seatThreeCards);
   // updateHand(playerFourHand, seatFourCards);

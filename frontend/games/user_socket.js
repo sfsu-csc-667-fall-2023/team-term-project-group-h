@@ -14,7 +14,7 @@ const configure = (socketId) => {
 
   console.log("User socket configured");
 
-  return Promise.resolve();
+  return Promise.resolve(userSocket);
 };
 
 export { configure };
