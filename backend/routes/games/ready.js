@@ -14,7 +14,9 @@ const handler = async (request, response) => {
   const { ready_count, player_count } = await Games.readyPlayer(userId, gameId);
   console.log({ ready_count, player_count, active });
 
-  const method = ready_count !== 4 || active ? "getState" : "initialize";
+  // Change from 4 to 2 to test.
+
+  const method = ready_count !== 2 || active ? "getState" : "initialize";
 
   const gameState = await Games[method](parseInt(gameId));
 

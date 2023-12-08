@@ -5,6 +5,7 @@ const { getPlayerBySeat } = require("./get-player-by-seat");
 const { setCurrentPlayer } = require("./set-current-player");
 const { drawCards } = require("./draw-cards");
 const { dealCards } = require("./deal-cards");
+const {setInitialized} = require("./set-initialized");
 
 const initialize = async (gameId) => {
   const { game_socket_id } = await getGame(gameId);

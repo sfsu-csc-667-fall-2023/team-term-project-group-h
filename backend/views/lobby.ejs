@@ -186,7 +186,7 @@
                 Joined Games
                 <ul class="joined" style="overflow: hidden; overflow-y: scroll; max-height: 600px;">
                     <% currentGames.forEach((game) => { %>
-                    <a href="/game/<%= game.id %>/join" style="text-decoration: none; color: black;">
+                    <a href="/game/<%= game.game_id %>/join" style="text-decoration: none; color: black;">
                         <div class="entry">
                             <%= game.title %>
                         </div>
