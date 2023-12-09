@@ -2,6 +2,14 @@
 
 <div>
   <article id="chatMessages">
+    <% messages.forEach((message) => { %>
+    
+          <div class="message">
+            <p>(<%= message.created_at %>) <%= message.username.username %>: <%= message.content %></p>
+          </div>
+
+      <% }) %>
+    
   </article>
 </div>
 

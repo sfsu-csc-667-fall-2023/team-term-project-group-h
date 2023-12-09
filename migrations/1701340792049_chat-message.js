@@ -24,8 +24,7 @@ exports.up = pgm => {
         },
         game_id: {
             type: "int",
-            notNull: true,
-            references: "games(id)"
+            notNull: true
         },
         content: {
             type: "varchar"
