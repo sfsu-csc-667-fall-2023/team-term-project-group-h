@@ -1,8 +1,16 @@
 <input type="hidden" name="roomId" id="roomId" value="<%= roomId %>" />
 
 <div>
-  <article id="chatMessages"><div class="message">
-  </div></article>
+  <article id="chatMessages">
+    <% messages.forEach((message) => { %>
+    
+          <div class="message">
+            <p>(<%= message.created_at %>) <%= message.username.username %>: <%= message.content %></p>
+          </div>
+
+      <% }) %>
+    
+  </article>
 </div>
 
 <input type="text" id="chatInput" name="chatInput" placeholder="Enter chat message...">
@@ -10,7 +18,6 @@
 
 <template id="chatMessage">
   <div class="message">
-    <!-- <img src="" alt="" /> -->
     <p></p>
   </div>
 </template>

@@ -56,3 +56,38 @@
 .card-body{
     height: 600px;
 }
+
+#lobbyChat {
+    position: absolute;
+    bottom: -250px;
+    right: -13px;
+}
+
+#chatInput {
+    position: absolute;
+    bottom: 0.5px;
+    right: 140px;
+    width: 400px;
+}
+
+#chatSubmit {
+    position: absolute;
+    bottom: -2.5px;
+    right: 50px;
+}
+
+#chatMessages {
+    position: absolute;
+    bottom: 50px;
+    right: 51px;
+    width: 488.5px;
+    height: 552px;
+    background-color: rgb(255, 255, 255);
+    overflow: hidden; 
+    overflow-y: scroll;
+}
+
+div p{
+    color: black;
+    text-align: left;
+}

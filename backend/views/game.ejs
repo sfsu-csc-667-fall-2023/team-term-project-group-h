@@ -4,11 +4,19 @@
     <%- include('partials/header') %>
     <link rel="stylesheet" href="/css/game.css" />
     <title><%= title %></title>
+    <script src="/scripts/games.js" defer></script>
+    <script src="/scripts/chat.js" defer></script>
   </head>
   <body>
     <%- include('partials/navbar') %>
     <h1 class="m-5 text-center">Game <%= id %></h1>
 
+    <div class="hand player-one-hand"></div>
+    <div class="hand player-two-hand"></div>
+    <div class="hand player-three-hand"></div>
+    <div class="hand player-four-hand"></div>
+
+    
     <div class="main-container text-center">
       <div class="row">
         <div class="col-md-8 justify-content-center">
@@ -398,81 +406,31 @@
             </div>
           </div>
         </div>
-        <div class="d-flex col-md-4 px-5">
-          <div class="container px-4 text-center">
-            <!-- chat element -->
-            <div id="lobbyChat">
-              <div class="card" id="chat2">
-                <div
-                  class="card-header d-flex justify-content-between align-items-center p-3"
-                >
-                  <h5 class="mb-0">Chat</h5>
-                  
-                </div>
-                <div
-                  class="card-body"
-                  data-mdb-perfect-scrollbar="true"
-                >
-                  <!-- Message Group 1 -->
-                  <div class="d-flex flex-row justify-content-start">
-                    <img
-                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
-                      alt="avatar 1"
-                      class="avatar"
-                    />
-                    <div>
-                      <!-- Messages and timestamp go here -->
-                    </div>
-                  </div>
 
-                  <!-- Divider -->
-                  <div class="divider d-flex align-items-center mb-4">
-                    <p class="text-center mx-3 mb-0" style="color: #a2aab7">
-                      Today
-                    </p>
-                  </div>
-
-                  <!-- Message Group 2 -->
-                  <div class="d-flex flex-row justify-content-end mb-4 pt-1">
-                    <div>
-                      <!-- Messages and timestamp go here -->
-                    </div>
-                    <img
-                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
-                      alt="avatar 1"
-                      class="avatar"
-                    />
-                  </div>
-
-                  <!-- Repeat similar structures for other message groups -->
-                </div>
-              </div>
-
-              <div class="overflow-auto" id="chatMessages">...</div>
-
-              <form>
-                <input
-                  class="form-control"
-                  type="text"
-                  id="chatInput"
-                  name="chatInput"
-                  placeholder="Enter chat message..."
-                />
-                <button id="submit" type="button" class="btn btn-primary  mt-2  mb-2  ms-2  me-2">
-                  Submit
-                </button>
-              </form>
-            </div>
-          </div>
+        <div id="lobbyChat">
+          <%- include('partials/chat', { roomId: id }) %>
         </div>
       </div>
+      
     </div>
+    
     <input
-        type="hidden"
-        name="game-socket-id"
-        id="game-socket-id"
-        value="<%= gameSocketId %>"
-      />
+      type="hidden"
+      name="game-socket-id"
+      id="game-socket-id"
+      value="<%= gameSocketId %>"
+    />
+    <input
+      type="hidden"
+      name="user-socket-id"
+      id="user-socket-id"
+      value="<%= userSocketId %>"
+    />  
     <%- include('partials/footer') %>
+
+    <template id="card">
+      <div class="card"></div>
+    </template>
+    
   </body>
 </html>

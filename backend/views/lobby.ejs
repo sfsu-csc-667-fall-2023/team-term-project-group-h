@@ -49,6 +49,8 @@
                 width: 488.5px;
                 height: 552px;
                 background-color: rgb(255, 255, 255);
+                overflow: hidden; 
+                overflow-y: scroll;
             }
 
             div p{
@@ -179,14 +181,27 @@
         </div>
 
           
-        <section class="gameList">
-            <ul>
-                <% availableGames.forEach(game => { %>
+        <section class="gameList" style="overflow: hidden; overflow-y: scroll; max-height: 600px;" data-user="<%= user.id %>">
+            <div>
+                Joined Games
+                <ul class="joined">
+                    <% currentGames.forEach((game) => { %>
+                    <a href="/game/<%= game.game_id %>/join" style="text-decoration: none; color: black;">
+                        <div class="entry">
+                            <%= game.title %>
+                        </div>
+                    </a>
+                    <% }) %>
+                </ul>
+            </div>
+            <div>
+                Available Games
+            </div>
+            <ul class="available">
+                <% availableGames.forEach((game) => { %>
                 <a href="/game/<%= game.id %>/join" style="text-decoration: none; color: black;">
                     <div class="entry">
                         <%= game.title %>
-                        <p class="players">3/4</p>
-                        <p class="time">00:00</p>
                     </div>
                 </a>
                 <% }) %>
