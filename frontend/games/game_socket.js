@@ -43,6 +43,7 @@ const updateHand = (handContainer, cardList) => {
 };
 
 const stateUpdated = ({ game_id, current_player, players }) => {
+  console.log("In stateUpdated");
   const seatZeroCards = players.find((player) => player.seat === 0).hand;
   const seatOneCards = players.find((player) => player.seat === 1).hand;
   // const seatTwoCards = players.find((player) => player.seat === 2).hand;           commented out for easier testing with 2 players
