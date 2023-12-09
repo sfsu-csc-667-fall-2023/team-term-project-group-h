@@ -10,7 +10,7 @@ const connectionState = {
     const { game, user } = connectionState;
   
     if (game && user) {
-      fetch(`/games/${roomId}/ready`, { method: "post" });
+      fetch(`/game/${roomId}/ready`, { method: "post" });
     }
   }
   
