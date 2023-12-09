@@ -30,30 +30,31 @@ const updateHand = (handContainer, cardList) => {
     div.classList.add(`suit-${suits}`);
     div.classList.add(`value-${value}`);
     div.innerText = `${value}`;
-    div.addEventListener("click", () => {
-      fetch(`/game/${roomId}/ready`, { method: "post", body: {
-          "suit": suits,
-          "value": value
-        }
-      })
-    });
+    // div.addEventListener("click", () => {
+    //   fetch(`/game/${roomId}/ready`, { method: "post", body: {
+    //       "suit": suits,
+    //       "value": value
+    //     }
+    //   })
+    // });
 
     handContainer.appendChild(div);
   });
 };
 
 const stateUpdated = ({ game_id, current_player, players }) => {
-  console.log("In stateUpdated");
-  const seatZeroCards = players.find((player) => player.seat === 0).hand;
-  const seatOneCards = players.find((player) => player.seat === 1).hand;
-  // const seatTwoCards = players.find((player) => player.seat === 2).hand;           commented out for easier testing with 2 players
-  // const seatThreeCards = players.find((player) => player.seat === 3).hand;
+  if(players.length === 2) {
+    const seatZeroCards = players.find((player) => player.seat === 0).hand;
+    const seatOneCards = players.find((player) => player.seat === 1).hand;
 
-  console.log({ seatZeroCards, seatOneCards });
-  updateHand(playerOneHand, seatZeroCards, );
-  updateHand(playerTwoHand, seatOneCards);
-  // updateHand(playerThreeHand, seatThreeCards);
-  // updateHand(playerFourHand, seatFourCards);
+    // const seatTwoCards = players.find((player) => player.seat === 2).hand;           commented out for easier testing with 2 players
+    // const seatThreeCards = players.find((player) => player.seat === 3).hand;
+    console.log({ seatZeroCards, seatOneCards });
+    updateHand(playerOneHand, seatZeroCards);
+    updateHand(playerTwoHand, seatOneCards);
+    // updateHand(playerThreeHand, seatThreeCards);
+    // updateHand(playerFourHand, seatFourCards);
+  }
 };
 
 export { configure };

@@ -181,10 +181,10 @@
         </div>
 
           
-        <section class="gameList" data-user="<%= user.id %>">
+        <section class="gameList" style="overflow: hidden; overflow-y: scroll; max-height: 600px;" data-user="<%= user.id %>">
             <div>
                 Joined Games
-                <ul class="joined" style="overflow: hidden; overflow-y: scroll; max-height: 600px;">
+                <ul class="joined">
                     <% currentGames.forEach((game) => { %>
                     <a href="/game/<%= game.game_id %>/join" style="text-decoration: none; color: black;">
                         <div class="entry">
@@ -197,7 +197,7 @@
             <div>
                 Available Games
             </div>
-            <ul class="available" style="overflow: hidden; overflow-y: scroll; max-height: 600px;">
+            <ul class="available">
                 <% availableGames.forEach((game) => { %>
                 <a href="/game/<%= game.id %>/join" style="text-decoration: none; color: black;">
                     <div class="entry">

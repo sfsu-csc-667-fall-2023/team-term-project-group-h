@@ -8,7 +8,7 @@ const connectionState = {
   
   const checkForReady = () => {
     const { game, user } = connectionState;
-  
+    
     if (game && user) {
       fetch(`/game/${roomId}/ready`, { method: "post" });
     }
