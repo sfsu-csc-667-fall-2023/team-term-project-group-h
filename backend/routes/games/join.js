@@ -11,13 +11,8 @@ const handler = async (request, response) => {
 
     const usersInGame = await Games.usersInGame(gameId);
 
-    console.log(userId);
-    console.log({ usersInGame });
-
     const userAlreadyInGame = usersInGame.some(
         (entry) => entry.user_id === userId)
-
-    console.log(userAlreadyInGame);
 
 
     if(!userAlreadyInGame) {

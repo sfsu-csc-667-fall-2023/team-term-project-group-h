@@ -20,7 +20,7 @@ const handler = async (request, response) => {
 
   const gameState = await Games[method](parseInt(gameId));
 
-  console.log({ gameState, method });
+  console.log({ gameState, method, });
 
   io.to(gameState.game_socket_id).emit(GAME_CONSTANTS.STATE_UPDATED, gameState);
 
