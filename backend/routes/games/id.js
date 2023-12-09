@@ -10,13 +10,9 @@ const handler = async (request, response) => {
     const { game_socket_id: gameSocketId } = await Games.getGame(id);
     
     const { sid: userSocketId } = await Users.getUserSocket(userId);
-
-    // const { messages } = await Games.getMessages(id);
     let messages;
     try {
       messages = await Games.getMessages(id);
-
-      console.log("messages from id.js: ", messages);
     } catch (error) {
       console.error("Error:", error);
     }
