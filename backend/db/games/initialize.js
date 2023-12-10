@@ -5,7 +5,6 @@ const { drawCards } = require("./draw-cards");
 const { dealCards } = require("./deal-cards");
 const { setInitialized } = require("./set-initialized");
 const { getCards } = require("./get-cards");
-const { initializePoints } = require("./initialize-points");
 const { getCurrentPlayer } = require("./get-current-player");
 
 const initialize = async (gameId) => {
@@ -32,7 +31,6 @@ const initialize = async (gameId) => {
   });
 
   await setInitialized(gameId);
-  await initializePoints(gameId);
 
   return {
     game_id: gameId,
