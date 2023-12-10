@@ -7,6 +7,7 @@ const method = "post";
 const route = "/create";
 
 const handler = async (request, response) => {
+
   const { title } = request.body;
   const { id: userId } = request.session.user;
   const io = request.app.get("io");

@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const { Chat, Users } = require("../db");
-// const { createHash } = require("crypto");
 
 const handler = (request, response) => {
   const { id } = request.params;
@@ -20,10 +19,7 @@ const handler = (request, response) => {
 
   const io = request.app.get("io");
 
-  console.log("chat.js: ", { id, message, username });
-  // this is the event that the client is listening for
   io.emit(`chat:message:${id === undefined ? 0 : id}`, {
-    // hash: createHash("sha256").update(email).digest("hex"),
     from: username,
     timestamp: Date.now(),
     message,

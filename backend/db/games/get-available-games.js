@@ -2,7 +2,7 @@ const database = require("../connection");
 const { connection: db } = database;
 
 const GET_AVAILABLE_GAMES = `
-    SELECT DISTINCT g.title, g.id 
+    SELECT DISTINCT g.title, g.id, g.created_at, g.active
     FROM games g 
     LEFT JOIN game_users gu ON g.id = gu.game_id AND gu.user_id = $1
     WHERE gu.user_id IS NULL
