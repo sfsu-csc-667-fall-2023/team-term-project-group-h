@@ -91,3 +91,8 @@ div p{
     color: black;
     text-align: left;
 }
+
+.action-buttons {
+    position: absolute;
+    bottom: 100px;
+}
