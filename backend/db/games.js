@@ -16,6 +16,7 @@ const { isPlayerInGame } = require("./games/is-player-in-game");
 const { getSuitDominant } = require("./games/get-suit-dominant");
 const { getMessages } = require("./games/get-messages");
 const { getMapCountPlayers } = require("./games/get-map-count-players");
+const { isCurrentPlayer } = require("./games/is-current-player");
 
 module.exports = {
   create,
@@ -36,4 +37,5 @@ module.exports = {
   getSuitDominant,
   getMessages,
   getMapCountPlayers,
+  isCurrentPlayer
 };
