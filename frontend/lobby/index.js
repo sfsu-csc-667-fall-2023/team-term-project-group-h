@@ -1,31 +1,51 @@
 import { io } from "socket.io-client";
 
-const gameEntryTemplate = document.querySelector("#join-game-entry");
-const gameList = document.querySelector(".gameList");
+// const gameEntryTemplate = document.querySelector("#join-game-entry");
+const gameList = document.querySelector("#gameList");
 const socket = io();
-const userId = parseInt(gameList.dataset.user)
+const userId = parseInt(gameList.dataset.user);
 
 socket.on("game:created", ({ id, title, createdBy }) => {
-  const entry = gameEntryTemplate.content.cloneNode(true);
-  const a = entry.querySelector("a");
-  const div = entry.querySelector("div");
 
-  div.childNodes[0].nodeValue = `${title}`;
-
-  if (createdBy === userId) {
-    a.href = `/game/${id}`;
-    gameList.querySelector(".joined").appendChild(entry);
+  let tbody;
+  console.log(`createdBy: ${createdBy} userId: ${userId}`);
+  if (createdBy == userId) {
+    tbody = document.querySelector("#joinedTableBody");
   } else {
-    a.href = `/game/${id}/join`;
-    gameList.querySelector(".available").appendChild(entry);
+    tbody = document.querySelector("#availableTableBody");
   }
 
-  gameList.querySelector("ul").appendChild(entry);
+  
+  const th = document.createElement("th");
+  th.setAttribute("scope", "row");
+  th.innerHTML = `${id}`;
+  const td1 = document.createElement("td");
+  const a = document.createElement("a");
+  a.setAttribute("href", `/game/${id}/join`);
+  a.setAttribute(
+    "class",
+    "text-decoration-none text-reset btn btn-secondary w-100 p-3 "
+  );
+  a.innerHTML = `${title}`;
+  td1.appendChild(a);
+  const td2 = document.createElement("td");
+  td2.innerHTML = "1";
+  const td3 = document.createElement("td");
+  td3.innerHTML = "False";
+  const td4 = document.createElement("td");
+  td4.innerHTML = "Now";
+  const tr = document.createElement("tr");
+  tr.appendChild(th);
+  tr.appendChild(td1);
+  tr.appendChild(td2);
+  tr.appendChild(td3);
+  tr.appendChild(td4);
+  tbody.appendChild(tr);
+
 });
 
-const refresh = document.getElementById("refresh");
+// const refresh = document.getElementById("refresh");
 
-refresh.addEventListener("click", () => {
-  location.reload();
-});
-
+// refresh.addEventListener("click", () => {
+//   location.reload();
+// });

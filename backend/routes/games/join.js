@@ -1,4 +1,4 @@
-const { Games, Users } = require("../../db");
+const { Games } = require("../../db");
 
 const method = "get";
 const route = "/:id/join";
