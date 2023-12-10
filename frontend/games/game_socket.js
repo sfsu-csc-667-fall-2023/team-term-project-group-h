@@ -73,7 +73,7 @@ const updatePoints = (players) => {
 const stateUpdated = ({ game_id, current_player, players }) => {
 
   if(players.length === 4) {
-
+    // print points 
     updatePoints(players);
     const seatZeroCards = players.find((player) => player.seat === 0).hand;
     const seatOneCards = players.find((player) => player.seat === 1).hand;

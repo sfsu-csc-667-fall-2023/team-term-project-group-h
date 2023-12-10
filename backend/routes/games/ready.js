@@ -21,6 +21,10 @@ const handler = async (request, response) => {
   const gameState = await Games[method](parseInt(gameId));
 
   console.log({ gameState, method, });
+  // print gameState players points
+  gameState.players.forEach((player) => {
+    console.log(`player ${player.user_id} game_points = ${player.game_points}, hand_points = ${player.hand_points}`);
+  });
 
   io.to(gameState.game_socket_id).emit(GAME_CONSTANTS.STATE_UPDATED, gameState);
 
