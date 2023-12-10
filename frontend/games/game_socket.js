@@ -2,6 +2,21 @@ import { io } from "socket.io-client";
 import * as GAME_CONSTANTS from "@constants/games";
 
 let gameSocket;
+let selectedCards = [];
+
+const roomId = document.querySelector("#roomId").value;
+const playButton = document.querySelector("#play-button");
+const passButton = document.querySelector("#pass-button");
+
+const showPassButton = () => {
+  document.getElementById("play-button").style.visibility="hidden";
+  document.getElementById("pass-button").style.visibility="visible";
+};
+
+const showPlayButton = () => {
+  document.getElementById("play-button").style.visibility="visible";
+  document.getElementById("draw-button").style.visibility="hidden";
+};
 
 const configure = (socketId) => {
   gameSocket = io({ query: { id: socketId } });
@@ -33,14 +48,15 @@ const updateHand = (handContainer, cardList, game_id) => {
 
   handContainer.innerHTML = "";
 
-
   cardList.forEach(({ suits, value }) => {
+  cardList.forEach(({ suits, value, card_id, user_id }) => {
+  console.log(card_id);
+  const container = cardTemplate.content.cloneNode(true);
+  const div = container.querySelector(".card");
 
-    const container = cardTemplate.content.cloneNode(true);
-    const div = container.querySelector(".card");
+  div.classList.add(`suit-${suits}`);
+  div.classList.add(`value-${value}`);
 
-    div.classList.add(`suit-${suits}`);
-    div.classList.add(`value-${value}`);
     
     div.innerText = `${value} of ${suitsMap[suits]}`;
     // div.addEventListener("click", () => {
@@ -53,6 +69,12 @@ const updateHand = (handContainer, cardList, game_id) => {
     //     }
     //   })
     // });
+    div.innerText = `${value}`;
+    div.addEventListener("click", () => {
+      selectedCards.push({ card_id, user_id });
+
+      console.log(JSON.stringify(selectedCards));
+    });
 
     handContainer.appendChild(div);
   });
@@ -75,6 +97,15 @@ const stateUpdated = ({ game_id, current_player, players }) => {
   if(players.length === 4) {
     // print points 
     updatePoints(players);
+    
+  const { turn_number } = current_player;
+  if(players.length === 2) {
+    if(turn_number === 0) {
+      showPassButton();
+    } else {
+      showPlayButton();
+    }
+
     const seatZeroCards = players.find((player) => player.seat === 0).hand;
     const seatOneCards = players.find((player) => player.seat === 1).hand;
 
@@ -88,5 +119,15 @@ const stateUpdated = ({ game_id, current_player, players }) => {
   }
 
 };
+
+passButton.addEventListener("click", (event) => {
+  fetch(`${roomId}/passCards/`, {
+      method: "post",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ selectedCards })
+  })
+
+  document.querySelector("#chatInput").value = '';
+})
 
 export { configure };
