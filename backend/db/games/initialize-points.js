@@ -6,6 +6,6 @@ const INIT_POINTS = `
   WHERE game_id=$1
 `;
 
-const initilizePoints = (gameId) => db.none(INIT_POINTS, [gameId]);
+const initializePoints = (gameId) => db.none(INIT_POINTS, [gameId]);
 
-module.exports = { initilizePoints };
+module.exports = { initializePoints };

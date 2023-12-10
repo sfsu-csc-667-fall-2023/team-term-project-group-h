@@ -7,7 +7,7 @@ const { drawCards } = require("./draw-cards");
 const { dealCards } = require("./deal-cards");
 const {setInitialized} = require("./set-initialized");
 const { getCards } = require("./get-cards");
-const { initializePoints } = require("../games");
+const { initializePoints } = require("./initialize-points");
 
 const initialize = async (gameId) => {
   const { game_socket_id } = await getGame(gameId);
