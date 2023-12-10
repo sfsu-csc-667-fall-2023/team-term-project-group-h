@@ -29,7 +29,6 @@ const find_by_username = (username) => {
 const getUserSocket = (userId) => db.one(GET_USER_SOCKET, [userId]);
 
 const getUserId = (username) => {
-  console.log("db/users.js: ", username);
   return db.one(GET_USER_ID, [username]);
 };
 

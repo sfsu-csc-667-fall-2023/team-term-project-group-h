@@ -58,7 +58,7 @@
           </div>
 
 
-          <section class="gameList" style="overflow: hidden; overflow-y: scroll; max-height: 600px;" data-user="<%= user.id %>">
+          <section id="gameList" class="gameList" style="overflow: hidden; overflow-y: scroll; max-height: 600px;" data-user="<%= user.id %>">
             <div class="text-capitalize">
                 <h2>Joined Games</h2>
                 <table class="joined table" id="joinedTable">
@@ -73,7 +73,7 @@
                     </tr>
                 </thead>
 
-                <tbody>
+                <tbody id="joinedTableBody">
                     <% currentGames.forEach((game) => { %>
                     <tr>
                         <th scope="row"> <%= game.game_id %></th>
@@ -105,26 +105,25 @@
                     </tr>
                 </thead>
 
-                <tbody>
+                <tbody id="availableTableBody">
                     <% availableGames.forEach((game) => { %>
                     <tr>
-                        <th scope="row"> <%= game.game_id %></th>
+                        <th scope="row"> <%= game.id %></th>
                         <td>
                         <a href="/game/<%= game.game_id %>/join" class="text-decoration-none text-reset btn btn-secondary w-100 p-3 ">
                             <%= game.title %>
                         </a>
                         </td>
-                        <td><%= mapCountPlayers[game.game_id] %></td>
+                        <td><%= mapCountPlayers[game.id] %></td>
                         <td><%= game.active %></td>
                         <td><%= game.created_at.toLocaleString() %></td>
-                        
-
                     </tr>
                     <% }) %>
                 </tbody>
                 </table>
             </div>
         </section>
+
        
         <div id="lobbyChat">
             <%- include('partials/chat', { roomId: 0 }) %>

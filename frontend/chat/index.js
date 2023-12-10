@@ -7,6 +7,7 @@ const chatMessages = document.querySelector("#chatMessages");
 const roomId = document.querySelector("#roomId").value;
 
 chatSocket.on(`chat:message:${roomId}`, ({ from, timestamp, message, hash }) => {
+    
     const div = document.querySelector("#chatMessage").content.cloneNode(true);
 
     const p = div.querySelector("p");
