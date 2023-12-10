@@ -5,129 +5,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Hearts</title>
-        <style>
-            #createRoom
-            {
-                position: absolute;
-                right: 560px;
-                top: 180px;
-                width: 125px;
-                height: 45px;
-            }
-
-            #signOut {
-                position: absolute;
-                top: 5px;
-                right: 30px;
-                width: 125px;
-                height: 45px;
-            }
-
-            #lobbyChat {
-                position: absolute;
-                bottom: 48.5px;
-                right: -13px;
-            }
-
-            #chatInput {
-                position: absolute;
-                bottom: 0.5px;
-                right: 140px;
-                width: 400px;
-            }
-
-            #chatSubmit {
-                position: absolute;
-                bottom: -2.5px;
-                right: 50px;
-            }
-
-            #chatMessages {
-                position: absolute;
-                bottom: 50px;
-                right: 51px;
-                width: 488.5px;
-                height: 552px;
-                background-color: rgb(255, 255, 255);
-                overflow: hidden; 
-                overflow-y: scroll;
-            }
-
-            div p{
-                color: black;
-            }
-
-            #navbar{
-                position: absolute;
-                top: 20px;
-                left: 50px;
-            }
-
-            #title {
-                position: absolute;
-                left: 50px;
-                color: black;
-            }
-
-            #players {
-                position: absolute;
-                left: 800px;
-                color: black;
-            }
-
-            .players {
-                position: relative;
-                left: 774px;
-                width: 100px;
-                top: -36.4px;
-            }
-
-            #time {
-                position: absolute;
-                left: 1000px;
-                color: black;
-            }
-            #refresh {
-                position: absolute;
-                left: 1050px;
-                color: black;
-            }
-
-            .time {
-                position: relative;
-                left: 956px;
-                width: 100px;
-                top: -90px;
-            }
-
-            .entry {
-                position: relative;
-                left: -32px;
-                font-size: 25px;
-                background-color: rgba(230, 230, 230, 0.61);
-                border-bottom: 1px solid rgb(0, 0, 0);
-                height: 60px;
-                width: 1100px;
-                padding-left: 33px;
-                padding-top: 10px;
-            }
-
-            #labels {
-                position: absolute;
-                top: 150px;
-                left: 50px;
-            }
-
-            .gameList {
-                position: absolute;
-                top: 180px;
-                left: 50px;
-                width: 1100px;
-                height: 600px;
-                background-color: rgb(255, 255, 255);
-            }
-        </style>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link type="text/css" rel="stylesheet" href="css/lobby.css">
         <script src="/scripts/chat.js" defer></script>
         <script src="/scripts/lobby.js" defer></script>
     </head>
@@ -151,76 +30,105 @@
               </div>
             </div>
         </nav>
-
-        <div id="labels">
-            <div id="title">Title</div>
-            <div id="players">Players</div>
-            <div id="time">Time</div>
-            <div id="refresh">Refresh</div>
-        </div>
-
-        <button type="button" class="btn btn-dark" id="createRoom" data-bs-toggle="modal" data-bs-target=".modal">Create Room</button>
-
-        <div class="modal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Create new room</h5>
-                    </div>
-                    <div class="modal-body">
-                        <p>Give your room a name.</p>
-                        <form action="/game/create" method="POST">
-                            <input type="text" name="title"/>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-dark">Confirm</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-          
-        <section class="gameList" style="overflow: hidden; overflow-y: scroll; max-height: 600px;" data-user="<%= user.id %>">
-            <div>
-                Joined Games
-                <ul class="joined">
-                    <% currentGames.forEach((game) => { %>
-                    <a href="/game/<%= game.game_id %>/join" style="text-decoration: none; color: black;">
-                        <div class="entry">
-                            <%= game.title %>
+        
+        
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <button type="button" class="btn btn-dark d-flex justify-content-start" id="createRoom" data-bs-toggle="modal" data-bs-target=".modal">Create Room</button>
+            
+            <div class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Create new room</h5>
                         </div>
-                    </a>
-                    <% }) %>
-                </ul>
-            </div>
-            <div>
-                Available Games
-            </div>
-            <ul class="available">
-                <% availableGames.forEach((game) => { %>
-                <a href="/game/<%= game.id %>/join" style="text-decoration: none; color: black;">
-                    <div class="entry">
-                        <%= game.title %>
+                        <div class="modal-body">
+                            <p>Give your room a name.</p>
+                            <form action="/game/create" method="POST">
+                                <input type="text" name="title"/>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-dark">Confirm</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </a>
-                <% }) %>
-            </ul>
-        </section>
-
-        <template id="join-game-entry">
-            <a href="" style="text-decoration: none; color: black;">
-                <div class="entry">
-                    <p class="players"></p>
-                    <p class="time"></p>
                 </div>
-            </a>
-        </template>
+            </div>
+        
+            
+          </div>
 
+
+          <section class="gameList" style="overflow: hidden; overflow-y: scroll; max-height: 600px;" data-user="<%= user.id %>">
+            <div class="text-capitalize">
+                <h2>Joined Games</h2>
+                <table class="joined table" id="joinedTable">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Players</th>
+                        <th scope="col">Active</th>
+                        <th scope="col">Created</th>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% currentGames.forEach((game) => { %>
+                    <tr>
+                        <th scope="row"> <%= game.game_id %></th>
+                        <td>
+                        <a href="/game/<%= game.game_id %>/join" class="text-decoration-none text-reset btn btn-secondary w-100 p-3 ">
+                            <%= game.title %>
+                        </a>
+                        </td>
+                        <td><%= mapCountPlayers[game.game_id] %></td>
+                        <td><%= game.active %></td>
+                        <td><%= game.created_at.toLocaleString() %></td>
+                        
+
+                    </tr>
+                    <% }) %>
+                </tbody>
+                </table>
+            </div>
+            <h2>Available Games</h2>
+                <table class="available table" id="availableTable">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Players</th>
+                        <th scope="col">Active</th>
+                        <th scope="col">Created</th>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% availableGames.forEach((game) => { %>
+                    <tr>
+                        <th scope="row"> <%= game.game_id %></th>
+                        <td>
+                        <a href="/game/<%= game.game_id %>/join" class="text-decoration-none text-reset btn btn-secondary w-100 p-3 ">
+                            <%= game.title %>
+                        </a>
+                        </td>
+                        <td><%= mapCountPlayers[game.game_id] %></td>
+                        <td><%= game.active %></td>
+                        <td><%= game.created_at.toLocaleString() %></td>
+                        
+
+                    </tr>
+                    <% }) %>
+                </tbody>
+                </table>
+            </div>
+        </section>
+       
         <div id="lobbyChat">
             <%- include('partials/chat', { roomId: 0 }) %>
         </div>
-
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     </body>
 </html>

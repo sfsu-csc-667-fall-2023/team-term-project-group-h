@@ -32,7 +32,6 @@ const get_messages = async (game_id) => {
         };
       })
     );
-    console.log(`processedResults for game_id ${game_id}: `, processedResults);
     return processedResults;
   } catch (error) {
     console.error("Error:", error);
