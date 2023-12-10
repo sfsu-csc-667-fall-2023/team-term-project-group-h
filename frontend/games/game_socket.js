@@ -21,6 +21,7 @@ const playerThreeHand = document.querySelector(".player-three-hand");
 const playerFourHand = document.querySelector(".player-four-hand");
 
 const updateHand = (handContainer, cardList, game_id) => {
+
   const suitsMap = {
     0: "spades",
     1: "clubs",
@@ -28,7 +29,8 @@ const updateHand = (handContainer, cardList, game_id) => {
     3: "diamonds",
   };
 
-  
+  console.log(`Updating hand for game ${game_id} in handContainer ${handContainer}`);
+
   handContainer.innerHTML = "";
 
 
