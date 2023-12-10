@@ -1,4 +1,3 @@
-const { map } = require("../../routes/games");
 const database = require("../connection");
 const { connection: db } = database;
 

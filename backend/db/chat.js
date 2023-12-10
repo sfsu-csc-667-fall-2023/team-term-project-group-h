@@ -3,7 +3,6 @@ const { connection: db, pgp } = database;
 
 const CHAT_EXISTS = "SELECT chat FROM chat_message WHERE game_id=$1";
 const GET_MESSAGES = "SELECT * FROM chat_message WHERE game_id=$1";
-// user_id | game_id | content | created_at (we need timestamp)
 const ADD_MESSAGE = `
   INSERT INTO chat_message (user_id, game_id, content, created_at)
   VALUES ($1, $2, $3, NOW())

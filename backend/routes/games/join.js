@@ -1,4 +1,4 @@
-const { Games, Users } = require("../../db");
+const { Games } = require("../../db");
 
 const method = "get";
 const route = "/:id/join";
@@ -8,6 +8,12 @@ const GAME_CONSTANTS = require("../../../constants/games");
 const handler = async (request, response) => {
     const { id: gameId } = request.params;
     const { id: userId } = request.session.user;
+
+    if(Games?.isInitialized(gameId)) {
+        console.log("Games is already initialized");
+    }else{
+        console.log("Games is not initialized");
+    }
 
     const usersInGame = await Games.usersInGame(gameId);
 
