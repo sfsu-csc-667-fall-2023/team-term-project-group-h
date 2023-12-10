@@ -6,9 +6,6 @@ const INIT_POINTS = `
   WHERE game_id=$1
 `;
 
-const initilizePoints = (gameId, userId) =>
-  db
-    .one(IS_CURRENT_PLAYER, [gameId])
-    .then(({ turn_number: playerId }) => playerId === userId);
+const initilizePoints = (gameId) => db.none(INIT_POINTS, [gameId]);
 
 module.exports = { initilizePoints };
