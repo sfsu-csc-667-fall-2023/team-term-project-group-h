@@ -72,7 +72,7 @@ const updateHand = (handContainer, cardList, game_id, selectedCardsIndex) => {
     console.log(`THIS IS THE NEW MAP ${JSON.stringify(mapUserIdToSeat)}`);
 
     console.log(`value: ${value}, suits: ${suits}, card_id: ${card_id}, user_id: ${user_id}, selectedCardsIndex: ${selectedCardsIndex}`);
-    console.log(`selectedCardsIndex: ${selectedCardsIndex}, selectedCards: ${selectedCards[selectedCardsIndex]}`);
+    console.log(`selectedCardsIndex: ${selectedCardsIndex}, this should be empty: selectedCards: ${selectedCards[selectedCardsIndex]}`);
 
     const container = cardTemplate.content.cloneNode(true);
     const div = container.querySelector(".card");

@@ -24,6 +24,7 @@ const { getTwoClubsHolder } = require("./games/get-twoclubs-holder");
 const { getCurrentTurn } = require("./games/get-current-turn");
 const { setPassed } = require("./games/set-passed");
 const { getPlayersPassed } = require("./games/get-players-passed");
+const { incrementTurnNumber } = require("./games/increment-turn-number");
 
 module.exports = {
   create,
@@ -51,5 +52,6 @@ module.exports = {
   getTwoClubsHolder,
   getCurrentTurn,
   setPassed,
-  getPlayersPassed
+  getPlayersPassed,
+  incrementTurnNumber
 };

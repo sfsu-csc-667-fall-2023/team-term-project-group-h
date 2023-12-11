@@ -1,8 +1,5 @@
 const { Games, Users } = require("../../db");
-const { getSeat, passCard, getState, getTwoClubsHolder, setPassed, getPlayersPassed } = require("../../db/games");
-const { getPlayerBySeat } = require("../../db/games/get-player-by-seat");
 const GAME_CONSTANTS = require("../../../constants/games");
-const { setCurrentPlayer } = require("../../db/games/set-current-player");
 
 const method = "post";
 const route = "/:id/passCards";
@@ -20,7 +17,7 @@ const handler = async (request, response) => {
   console.log(`selectedCards: ${selectedCards}`);
   console.log(`gameId: ${gameId}`);
 
-  const { seat: userSeat } = await getSeat(user_Id, gameId);
+  const { seat: userSeat } = await Games.getSeat(user_Id, gameId);
   console.log(`userSeat: ${userSeat}`);
 
   let targetSeat;
@@ -31,7 +28,7 @@ const handler = async (request, response) => {
   }
   console.log(`TARGET SEAT: ${targetSeat}`);
 
-  const { user_id: targetUser } = await getPlayerBySeat(targetSeat, gameId);
+  const { user_id: targetUser } = await Games.getPlayerBySeat(targetSeat, gameId);
 
   // console.log(targetUser);
   // for( const card of selectedCards) {
@@ -42,20 +39,19 @@ const handler = async (request, response) => {
   // }
 
   for(const card of selectedCards) {
-    await passCard(card, targetUser, gameId);
+    await Games.passCard(card, targetUser, gameId);
   } 
-  await setPassed(user_Id, gameId);
+  await Games.setPassed(user_Id, gameId);
 
-  const playersPassed = await getPlayersPassed(gameId);
+  const playersPassed = await Games.getPlayersPassed(gameId);
 
   if(playersPassed === 4) {
     
-    const { user_id: firstPlayer } = await getTwoClubsHolder(gameId);
-    
-    // const firstPlayerSeat = await getSeat(firstPlayer); maybe dont need seat
-    await setCurrentPlayer(firstPlayer, gameId); 
-
-    const gameState = await getState(gameId);
+    const { user_id: firstPlayer } = await Games.getTwoClubsHolder(gameId);
+    await Games.setCurrentPlayer(firstPlayer, gameId); 
+    await Games.incrementTurnNumber(gameId);
+    const gameState = await Games.getState(gameId);
+    // Emit state updated event
     io.to(gameState.game_socket_id).emit(GAME_CONSTANTS.STATE_UPDATED, gameState);
   }
 
