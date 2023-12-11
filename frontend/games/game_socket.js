@@ -84,7 +84,7 @@ const updatePoints = (players) => {
 const stateUpdated = ({ game_id, current_player, players }) => {
   const { turn_number } = current_player;
 
-  if(players.length === 4) {
+  if(players.length === 2) {
     if(turn_number === 0) {
       showPassButton();
     } else {
@@ -94,14 +94,13 @@ const stateUpdated = ({ game_id, current_player, players }) => {
     updatePoints(players);
     const seatZeroCards = players.find((player) => player.seat === 0).hand;
     const seatOneCards = players.find((player) => player.seat === 1).hand;
-
-    const seatTwoCards = players.find((player) => player.seat === 2).hand;          // commented out for easier testing with 2 players
-    const seatThreeCards = players.find((player) => player.seat === 3).hand;
-    // console.log({ seatZeroCards, seatOneCards });
+    // const seatTwoCards = players.find((player) => player.seat === 2).hand;          // commented out for easier testing with 2 players
+    // const seatThreeCards = players.find((player) => player.seat === 3).hand;
+    console.log({ seatZeroCards, seatOneCards });
     updateHand(playerOneHand, seatZeroCards,game_id);
     updateHand(playerTwoHand, seatOneCards,game_id);
-    updateHand(playerThreeHand, seatTwoCards, game_id);
-    updateHand(playerFourHand, seatThreeCards, game_id);
+    // updateHand(playerThreeHand, seatTwoCards, game_id);
+    // updateHand(playerFourHand, seatThreeCards, game_id);
   }
 };
 

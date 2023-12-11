@@ -20,6 +20,7 @@ const { isCurrentPlayer } = require("./games/is-current-player");
 const { initializePoints } = require("./games/initialize-points");
 const { getSeat } = require("./games/get-seat");
 const { passCard } = require("./games/pass-card");
+const { getTwoClubsHolder } = require("./games/get-twoclubs-holder");
 
 module.exports = {
   create,
@@ -43,5 +44,6 @@ module.exports = {
   isCurrentPlayer,
   initializePoints,
   getSeat,
-  passCard
+  passCard,
+  getTwoClubsHolder
 };

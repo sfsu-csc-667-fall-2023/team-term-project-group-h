@@ -1,5 +1,5 @@
 const { Games, Users } = require("../../db");
-const { getSeat, passCard, getState } = require("../../db/games");
+const { getSeat, passCard, getState, getTwoClubsHolder } = require("../../db/games");
 const { getPlayerBySeat } = require("../../db/games/get-player-by-seat");
 const GAME_CONSTANTS = require("../../../constants/games");
 
@@ -34,6 +34,8 @@ const handler = async (request, response) => {
     const { card_id: cardId } = card
     await passCard(cardId, targetUser, gameId);
   }
+
+  const firstPlayer = await getTwoClubsHolder(gameId);
 
   const gameState = await getState(gameId);
 
