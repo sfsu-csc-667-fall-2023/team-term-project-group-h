@@ -51,6 +51,7 @@ const handler = async (request, response) => {
   if(playersPassed === 4) {
     
     const { user_id: firstPlayer } = await getTwoClubsHolder(gameId);
+    
     // const firstPlayerSeat = await getSeat(firstPlayer); maybe dont need seat
     await setCurrentPlayer(firstPlayer, gameId); 
 
