@@ -13,14 +13,14 @@ const initialize = async (gameId) => {
   const { game_socket_id, turn_number, broken_hearts, suit_dominant, player_dominant, Number_dominant, turn_player_id  } = await getGame(gameId);
 
   
-
   await createShuffledDeck(gameId);
 
   const cards = await drawCards(gameId, 52);
+  await initializePoints(gameId);
   const users = await getUsers(gameId);
   await dealCards(users, cards, gameId);
   const dealtCards = await getCards(gameId);
-  await initializePoints(gameId);
+ 
   // const current_player = await getCurrentTurn(gameId);
   let current_player;
 

@@ -5,6 +5,7 @@ const method = "post";
 const route = "/:id/ready";
 
 const handler = async (request, response) => {
+  
   const io = request.app.get("io");
 
   const { id: gameId } = request.params;
