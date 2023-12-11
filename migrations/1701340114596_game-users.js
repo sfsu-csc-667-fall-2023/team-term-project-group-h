@@ -46,6 +46,10 @@ exports.up = pgm => {
             is_ready: {
                 type: "boolean",
                 default: "false"
+            },
+            passed: {
+                type: "boolean",
+                default: "false"
             }
         });
 };

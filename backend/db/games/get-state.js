@@ -2,16 +2,15 @@ const database = require("../connection");
 const { connection: db } = database;
 
 const { getCards } = require("./get-cards");
-const { getCurrentPlayer } = require("./get-current-player");
+const { getCurrentTurn } = require("./get-current-turn");
 const { getGame } = require("./get-game");
 const { getUsers } = require("./get-users");
 
 const getState = async (gameId) => {
   const { game_socket_id } = await getGame(gameId);
 
-  const current_player = await getCurrentPlayer(gameId);
+  const current_player = await getCurrentTurn(gameId);
   const users = await getUsers(gameId);
-//   users.push({ user_id: -1 }); // TODO: add game sid here
 
   const dealtCards = await getCards(gameId);
   console.log({ dealtCards });

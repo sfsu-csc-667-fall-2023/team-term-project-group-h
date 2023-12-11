@@ -88,8 +88,7 @@ const updatePoints = (players) => {
 
 const stateUpdated = ({ game_id, current_player, players }) => {
   const { turn_number } = current_player;
-
-
+  
   if(players.length === 4) {
     if(turn_number === 0) {
       showPassButton();

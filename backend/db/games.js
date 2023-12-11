@@ -22,6 +22,8 @@ const { getSeat } = require("./games/get-seat");
 const { passCard } = require("./games/pass-card");
 const { getTwoClubsHolder } = require("./games/get-twoclubs-holder");
 const { getCurrentTurn } = require("./games/get-current-turn");
+const { setPassed } = require("./games/set-passed");
+const { getPlayersPassed } = require("./games/get-players-passed");
 
 module.exports = {
   create,
@@ -47,5 +49,7 @@ module.exports = {
   getSeat,
   passCard,
   getTwoClubsHolder,
-  getCurrentTurn
+  getCurrentTurn,
+  setPassed,
+  getPlayersPassed
 };

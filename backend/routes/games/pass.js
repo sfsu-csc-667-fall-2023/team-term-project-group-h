@@ -1,5 +1,5 @@
 const { Games, Users } = require("../../db");
-const { getSeat, passCard, getState, getTwoClubsHolder } = require("../../db/games");
+const { getSeat, passCard, getState, getTwoClubsHolder, setPassed, getPlayersPassed } = require("../../db/games");
 const { getPlayerBySeat } = require("../../db/games/get-player-by-seat");
 const GAME_CONSTANTS = require("../../../constants/games");
 const { setCurrentPlayer } = require("../../db/games/set-current-player");
@@ -28,25 +28,31 @@ const handler = async (request, response) => {
 
   const { user_id: targetUser } = await getPlayerBySeat(targetSeat, gameId);
 
-  console.log(targetUser);
-  for( const card of selectedCards) {
-      console.log("PASSING CARDS");
-      console.log(card);
-      console.log(targetUser);
-      console.log(gameId);
+  // console.log(targetUser);
+  // for( const card of selectedCards) {
+  //     console.log("PASSING CARDS");
+  //     console.log(card);
+  //     console.log(targetUser);
+  //     console.log(gameId);
+  // }
+
+  for(const card of selectedCards) {
+    await passCard(card, targetUser, gameId);
+  } 
+  await setPassed(userId, gameId);
+
+  const playersPassed = await getPlayersPassed(gameId);
+
+  if(playersPassed === 4) {
+    const { user_id: firstPlayer } = await getTwoClubsHolder(gameId);
+    // const firstPlayerSeat = await getSeat(firstPlayer); maybe dont need seat
+    await setCurrentPlayer(firstPlayer, gameId);   
+
+    const gameState = await getState(gameId);
+    io.to(gameState.game_socket_id).emit(GAME_CONSTANTS.STATE_UPDATED, gameState);
   }
 
-  // for(const card of selectedCards) {
-  //   await passCard(card, targetUser, gameId);
-  // } 
-
-  const firstPlayer = await getTwoClubsHolder(gameId);
-  // const firstPlayerSeat = await getSeat(firstPlayer); maybe dont need seat
-  await setCurrentPlayer(firstPlayer);     
-
-  // const gameState = await getState(gameId);
-
-  // io.to(gameState.game_socket_id).emit(GAME_CONSTANTS.STATE_UPDATED, gameState);
+  response.status(200).send();
 };
 
 module.exports = { method, route, handler };
