@@ -6,6 +6,7 @@ let gameSocket;
 const roomId = document.querySelector("#roomId").value;
 // const playButton = document.querySelector("#play-button");   TODO: make play button
 const passButton = document.querySelector("#PassButton");
+const userId = parseInt(passButton.dataset.user);
 
 const showPassButton = () => {
   passButton.style.visibility="visible";
@@ -59,7 +60,7 @@ const updateHand = (handContainer, cardList, game_id, selectedCards) => {
     
     div.innerText = `${value} of ${suitsMap[suits]}`;
     div.addEventListener("click", () => {
-      if(selectedCards.card.length < 3){
+      if(selectedCards.card.length < 3 && user_id === userId){
         selectedCards.card.push(card_id);
       }
       console.log(JSON.stringify(selectedCards));
@@ -99,13 +100,13 @@ const stateUpdated = ({ game_id, current_player, players }) => {
     const seatZeroCards = players.find((player) => player.seat === 0).hand;
     const seatOneCards = players.find((player) => player.seat === 1).hand;
 
-    const seatTwoCards = players.find((player) => player.seat === 2).hand;          // commented out for easier testing with 2 players
-    const seatThreeCards = players.find((player) => player.seat === 3).hand;
+    // const seatTwoCards = players.find((player) => player.seat === 2).hand;          // commented out for easier testing with 2 players
+    // const seatThreeCards = players.find((player) => player.seat === 3).hand;
     // console.log({ seatZeroCards, seatOneCards });
     updateHand(playerOneHand, seatZeroCards,game_id, selectedCards0);
     updateHand(playerTwoHand, seatOneCards,game_id, selectedCards1);
-    updateHand(playerThreeHand, seatTwoCards, game_id, selectedCards2);
-    updateHand(playerFourHand, seatThreeCards, game_id, selectedCards3);
+    // updateHand(playerThreeHand, seatTwoCards, game_id, selectedCards2);
+    // updateHand(playerFourHand, seatThreeCards, game_id, selectedCards3);
   }
 };
 
