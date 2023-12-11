@@ -2,7 +2,6 @@ import { io } from "socket.io-client";
 import * as GAME_CONSTANTS from "@constants/games";
 
 let gameSocket;
-let selectedCards = [];
 
 const roomId = document.querySelector("#roomId").value;
 // const playButton = document.querySelector("#play-button");   TODO: make play button
@@ -35,7 +34,7 @@ const playerTwoHand = document.querySelector(".player-two-hand");
 const playerThreeHand = document.querySelector(".player-three-hand");
 const playerFourHand = document.querySelector(".player-four-hand");
 
-const updateHand = (handContainer, cardList, game_id) => {
+const updateHand = (handContainer, cardList, game_id, selectedCards) => {
 
   const suitsMap = {
     0: "spades",
@@ -60,8 +59,9 @@ const updateHand = (handContainer, cardList, game_id) => {
     
     div.innerText = `${value} of ${suitsMap[suits]}`;
     div.addEventListener("click", () => {
-      selectedCards.push({ card_id, user_id });
-
+      if(selectedCards.card.length < 3){
+        selectedCards.card.push(card_id);
+      }
       console.log(JSON.stringify(selectedCards));
     });
 
@@ -83,6 +83,10 @@ const updatePoints = (players) => {
 
 const stateUpdated = ({ game_id, current_player, players }) => {
   const { turn_number } = current_player;
+  let selectedCards0 = {user_id: 0, card:[]};
+  let selectedCards1 = {user_id: 1, card:[]};
+  let selectedCards2 = {user_id: 2, card:[]};
+  let selectedCards3 = {user_id: 3, card:[]};
 
   if(players.length === 4) {
     if(turn_number === 0) {
@@ -98,14 +102,14 @@ const stateUpdated = ({ game_id, current_player, players }) => {
     const seatTwoCards = players.find((player) => player.seat === 2).hand;          // commented out for easier testing with 2 players
     const seatThreeCards = players.find((player) => player.seat === 3).hand;
     // console.log({ seatZeroCards, seatOneCards });
-    updateHand(playerOneHand, seatZeroCards,game_id);
-    updateHand(playerTwoHand, seatOneCards,game_id);
-    updateHand(playerThreeHand, seatTwoCards, game_id);
-    updateHand(playerFourHand, seatThreeCards, game_id);
+    updateHand(playerOneHand, seatZeroCards,game_id, selectedCards0);
+    updateHand(playerTwoHand, seatOneCards,game_id, selectedCards1);
+    updateHand(playerThreeHand, seatTwoCards, game_id, selectedCards2);
+    updateHand(playerFourHand, seatThreeCards, game_id, selectedCards3);
   }
 };
 
-passButton.addEventListener("click", (event) => {
+passButton.addEventListener("click", (_) => {
   fetch(`${roomId}/passCards/`, {
       method: "post",
       headers: {"Content-Type": "application/json"},
