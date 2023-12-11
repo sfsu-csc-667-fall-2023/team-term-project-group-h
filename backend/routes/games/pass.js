@@ -16,7 +16,7 @@ const handler = async (request, response) => {
   const { userId: user_Id, cards: selectedCards } = request.body;
   console.log(`request.body ${JSON.stringify(request.body)}`);
 
-  console.log(`userId: ${user_Id}`);
+  console.log(`user_Id: ${user_Id}`);
   console.log(`selectedCards: ${selectedCards}`);
   console.log(`gameId: ${gameId}`);
 
@@ -49,6 +49,7 @@ const handler = async (request, response) => {
   const playersPassed = await getPlayersPassed(gameId);
 
   if(playersPassed === 4) {
+    
     const { user_id: firstPlayer } = await getTwoClubsHolder(gameId);
     // const firstPlayerSeat = await getSeat(firstPlayer); maybe dont need seat
     await setCurrentPlayer(firstPlayer, gameId); 

@@ -7,9 +7,11 @@ const { getGame } = require("./get-game");
 const { getUsers } = require("./get-users");
 
 const getState = async (gameId) => {
-  const { game_socket_id } = await getGame(gameId);
+  const { game_socket_id, turn_number, broken_hearts, suit_dominant, player_dominant, Number_dominant, turn_player_id  } = await getGame(gameId);
 
-  const current_player = await getCurrentTurn(gameId);
+  console.log(`game_socket_id: ${game_socket_id}`);
+  let current_player;
+  // const current_player = await getCurrentTurn(gameId);
   const users = await getUsers(gameId);
 
   const dealtCards = await getCards(gameId);
@@ -25,8 +27,10 @@ const getState = async (gameId) => {
   return {
     game_id: gameId,
     game_socket_id,
-    current_player,
+    current_player: turn_player_id,
     players: users,
+    broken_hearts,
+    turn_number
   };
 };
 

@@ -12,7 +12,7 @@ const handler = async (request, response) => {
 
   const { active } = await Games.isInitialized(gameId);
   const { ready_count, player_count } = await Games.readyPlayer(userId, gameId);
-  console.log({ ready_count, player_count, active });
+  console.log(`ready_count: ${ready_count}, player_count: ${player_count}, active: ${active}, for game ${gameId}`);
 
   // Change from 4 to 2 to test.
 
