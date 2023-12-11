@@ -2,6 +2,21 @@ import { io } from "socket.io-client";
 import * as GAME_CONSTANTS from "@constants/games";
 
 let gameSocket;
+let selectedCards = [];
+
+const roomId = document.querySelector("#roomId").value;
+// const playButton = document.querySelector("#play-button");   TODO: make play button
+const passButton = document.querySelector("#PassButton");
+
+const showPassButton = () => {
+  passButton.style.visibility="visible";
+  // playButton.style.visibility="hidden";
+};
+
+const showPlayButton = () => {
+  passButton.style.visibility="hidden";
+  // playButton.style.visibility="visible";
+};
 
 const configure = (socketId) => {
   gameSocket = io({ query: { id: socketId } });
@@ -34,7 +49,8 @@ const updateHand = (handContainer, cardList, game_id) => {
   handContainer.innerHTML = "";
 
 
-  cardList.forEach(({ suits, value }) => {
+  cardList.forEach(({ suits, value, card_id, user_id }) => {
+    console.log(value);
 
     const container = cardTemplate.content.cloneNode(true);
     const div = container.querySelector(".card");
@@ -43,16 +59,11 @@ const updateHand = (handContainer, cardList, game_id) => {
     div.classList.add(`value-${value}`);
     
     div.innerText = `${value} of ${suitsMap[suits]}`;
-    // div.addEventListener("click", () => {
-    //   // change to opaque if not already present otherwise remove
-    //   div.classList.contains("opaque") ? div.classList.remove("opaque") : div.classList.add("opaque");
-      
-    //   fetch(`/game/${game_id}/play`, { method: "post", body: {
-    //       "suit": suits,
-    //       "value": value
-    //     }
-    //   })
-    // });
+    div.addEventListener("click", () => {
+      selectedCards.push({ card_id, user_id });
+
+      console.log(JSON.stringify(selectedCards));
+    });
 
     handContainer.appendChild(div);
   });
@@ -71,8 +82,14 @@ const updatePoints = (players) => {
 }
 
 const stateUpdated = ({ game_id, current_player, players }) => {
+  const { turn_number } = current_player;
 
   if(players.length === 4) {
+    if(turn_number === 0) {
+      showPassButton();
+    } else {
+      showPlayButton();
+    }
     // print points 
     updatePoints(players);
     const seatZeroCards = players.find((player) => player.seat === 0).hand;
@@ -86,7 +103,14 @@ const stateUpdated = ({ game_id, current_player, players }) => {
     updateHand(playerThreeHand, seatTwoCards, game_id);
     updateHand(playerFourHand, seatThreeCards, game_id);
   }
-
 };
+
+passButton.addEventListener("click", (event) => {
+  fetch(`${roomId}/passCards/`, {
+      method: "post",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ selectedCards })
+  })
+})
 
 export { configure };

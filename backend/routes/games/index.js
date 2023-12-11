@@ -3,5 +3,6 @@ module.exports = [
     require("./id"), 
     require("./join"),
     require("./ready"),
-    require("./play")
+    require("./play"),
+    require("./pass")
 ];
