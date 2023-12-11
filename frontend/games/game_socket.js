@@ -8,6 +8,15 @@ const roomId = document.querySelector("#roomId").value;
 const passButton = document.querySelector("#PassButton");
 const playButton = document.querySelector("#PlayButton");
 
+const cardTemplate = document.querySelector("#card");
+
+const playerOneHand = document.querySelector(".player-one-hand");
+const playerTwoHand = document.querySelector(".player-two-hand");
+const playerThreeHand = document.querySelector(".player-three-hand");
+const playerFourHand = document.querySelector(".player-four-hand");
+
+const instructions = document.querySelector("#instructions");
+
 const mapUserIdToSeat = {};
 
 const mapSeatToHand = {
@@ -23,14 +32,15 @@ const suitsMap = {
   2: "hearts",
   3: "diamonds",
 };
+
 const showPassButton = () => {
-  passButton.style.visibility = "visible";
-  // playButton.style.visibility="hidden";
+  passButton.style.display="inline";
+  playButton.style.display="none";
 };
 
 const showPlayButton = () => {
-  passButton.style.visibility = "hidden";
-  // playButton.style.visibility="visible";
+  passButton.style.display="none";
+  playButton.style.display="inline";
 };
 
 const configure = (socketId) => {
@@ -42,13 +52,6 @@ const configure = (socketId) => {
 
   return Promise.resolve(gameSocket);
 };
-
-const cardTemplate = document.querySelector("#card");
-
-const playerOneHand = document.querySelector(".player-one-hand");
-const playerTwoHand = document.querySelector(".player-two-hand");
-const playerThreeHand = document.querySelector(".player-three-hand");
-const playerFourHand = document.querySelector(".player-four-hand");
 
 const updateHand = (
   handContainer,
@@ -169,10 +172,12 @@ const stateUpdated = ({ game_id, current_player, players, turn_number }) => {
   );
 
   if (players.length === 4) {
-    if (turn_number === 0) {
+    if(turn_number % 52 === 0) {
       showPassButton();
+      instructions.innerHTML = "Choose 3 cards to pass to the next player."
     } else {
       showPlayButton();
+      instructions.innerHTML = `Player ${turn_number % 4}'s turn!`  //TODO need current_player's username here
     }
     // print points
     updatePoints(players);
@@ -204,6 +209,8 @@ const stateUpdated = ({ game_id, current_player, players, turn_number }) => {
 passButton.addEventListener("click", () => {
   const userId = parseInt(passButton.dataset.user);
   console.log(`USER ID ${userId} PRESSED PASS BUTTON`);
+  instructions.innerHTML = "Waiting on other players to pass cards...";
+  passButton.style.display="none";
 
   fetch(`${roomId}/passCards/`, {
     method: "post",
