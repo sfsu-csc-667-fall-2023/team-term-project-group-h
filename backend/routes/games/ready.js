@@ -16,7 +16,7 @@ const handler = async (request, response) => {
 
   // Change from 4 to 2 to test.
 
-  const method = ready_count !== 2 || active ? "getState" : "initialize";
+  const method = ready_count !== 4 || active ? "getState" : "initialize";
 
   const gameState = await Games[method](parseInt(gameId));
 
