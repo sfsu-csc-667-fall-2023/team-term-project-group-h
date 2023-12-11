@@ -7,7 +7,7 @@ const roomId = document.querySelector("#roomId").value;
 // const playButton = document.querySelector("#play-button");   TODO: make play button
 const passButton = document.querySelector("#PassButton");
 const userId = parseInt(passButton.dataset.user);
-
+const selectedCards = [{user_id: 0, card: []}, {user_id: 1, card: []}, {user_id: 2, card: []}, {user_id: 3, card: []}];
 const showPassButton = () => {
   passButton.style.visibility="visible";
   // playButton.style.visibility="hidden";
@@ -61,9 +61,13 @@ const updateHand = (handContainer, cardList, game_id, selectedCards) => {
     div.innerText = `${value} of ${suitsMap[suits]}`;
     div.addEventListener("click", () => {
       if(selectedCards.card.length < 3 && user_id === userId){
-        selectedCards.card.push(card_id);
+        if(selectedCards.card.includes(card_id)){
+          return
+        } else {
+          selectedCards.card.push(card_id);
+          console.log(JSON.stringify(selectedCards));
+        }
       }
-      console.log(JSON.stringify(selectedCards));
     });
 
     handContainer.appendChild(div);
@@ -84,12 +88,9 @@ const updatePoints = (players) => {
 
 const stateUpdated = ({ game_id, current_player, players }) => {
   const { turn_number } = current_player;
-  let selectedCards0 = {user_id: 0, card:[]};
-  let selectedCards1 = {user_id: 1, card:[]};
-  let selectedCards2 = {user_id: 2, card:[]};
-  let selectedCards3 = {user_id: 3, card:[]};
 
-  if(players.length === 2) {
+
+  if(players.length === 4) {
     if(turn_number === 0) {
       showPassButton();
     } else {
@@ -100,21 +101,21 @@ const stateUpdated = ({ game_id, current_player, players }) => {
     const seatZeroCards = players.find((player) => player.seat === 0).hand;
     const seatOneCards = players.find((player) => player.seat === 1).hand;
 
-    // const seatTwoCards = players.find((player) => player.seat === 2).hand;          // commented out for easier testing with 2 players
-    // const seatThreeCards = players.find((player) => player.seat === 3).hand;
+    const seatTwoCards = players.find((player) => player.seat === 2).hand;          // commented out for easier testing with 2 players
+    const seatThreeCards = players.find((player) => player.seat === 3).hand;
     // console.log({ seatZeroCards, seatOneCards });
-    updateHand(playerOneHand, seatZeroCards,game_id, selectedCards0);
-    updateHand(playerTwoHand, seatOneCards,game_id, selectedCards1);
-    // updateHand(playerThreeHand, seatTwoCards, game_id, selectedCards2);
-    // updateHand(playerFourHand, seatThreeCards, game_id, selectedCards3);
+    updateHand(playerOneHand, seatZeroCards,game_id, selectedCards[userId]);
+    updateHand(playerTwoHand, seatOneCards,game_id, selectedCards[userId]);
+    updateHand(playerThreeHand, seatTwoCards, game_id, selectedCards[userId]);
+    updateHand(playerFourHand, seatThreeCards, game_id, selectedCards[userId]);
   }
 };
 
-passButton.addEventListener("click", (_) => {
+passButton.addEventListener("click", () => {
   fetch(`${roomId}/passCards/`, {
       method: "post",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({ selectedCards })
+      body: JSON.stringify(selectedCards[userId])
   })
 })
 

@@ -9,13 +9,12 @@ const route = "/:id/passCards";
 
 const handler = async (request, response) => {
   const io = request.app.get("io");
-  const { id: gameId } = request.params;
-  const { selectedCards } = request.body;
-  const { user_id: userId } = selectedCards[0];
+  const {id: gameId } = request.params;
+  const {user_id: userId, card: selectedCards} = request.body;
 
   console.log(userId);
   console.log(selectedCards);
-
+  console.log(gameId);
   const { seat: userSeat } = await getSeat(userId, gameId);
   console.log(userSeat);
 
@@ -30,19 +29,24 @@ const handler = async (request, response) => {
   const { user_id: targetUser } = await getPlayerBySeat(targetSeat, gameId);
 
   console.log(targetUser);
+  for( const card of selectedCards) {
+      console.log("PASSING CARDS");
+      console.log(card);
+      console.log(targetUser);
+      console.log(gameId);
+  }
 
-  for(const card of selectedCards) {
-    const { card_id: cardId } = card
-    await passCard(cardId, targetUser, gameId);
-  } 
+  // for(const card of selectedCards) {
+  //   await passCard(card, targetUser, gameId);
+  // } 
 
   const firstPlayer = await getTwoClubsHolder(gameId);
   // const firstPlayerSeat = await getSeat(firstPlayer); maybe dont need seat
   await setCurrentPlayer(firstPlayer);     
 
-  const gameState = await getState(gameId);
+  // const gameState = await getState(gameId);
 
-  io.to(gameState.game_socket_id).emit(GAME_CONSTANTS.STATE_UPDATED, gameState);
+  // io.to(gameState.game_socket_id).emit(GAME_CONSTANTS.STATE_UPDATED, gameState);
 };
 
 module.exports = { method, route, handler };
