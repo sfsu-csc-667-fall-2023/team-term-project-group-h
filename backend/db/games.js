@@ -32,7 +32,7 @@ const { setDominantPlayer } = require("./games/set-dominant-player");
 const { setDominantNumber } = require("./games/set-dominant-number");
 const { getDominantPlayer } = require("./games/get-dominant-player");
 const { getPlayerHand } = require("./games/get-player-hand");
-
+const { setBrokenHeart } = require("./games/set-broken-heart");
 
 module.exports = {
   create,
@@ -68,5 +68,6 @@ module.exports = {
   setDominantPlayer,
   setDominantNumber,
   getDominantPlayer,
-  getPlayerHand
+  getPlayerHand,
+  setBrokenHeart
 };
