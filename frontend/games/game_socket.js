@@ -126,11 +126,11 @@ const stateUpdated = ({ game_id, current_player, players, turn_number }) => {
     }
     // print points 
     updatePoints(players);
-    const seatZeroCards = players.find((player) => player.seat === 0).hand;
-    const seatOneCards = players.find((player) => player.seat === 1).hand;
-
-    const seatTwoCards = players.find((player) => player.seat === 2).hand;          // commented out for easier testing with 2 players
-    const seatThreeCards = players.find((player) => player.seat === 3).hand;
+    const seatZeroCards = players.find((player) => player.seat === 0).hand.sort((a, b) => a.card_id - b.card_id);
+    const seatOneCards = players.find((player) => player.seat === 1).hand.sort((a, b) => a.card_id - b.card_id);
+    const seatTwoCards = players.find((player) => player.seat === 2).hand.sort((a, b) => a.card_id - b.card_id);        
+    const seatThreeCards = players.find((player) => player.seat === 3).hand.sort((a, b) => a.card_id - b.card_id);
+    
     // console.log({ seatZeroCards, seatOneCards });
     updateHand(playerOneHand, seatZeroCards, game_id, 0);
     updateHand(playerTwoHand, seatOneCards, game_id, 1);
