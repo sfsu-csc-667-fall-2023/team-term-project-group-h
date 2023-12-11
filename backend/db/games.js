@@ -13,7 +13,7 @@ const { getCards } = require("./games/get-cards");
 const { getCurrentPlayer } = require("./games/get-current-player");
 const { setInitialized } = require("./games/set-initialized");
 const { isPlayerInGame } = require("./games/is-player-in-game");
-const { getSuitDominant } = require("./games/get-suit-dominant");
+const { getDominantSuit } = require("./games/get-dominant-suit");
 const { getMessages } = require("./games/get-messages");
 const { getMapCountPlayers } = require("./games/get-map-count-players");
 const { isCurrentPlayer } = require("./games/is-current-player");
@@ -27,7 +27,10 @@ const { getPlayersPassed } = require("./games/get-players-passed");
 const { incrementTurnNumber } = require("./games/increment-turn-number");
 const { getPlayerBySeat } = require("./games/get-player-by-seat");
 const { setCurrentPlayer } = require("./games/set-current-player");
-const { setSuitDominant } = require("./games/set-suit-dominant");
+const { setDominantSuit } = require("./games/set-dominant-suit");
+const { setDominantPlayer } = require("./games/set-dominant-player");
+const { setDominantNumber } = require("./games/set-dominant-number");
+const { getDominantPlayer } = require("./games/get-dominant-player");
 
 
 module.exports = {
@@ -46,7 +49,7 @@ module.exports = {
   getCurrentPlayer,
   setInitialized,
   isPlayerInGame,
-  getSuitDominant,
+  getDominantSuit,
   getMessages,
   getMapCountPlayers,
   isCurrentPlayer,
@@ -60,5 +63,8 @@ module.exports = {
   incrementTurnNumber,
   getPlayerBySeat,
   setCurrentPlayer,
-  setSuitDominant,
+  setDominantSuit,
+  setDominantPlayer,
+  setDominantNumber,
+  getDominantPlayer
 };

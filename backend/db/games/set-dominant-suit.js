@@ -7,7 +7,7 @@ const SET_SUIT_DOMINANT = `
   RETURNING suit_dominant
 `;
 
-const setSuitDominant = (gameId) =>
+const setDominantSuit = (gameId) =>
   db.one(SET_SUIT_DOMINANT, [suit, gameId]);
 
-module.exports = { setSuitDominant };
+module.exports = { setDominantSuit };

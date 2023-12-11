@@ -3,8 +3,6 @@ const { Games } = require("../../db");
 const method = "get";
 const route = "/:id/join";
 
-const GAME_CONSTANTS = require("../../../constants/games");
-
 const handler = async (request, response) => {
     const { id: gameId } = request.params;
     const { id: userId } = request.session.user;

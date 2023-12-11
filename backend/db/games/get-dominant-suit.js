@@ -6,6 +6,6 @@ const SUIT_DOMINANT = `
   WHERE id=$1
 `;
 
-const getSuitDominant = (gameId) => db.one(IS_CURRENT_PLAYER, [gameId])
+const getDominantSuit = (gameId) => db.one(IS_CURRENT_PLAYER, [gameId])
 
-module.exports = { getSuitDominant };
+module.exports = { getDominantSuit };

@@ -8,26 +8,33 @@ const handler = async (request, response) => {
   const { id: userId } = request.session.user;
   const { cards: selectedCards } = request.body;
   const cardPlayed = selectedCards[0];
+  console.log("--- ENTERED PLAY ROUTE ---");
+  console.log(`gameId: ${gameId}`);
+  console.log(`userId: ${userId}`);
+  console.log(JSON.stringify(selectedCards));
+  console.log(`cardPlayed: ${cardPlayed}`);
 
-  const isPlayerInGame = Games.isPlayerInGame(gameId, userId);
+  const isPlayerInGame = await Games.isPlayerInGame(gameId, userId);
+  console.log(`isPlayerInGame: ${isPlayerInGame}`);
 
   if (!isPlayerInGame) {
     response.status(200).send();
     return;
   }
 
-  const isCurrentPlayer = Games.isCurrentPlayer(gameId, userId);
+  const isCurrentPlayer = await Games.isCurrentPlayer(gameId, userId);
+  console.log(`isCurrentPlayer: ${isCurrentPlayer}`);
 
   if (isCurrentPlayer !== userId) {
     return response.status(403).send("Not your turn!");
   }
 
-  const currentTurn = Games.getCurrentTurn(gameId);
+  const currentTurn = await Games.getCurrentTurn(gameId);
+  const currentSuit = Games.getDominantSuit(gameId);
+  console.log(`currentTurn: ${currentTurn}`);
+  console.log(`currentSuit: ${currentSuit}`);
 
   // const firstTurnInHand = currentTurn % 52;
-
-  const currentSuit = Games.getSuitDominant(gameId);
-
   // Each hand consists of 52 turns.
   // The first turn of each hand, 2clubs must be played, so
   // turn 0 % 52, must play 2clubs
@@ -35,13 +42,11 @@ const handler = async (request, response) => {
 
   if (currentTurn === 1) {
     if (cardPlayed != 15) {
-      //NOT 2clubs in first turn
       return response.status(403).send("Must play 2 of clubs first!");
     } else {
-      await Games.setSuitDominant(1, gameId);
-      await Games.setPlayerDominant(userId, gameId);
-      await Games.setNumberDominant(2, gameId);
-      await Games.setBrokenHearts(false, gameId);
+      await Games.setDominantSuit(1, gameId);
+      await Games.setDominantPlayer(userId, gameId);
+      await Games.setDominantNumber(2, gameId);
     }
   } else {
     if (!noSuitInHand(currentSuit) && currentSuit !== suit) {
@@ -49,16 +54,15 @@ const handler = async (request, response) => {
       //they can play whatever suit
       return response
         .status(403)
-        .send("Must play according to the first suit!");
+        .send("Must play according to the leading suit!");
     }
   }
 
   // if the round is not over
   if (currentTurn % 4 !== 0) {
-
     const seatNextPlayer = ((await Games.getSeat(userId, gameId))+1)%4;
     const nextPlayer = await Games.getPlayerBySeat(seatNextPlayer, gameId);
-    await Games.setTurnPlayer(nextPlayer, gameId);
+    await Games.setCurrentPlayer(nextPlayer, gameId);
     await Games.incrementTurnNumber(gameId);
     const gameState = await Games.getState(gameId);
 
@@ -68,10 +72,9 @@ const handler = async (request, response) => {
       gameState
     );
   } else {
-
     // if the round is over
     const nextPlayer = await Games.getDominantPlayer(gameId);
-    await Games.setTurnPlayer(nextPlayer, gameId);
+    await Games.setCurrentPlayer(nextPlayer, gameId);
     await Games.incrementTurnNumber(gameId);
     // add points to the player who won the round
     
