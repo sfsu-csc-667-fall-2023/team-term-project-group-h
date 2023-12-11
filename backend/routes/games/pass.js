@@ -2,6 +2,7 @@ const { Games, Users } = require("../../db");
 const { getSeat, passCard, getState, getTwoClubsHolder } = require("../../db/games");
 const { getPlayerBySeat } = require("../../db/games/get-player-by-seat");
 const GAME_CONSTANTS = require("../../../constants/games");
+const { setCurrentPlayer } = require("../../db/games/set-current-player");
 
 const method = "post";
 const route = "/:id/passCards";
@@ -33,9 +34,11 @@ const handler = async (request, response) => {
   for(const card of selectedCards) {
     const { card_id: cardId } = card
     await passCard(cardId, targetUser, gameId);
-  }
+  } 
 
   const firstPlayer = await getTwoClubsHolder(gameId);
+  const firstPlayerSeat = await getSeat(firstPlayer);
+  await setCurrentPlayer(firstPlayerSeat);
 
   const gameState = await getState(gameId);
 
