@@ -13,7 +13,7 @@ const getState = async (gameId) => {
   const users = await getUsers(gameId);
 
   const dealtCards = await getCards(gameId);
-  console.log({ dealtCards });
+  // console.log({ dealtCards });
 
   users.forEach((user) => {
     console.log(`user.game_points = ${user.game_points}, user.hand_points = ${user.hand_points}`);

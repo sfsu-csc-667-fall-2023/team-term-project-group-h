@@ -8,15 +8,20 @@ const method = "post";
 const route = "/:id/passCards";
 
 const handler = async (request, response) => {
-  const io = request.app.get("io");
-  const {id: gameId } = request.params;
-  const {user_id: userId, card: selectedCards} = request.body;
 
-  console.log(userId);
-  console.log(selectedCards);
-  console.log(gameId);
-  const { seat: userSeat } = await getSeat(userId, gameId);
-  console.log(userSeat);
+  console.log("PASS CARDS");
+  const io = request.app.get("io");
+  
+  const {id: gameId } = request.params;
+  const { userId: user_Id, cards: selectedCards } = request.body;
+  console.log(`request.body ${JSON.stringify(request.body)}`);
+
+  console.log(`userId: ${user_Id}`);
+  console.log(`selectedCards: ${selectedCards}`);
+  console.log(`gameId: ${gameId}`);
+
+  const { seat: userSeat } = await getSeat(user_Id, gameId);
+  console.log(`userSeat: ${userSeat}`);
 
   let targetSeat;
   if(userSeat === 3) {
@@ -24,7 +29,7 @@ const handler = async (request, response) => {
   } else {
     targetSeat = userSeat + 1;
   }
-  console.log(targetSeat);
+  console.log(`TARGET SEAT: ${targetSeat}`);
 
   const { user_id: targetUser } = await getPlayerBySeat(targetSeat, gameId);
 
@@ -39,14 +44,14 @@ const handler = async (request, response) => {
   for(const card of selectedCards) {
     await passCard(card, targetUser, gameId);
   } 
-  await setPassed(userId, gameId);
+  await setPassed(user_Id, gameId);
 
   const playersPassed = await getPlayersPassed(gameId);
 
   if(playersPassed === 4) {
     const { user_id: firstPlayer } = await getTwoClubsHolder(gameId);
     // const firstPlayerSeat = await getSeat(firstPlayer); maybe dont need seat
-    await setCurrentPlayer(firstPlayer, gameId);   
+    await setCurrentPlayer(firstPlayer, gameId); 
 
     const gameState = await getState(gameId);
     io.to(gameState.game_socket_id).emit(GAME_CONSTANTS.STATE_UPDATED, gameState);
