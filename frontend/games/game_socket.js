@@ -6,8 +6,24 @@ let gameSocket;
 const roomId = document.querySelector("#roomId").value;
 // const playButton = document.querySelector("#play-button");   TODO: make play button
 const passButton = document.querySelector("#PassButton");
-const userId = parseInt(passButton.dataset.user);
-const selectedCards = [{user_id: 0, card: []}, {user_id: 1, card: []}, {user_id: 2, card: []}, {user_id: 3, card: []}];
+
+const mapUserIdToSeat = {};
+
+const mapSeatToHand = {
+  0: [],
+  1: [],
+  2: [],
+  3: [],
+};
+const selectedCards = [
+  [],[],[],[]
+];
+const suitsMap = {
+  0: "spades",
+  1: "clubs",
+  2: "hearts",
+  3: "diamonds",
+};
 const showPassButton = () => {
   passButton.style.visibility="visible";
   // playButton.style.visibility="hidden";
@@ -35,22 +51,27 @@ const playerTwoHand = document.querySelector(".player-two-hand");
 const playerThreeHand = document.querySelector(".player-three-hand");
 const playerFourHand = document.querySelector(".player-four-hand");
 
-const updateHand = (handContainer, cardList, game_id, selectedCards) => {
+const updateHand = (handContainer, cardList, game_id, selectedCardsIndex) => {
 
-  const suitsMap = {
-    0: "spades",
-    1: "clubs",
-    2: "hearts",
-    3: "diamonds",
-  };
+  // console.log(`THIS IS USER ID ${userId}`);
 
-  console.log(`Updating hand for game ${game_id} in handContainer ${handContainer}`);
+  // console.log(`Updating hand for game ${game_id} in handContainer ${handContainer}`);
 
   handContainer.innerHTML = "";
-
+  
 
   cardList.forEach(({ suits, value, card_id, user_id }) => {
-    console.log(value);
+
+    mapSeatToHand[selectedCardsIndex].push(card_id);
+
+    mapUserIdToSeat[user_id] = selectedCardsIndex;
+
+    console.log(`THIS IS THE NEW MAP-SEATS ${JSON.stringify(mapSeatToHand)}`);
+
+    console.log(`THIS IS THE NEW MAP ${JSON.stringify(mapUserIdToSeat)}`);
+
+    console.log(`value: ${value}, suits: ${suits}, card_id: ${card_id}, user_id: ${user_id}`);
+    console.log(`selectedCardsIndex: ${selectedCardsIndex}, selectedCards: ${selectedCards[selectedCardsIndex]}`);
 
     const container = cardTemplate.content.cloneNode(true);
     const div = container.querySelector(".card");
@@ -60,12 +81,19 @@ const updateHand = (handContainer, cardList, game_id, selectedCards) => {
     
     div.innerText = `${value} of ${suitsMap[suits]}`;
     div.addEventListener("click", () => {
-      if(selectedCards.card.length < 3 && user_id === userId){
-        if(selectedCards.card.includes(card_id)){
+
+
+      // opaque card if selected
+      const userId = passButton.dataset.user;
+      console.log(`USER ID ${userId} PRESSED CARD ${card_id}`);
+      const seat = mapUserIdToSeat[userId];
+      if(selectedCards[selectedCardsIndex].length < 3 && mapSeatToHand[seat].includes(card_id)) {
+        if(selectedCards[selectedCardsIndex].includes(card_id)){
           return
         } else {
-          selectedCards.card.push(card_id);
-          console.log(JSON.stringify(selectedCards));
+          div.classList.toggle("selected");
+          selectedCards[selectedCardsIndex].push(card_id);
+          console.log(`SELECTED CARDS OF THIS USER ${JSON.stringify(selectedCards[selectedCardsIndex])}`);
         }
       }
     });
@@ -103,19 +131,26 @@ const stateUpdated = ({ game_id, current_player, players }) => {
     const seatTwoCards = players.find((player) => player.seat === 2).hand;          // commented out for easier testing with 2 players
     const seatThreeCards = players.find((player) => player.seat === 3).hand;
     // console.log({ seatZeroCards, seatOneCards });
-    updateHand(playerOneHand, seatZeroCards,game_id, selectedCards[userId]);
-    updateHand(playerTwoHand, seatOneCards,game_id, selectedCards[userId]);
-    updateHand(playerThreeHand, seatTwoCards, game_id, selectedCards[userId]);
-    updateHand(playerFourHand, seatThreeCards, game_id, selectedCards[userId]);
+    updateHand(playerOneHand, seatZeroCards,game_id, 0);
+    updateHand(playerTwoHand, seatOneCards,game_id, 1);
+    updateHand(playerThreeHand, seatTwoCards, game_id,2);
+    updateHand(playerFourHand, seatThreeCards, game_id,3);
   }
 };
 
 passButton.addEventListener("click", () => {
+
+  const userId = parseInt(passButton.dataset.user);
+  console.log(`USER ID ${userId} PRESSED PASS BUTTON`);
+
   fetch(`${roomId}/passCards/`, {
       method: "post",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(selectedCards[userId])
-  })
+      body: JSON.stringify({
+        cards: selectedCards[mapUserIdToSeat[userId]],
+        userId: userId,
+      }),
+  });
 })
 
 export { configure };

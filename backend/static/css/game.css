@@ -91,3 +91,6 @@ div p{
     color: black;
     text-align: left;
 }
+.selected{
+    background-color: #0180ff;
+}
