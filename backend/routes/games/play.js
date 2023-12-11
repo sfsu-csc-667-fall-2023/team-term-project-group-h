@@ -30,7 +30,7 @@ const handler = async (request, response) => {
   }
 
   const currentTurn = await Games.getCurrentTurn(gameId);
-  const currentSuit = Games.getDominantSuit(gameId);
+  const currentSuit = await Games.getDominantSuit(gameId);
   console.log(`currentTurn: ${currentTurn}`);
   console.log(`currentSuit: ${currentSuit}`);
 
@@ -49,7 +49,7 @@ const handler = async (request, response) => {
       await Games.setDominantNumber(2, gameId);
     }
   } else {
-    if (!noSuitInHand(currentSuit) && currentSuit !== suit) {
+    if (!noSuitInHand(currentSuit, userId) && currentSuit !== suit) {
       //Also, before this check, need to check the player's hand, if they have no cards with suit === currentSuit,
       //they can play whatever suit
       return response
@@ -89,6 +89,10 @@ const handler = async (request, response) => {
   response.status(200).send();
 };
 
-const noSuitInHand = async (currentSuit) => {};
+const noSuitInHand = async (currentSuit, userId) => {
+  const playerHand = await Games.getPlayerHand();
+  console.log(`playerHand: ${playerHand}`);
+
+};
 
 module.exports = { method, route, handler };

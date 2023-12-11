@@ -31,6 +31,7 @@ const { setDominantSuit } = require("./games/set-dominant-suit");
 const { setDominantPlayer } = require("./games/set-dominant-player");
 const { setDominantNumber } = require("./games/set-dominant-number");
 const { getDominantPlayer } = require("./games/get-dominant-player");
+const { getPlayerHand } = require("./games/get-player-hand");
 
 
 module.exports = {
@@ -66,5 +67,6 @@ module.exports = {
   setDominantSuit,
   setDominantPlayer,
   setDominantNumber,
-  getDominantPlayer
+  getDominantPlayer,
+  getPlayerHand
 };
