@@ -1,5 +1,6 @@
 import { io } from "socket.io-client";
 
+// const gameEntryTemplate = document.querySelector("#join-game-entry");
 const gameList = document.querySelector("#gameList");
 const socket = io();
 const userId = parseInt(gameList.dataset.user);
@@ -13,6 +14,7 @@ socket.on("game:created", ({ id, title, createdBy }) => {
   } else {
     tbody = document.querySelector("#availableTableBody");
   }
+
   
   const th = document.createElement("th");
   th.setAttribute("scope", "row");
@@ -41,3 +43,9 @@ socket.on("game:created", ({ id, title, createdBy }) => {
   tbody.appendChild(tr);
 
 });
+
+// const refresh = document.getElementById("refresh");
+
+// refresh.addEventListener("click", () => {
+//   location.reload();
+// });
