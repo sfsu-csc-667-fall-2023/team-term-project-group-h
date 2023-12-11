@@ -1,93 +1,119 @@
-
-
-.central{
-    flex-direction: column;
-    display: flex;
+.central {
+  flex-direction: column;
+  display: flex;
 }
 
-.row-central-2{
-    flex-direction: row;
-    display: flex;
-
+.row-central-2 {
+  flex-direction: row;
+  display: flex;
 }
 
-.row-central-3{
-    height: 100%;
-    width: 100%;
-    flex-direction: column;
+.row-central-3 {
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
 }
 
-.row-central-4{
-    flex-direction: row;
-    display: flex;
+.row-central-4 {
+  flex-direction: row;
+  display: flex;
 }
 
-.col-aside-2{
-    flex-direction: row;
-    display: flex;
+.col-aside-2 {
+  flex-direction: row;
+  display: flex;
 }
 
-
-[class*="col-aside-"]{
-    writing-mode: vertical-rl;
-    text-orientation: sideways;
-    
+[class*="col-aside-"] {
+  writing-mode: vertical-rl;
+  text-orientation: sideways;
 }
 
-.card-side{
-    width: 5rem;
-    height: 5rem;
-    transform: rotate(90deg);
+.card-side {
+  width: 5rem;
+  height: 5rem;
+  transform: rotate(90deg);
 }
 
-.card-central{
-    width: 5rem;
-    height: 5rem;
+.card-central {
+  width: 5rem;
+  height: 5rem;
 }
 
 .avatar {
-    width: 45px;
-    height: 100%;
-  }
-  
-  .rounded-3 {
-    background-color: #f5f6f7;
-  }
-.card-body{
-    height: 600px;
+  width: 45px;
+  height: 100%;
+}
+
+.rounded-3 {
+  background-color: #f5f6f7;
+}
+.card-body {
+  height: 600px;
 }
 
 #lobbyChat {
-    position: absolute;
-    bottom: -250px;
-    right: -13px;
+  position: absolute;
+  bottom: -250px;
+  right: -13px;
 }
 
 #chatInput {
-    position: absolute;
-    bottom: 0.5px;
-    right: 140px;
-    width: 400px;
+  position: absolute;
+  bottom: 0.5px;
+  right: 140px;
+  width: 400px;
 }
 
 #chatSubmit {
-    position: absolute;
-    bottom: -2.5px;
-    right: 50px;
+  position: absolute;
+  bottom: -2.5px;
+  right: 50px;
 }
 
 #chatMessages {
-    position: absolute;
-    bottom: 50px;
-    right: 51px;
-    width: 488.5px;
-    height: 552px;
-    background-color: rgb(255, 255, 255);
-    overflow: hidden; 
-    overflow-y: scroll;
+  position: absolute;
+  bottom: 50px;
+  right: 51px;
+  width: 488.5px;
+  height: 552px;
+  background-color: rgb(255, 255, 255);
+  overflow: hidden;
+  overflow-y: scroll;
 }
 
-div p{
-    color: black;
-    text-align: left;
+div p {
+  color: black;
+  text-align: left;
+}
+
+#PassButton {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 30px;
+  font-size: 18px;
+  border-radius: 12px;
+}
+
+#PassButton:hover {
+  background-color: rgb(100, 221, 126);
+}
+
+h1 {
+  text-align: center;
+  font-size: 50px;
+}
+
+/* body {
+    font-family: 'Segoe UI';
+  } */
+
+div.m-5 {
+  word-wrap: break-word;
+  width: 10rem;
 }
