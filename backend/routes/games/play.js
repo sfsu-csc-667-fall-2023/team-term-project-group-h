@@ -73,9 +73,8 @@ const handler = async (request, response) => {
     const nextPlayer = await Games.getDominantPlayer(gameId);
     await Games.setTurnPlayer(nextPlayer, gameId);
     await Games.incrementTurnNumber(gameId);
-    
     // add points to the player who won the round
-
+    
     const gameState = await Games.getState(gameId);
     // Emit state updated event
     io.to(gameState.game_socket_id).emit(
