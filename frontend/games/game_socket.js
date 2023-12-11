@@ -122,9 +122,7 @@ const updateHand = (
         const userId = playButton.dataset.user;
         console.log(`USER ID ${userId} PRESSED CARD ${card_id}`);
         const seat = mapUserIdToSeat[userId];
-        if (
-          selectedCards[selectedCardsIndex].length < 1 &&
-          mapSeatToHand[seat].includes(card_id)
+        if ( selectedCards[selectedCardsIndex].length < 1 && mapSeatToHand[seat].includes(card_id)
         ) {
           if (selectedCards[selectedCardsIndex].includes(card_id)) {
             return;
@@ -220,6 +218,8 @@ passButton.addEventListener("click", () => {
       userId: userId,
     }),
   });
+  // clear selected cards
+  selectedCards[mapUserIdToSeat[userId]] = [];
 });
 
 playButton.addEventListener("click", () => {
@@ -234,6 +234,9 @@ playButton.addEventListener("click", () => {
       userId: userId,
     }),
   });
+
+  // clear selected cards
+  selectedCards[mapUserIdToSeat[userId]] = [];
 });
 
 export { configure };
