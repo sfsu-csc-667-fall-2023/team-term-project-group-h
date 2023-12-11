@@ -37,8 +37,8 @@ const handler = async (request, response) => {
   } 
 
   const firstPlayer = await getTwoClubsHolder(gameId);
-  const firstPlayerSeat = await getSeat(firstPlayer);
-  await setCurrentPlayer(firstPlayerSeat);
+  // const firstPlayerSeat = await getSeat(firstPlayer); maybe dont need seat
+  await setCurrentPlayer(firstPlayer);     
 
   const gameState = await getState(gameId);
 
