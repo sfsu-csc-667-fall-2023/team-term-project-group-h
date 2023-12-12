@@ -7,6 +7,6 @@ const GET_PLAYER_BY_SEAT = `
 `;
 
 const getPlayerBySeat = (seatIndex, gameId) =>
-  db.one(GET_PLAYER_BY_SEAT, [seatIndex, gameId]);
+  db.one(GET_PLAYER_BY_SEAT, [seatIndex, gameId]).then((data) => data.user_id);
 
 module.exports = { getPlayerBySeat };

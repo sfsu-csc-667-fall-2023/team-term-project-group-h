@@ -26,7 +26,6 @@ const initialize = async (gameId) => {
 
   users.forEach((user) => {
     console.log({ user });
-
     user.hand = dealtCards.filter((card) => card.user_id === user.user_id);
     user.current_player = true;
   });

@@ -1,13 +1,10 @@
-const database = require("../connection");
-const { connection: db } = database;
-
+const { Games } = require("..");
 const { getCards } = require("./get-cards");
-const { getCurrentTurn } = require("./get-current-turn");
 const { getGame } = require("./get-game");
 const { getUsers } = require("./get-users");
 
 const getState = async (gameId) => {
-  const { game_socket_id, turn_number, broken_hearts, suit_dominant, player_dominant, Number_dominant, turn_player_id  } = await getGame(gameId);
+  const { game_socket_id, turn_number, broken_hearts, suit_dominant, player_dominant, number_dominant, turn_player_id  } = await getGame(gameId);
 
   console.log(`game_socket_id: ${game_socket_id}`);
   let current_player;
@@ -21,6 +18,10 @@ const getState = async (gameId) => {
     console.log(`user.game_points = ${user.game_points}, user.hand_points = ${user.hand_points}`);
 
     user.hand = dealtCards.filter((card) => card.user_id === user.user_id);
+    // user.hand.map((card) => {
+    //   card.order = Games.getCardOrder(card);
+    //   return card;
+    // });
     user.current_player = current_player === user.user_id;
   });
 

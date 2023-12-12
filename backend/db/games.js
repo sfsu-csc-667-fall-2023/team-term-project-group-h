@@ -33,6 +33,9 @@ const { setDominantNumber } = require("./games/set-dominant-number");
 const { getDominantPlayer } = require("./games/get-dominant-player");
 const { getPlayerHand } = require("./games/get-player-hand");
 const { setBrokenHeart } = require("./games/set-broken-heart");
+const { playCard } = require("./games/play-card");
+
+
 
 module.exports = {
   create,
@@ -69,5 +72,6 @@ module.exports = {
   setDominantNumber,
   getDominantPlayer,
   getPlayerHand,
-  setBrokenHeart
+  setBrokenHeart,
+  playCard,
 };

@@ -6,6 +6,6 @@ const GET_PLAYER_HAND = `
   WHERE game_id=$1 AND user_id=$2
 `;
 
-const getPlayerHand = (gameId, userId) => db.any(GET_CARDS, [gameId, userId]);
+const getPlayerHand = (gameId, userId) => db.any(GET_PLAYER_HAND, [gameId, userId]);
 
 module.exports = { getPlayerHand };
