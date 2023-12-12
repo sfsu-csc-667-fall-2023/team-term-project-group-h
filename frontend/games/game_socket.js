@@ -179,7 +179,7 @@ const updatePoints = (players) => {
   });
 };
 
-const stateUpdated = ({ game_id, current_player, players, turn_number, username }) => {
+const stateUpdated = ({ game_id, current_player, players, turn_number, currentUsername }) => {
   console.log(
     `STATE UPDATED: ${JSON.stringify({
       game_id,
@@ -195,7 +195,7 @@ const stateUpdated = ({ game_id, current_player, players, turn_number, username 
       instructions.innerHTML = "Choose 3 cards to pass to the next player.";
     } else {
       showPlayButton();
-      instructions.innerHTML = `${username}'s turn!`;
+      instructions.innerHTML = `${currentUsername}'s turn!`;
     }
     // print points
     updatePoints(players);
