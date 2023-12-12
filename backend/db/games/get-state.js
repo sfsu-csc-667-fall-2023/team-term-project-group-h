@@ -1,4 +1,3 @@
-const { Games } = require("..");
 const { getCards } = require("./get-cards");
 const { getGame } = require("./get-game");
 const { getUsers } = require("./get-users");

@@ -4,9 +4,11 @@ import * as GAME_CONSTANTS from "@constants/games";
 let gameSocket;
 
 const roomId = document.querySelector("#roomId").value;
-// const playButton = document.querySelector("#play-button");   TODO: make play button
+
 const passButton = document.querySelector("#PassButton");
 const playButton = document.querySelector("#PlayButton");
+
+const userId = parseInt(passButton.dataset.user);
 
 const cardTemplate = document.querySelector("#card");
 
@@ -105,7 +107,6 @@ const updateHand = (
     if (turn_number == 0) {
       div.addEventListener("click", () => {
         // opaque card if selected
-        const userId = passButton.dataset.user;
         console.log(`USER ID ${userId} PRESSED CARD ${card_id}`);
         const seat = mapUserIdToSeat[userId];
         if (
@@ -130,7 +131,6 @@ const updateHand = (
 
       div.addEventListener("click", () => {
         // opaque card if selected
-        const userId = playButton.dataset.user;
         console.log(`USER ID ${userId} PRESSED CARD ${card_id}`);
         const seat = mapUserIdToSeat[userId];
         if (
@@ -254,7 +254,6 @@ const stateUpdated = ({ game_id, current_player, players, turn_number }) => {
 };
 
 passButton.addEventListener("click", () => {
-  const userId = parseInt(passButton.dataset.user);
   console.log(`USER ID ${userId} PRESSED PASS BUTTON`);
   instructions.innerHTML = "Waiting on other players to pass cards...";
   passButton.style.display = "none";
@@ -272,7 +271,6 @@ passButton.addEventListener("click", () => {
 });
 
 playButton.addEventListener("click", () => {
-  const userId = parseInt(playButton.dataset.user);
   console.log(`USER ID ${userId} PRESSED PLAY BUTTON`);
 
   fetch(`${roomId}/play/`, {

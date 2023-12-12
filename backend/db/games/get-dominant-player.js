@@ -6,6 +6,6 @@ const PLAYER_DOMINANT = `
   WHERE id=$1
 `;
 
-const getDominantPlayer = (gameId) => db.one(IS_CURRENT_PLAYER, [gameId])
+const getDominantPlayer = (gameId) => db.one(PLAYER_DOMINANT, [gameId])
 
 module.exports = { getDominantPlayer };

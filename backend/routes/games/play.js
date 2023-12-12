@@ -67,9 +67,10 @@ const handler = async (request, response) => {
   // if the round is not over
   if (currentTurn % 4 !== 0) {
     console.log("currentTurn % 4 !== 0");
-    const seatNextPlayer = ((await Games.getSeat(userId, gameId)) + 1) % 4;
+    const { seat: currentSeat } = await Games.getSeat(userId, gameId);
+    const seatNextPlayer = (currentSeat + 1) % 4;
     console.log(`seatNextPlayer: ${seatNextPlayer}`);
-    const nextPlayer = await Games.getPlayerBySeat(seatNextPlayer, gameId);
+    const { user_id: nextPlayer } = await Games.getPlayerBySeat(seatNextPlayer, gameId);
     console.log(`nextPlayer: ${nextPlayer}`);
     await Games.setCurrentPlayer(nextPlayer, gameId);
     console.log("set current player");
@@ -78,7 +79,7 @@ const handler = async (request, response) => {
     const gameState = await Games.getState(gameId);
 
     // change card's order to zero
-    await Games.playCard(cardPlayed, gameId);
+    await Games.playCard(gameId, cardPlayed);
 
     // Emit state updated event
     io.to(gameState.game_socket_id).emit(
@@ -87,7 +88,7 @@ const handler = async (request, response) => {
     );
   } else {
     // if the round is over
-    const nextPlayer = await Games.getDominantPlayer(gameId);
+    const {player_dominant: nextPlayer} = await Games.getDominantPlayer(gameId);
     await Games.setCurrentPlayer(nextPlayer, gameId);
     await Games.incrementTurnNumber(gameId);
     // add points to the player who won the round

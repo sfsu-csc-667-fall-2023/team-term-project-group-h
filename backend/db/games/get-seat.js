@@ -6,6 +6,6 @@ const GET_SEAT = `
   WHERE user_id=$1 AND game_id=$2
 `;
 
-const getSeat = (userId, gameId) => db.one(GET_SEAT, [userId, gameId]).then((data) => data.seat);
+const getSeat = (userId, gameId) => db.one(GET_SEAT, [userId, gameId]);
 
 module.exports = { getSeat };
