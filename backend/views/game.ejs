@@ -32,7 +32,6 @@
         <div class="hand player-four-hand d-flex flex-row horizontal-text"></div> 
       </div>
 
-
       <div class="d-flex align-items-start">
         <div id="player-one-floor" class="m-5">FLOOR 1</div>
         <div class="hand player-one-floor d-flex flex-row horizontal-text"></div>
@@ -50,13 +49,11 @@
         <div class="hand player-four-floor d-flex flex-row horizontal-text"></div>
       </div>
         
-
-        <div id="lobbyChat" class="justify-content-center align-items-center">
+      <div id="lobbyChat" class="justify-content-center align-items-center">
           <%- include('partials/chat', { roomId: id }) %>
-        </div>
       </div>
+    </div>
       
-    
     <input
       type="hidden"
       name="game-socket-id"

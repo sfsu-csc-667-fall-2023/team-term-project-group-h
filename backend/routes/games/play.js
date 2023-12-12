@@ -10,12 +10,16 @@ const handler = async (request, response) => {
   const { id: userId } = request.session.user;
   const { cards: selectedCards, userSocketId } = request.body;
   const cardPlayed = selectedCards[0];
-  const cardPlayedSuit = (await Games.getCardSuit(cardPlayed)).suits;
+
+  const { suits: cardPlayedSuit } = await Games.getCardSuit(cardPlayed);
+  const { value: cardPlayedNumber } = await Games.getCardNumber(cardPlayed);
+  const { suit_dominant: currentSuit } = await Games.getDominantSuit(gameId);
+
   console.log("--- ENTERED PLAY ROUTE ---");
   console.log(`gameId: ${gameId}`);
   console.log(`userId: ${userId}`);
   console.log(`Selected cards: ${selectedCards}`);
-  console.log(`cardPlayed: ${cardPlayed}`);
+  console.log(`cardPlayed: ${cardPlayed} suit ${cardPlayedSuit} number ${cardPlayedNumber}`);
 
   const isPlayerInGame = await Games.isPlayerInGame(gameId, userId);
   console.log(`isPlayerInGame: ${isPlayerInGame}`);
@@ -51,13 +55,9 @@ const handler = async (request, response) => {
     }
   } else {
     // if not first turn
-
-    const currentSuit = (await Games.getDominantSuit(gameId)).suit_dominant;
     console.log(`currentSuit Dominant: ${(currentSuit)}`);
     console.log(`cardPlayed.suit: ${cardPlayedSuit}`);
-    if (!noSuitInHand(currentSuit, userId, gameId) && cardPlayedSuit !== currentSuit) {
-      //Also, before this check, need to check the player's hand, if they have no cards with suit === currentSuit,
-      //they can play whatever suit
+    if (cardPlayedSuit !== currentSuit && noSuitInHand(currentSuit, userId, gameId)) {
       io.to(userSocketId)
         .emit(GAME_CONSTANTS.INVALID_PLAY, "You must play according to the leading suit.");
 
@@ -65,59 +65,75 @@ const handler = async (request, response) => {
     }
   }
 
+  
+  //TODO when currTurn % 4 = 1 (first turn in a round), there is no domSuit. Can play whatever suit except heart
+  //TODO need a check for heart not broken yet
+  //TODO remove setDomSuit in line 52, set dom suit down here when currTurn % 4 = 1
+
   // if the round is not over
+  let nextPlayer;
   if (currentTurn % 4 !== 0) {
     console.log("currentTurn % 4 !== 0");
     const { seat: currentSeat } = await Games.getSeat(userId, gameId);
     const seatNextPlayer = (currentSeat + 1) % 4;
     console.log(`seatNextPlayer: ${seatNextPlayer}`);
-    const { user_id: nextPlayer } = await Games.getPlayerBySeat(
+    nextPlayer = (await Games.getPlayerBySeat(
       seatNextPlayer,
       gameId
-    );
+    )).user_id;
     console.log(`nextPlayer: ${nextPlayer}`);
-    await Games.setCurrentPlayer(nextPlayer, gameId);
-    console.log("set current player");
-    await Games.incrementTurnNumber(gameId);
-    console.log("incremented turn number");
     // change card's order to zero
     await Games.playCard(gameId, cardPlayed);
-    const gameState = await Games.getState(gameId);
 
-    // Emit state updated event
-    io.to(gameState.game_socket_id).emit(
-      GAME_CONSTANTS.STATE_UPDATED,
-      gameState
-    );
+    if(currentSuit !== cardPlayedSuit && cardPlayedSuit) {
+      if(cardPlayedSuit === 3) {
+        await Games.setBrokenHeart(true, gameId);
+      }
+    }
+
+    //TODO set dominant player only when playedSuit == currentSuit and playedNumber > dominantNumber
+
+    await Games.setDominantPlayer(userId, gameId);
+    await Games.setDominantNumber(cardPlayedNumber, gameId);
   } else {
     // if the round is over
-    const { player_dominant: nextPlayer } =
-    await Games.getDominantPlayer(gameId);
-    await Games.setCurrentPlayer(nextPlayer, gameId);
-    await Games.incrementTurnNumber(gameId);
+    nextPlayer = (await Games.getDominantPlayer(gameId)).player_dominant;
     // add points to the player who won the round
-
-    const gameState = await Games.getState(gameId);
-    // Emit state updated event
-    io.to(gameState.game_socket_id).emit(
-      GAME_CONSTANTS.STATE_UPDATED,
-      gameState
-    );
   }
+  
+  await Games.incrementTurnNumber(gameId);
+  await Games.setCurrentPlayer(nextPlayer, gameId);
+
+  const gameState = await Games.getState(gameId);
+    // Emit state updated event
+  io.to(gameState.game_socket_id).emit(
+    GAME_CONSTANTS.STATE_UPDATED,
+    gameState
+  );
 
   response.status(200).send();
 };
 
-// NEED TO FIX THIS 
-// THE CARD DOES NOT HAVE A SUIT PROPERTY
-// PROB CHANGE getPlayerHand to return the card's suit
 const noSuitInHand = async (currentSuit, userId, gameId) => {
+  console.log("--- ENTERED noSuitInHand ---");
+  const suitIdRange = [0, 14, 27, 40];
+
   const playerHand = await Games.getPlayerHand(gameId, userId);
-  console.log(`playerHand: ${JSON.stringify(playerHand)}`);
-  const playerHandSuit = playerHand.filter((card) => card.suit === currentSuit);
-  if (playerHandSuit.length === 0) {
+  // console.log(`playerHand: ${JSON.stringify(playerHand)}`);
+
+  const suitAceId = suitIdRange[currentSuit];
+  const suitKingId = suitIdRange[currentSuit + 1] - 1;
+  console.log(`suitAceId: ${suitAceId}`);
+  console.log(`suitKingId: ${suitKingId}`);
+    
+  const matchingSuits = playerHand.filter(
+    (card) => card.card_id >= suitAceId && card.card_id <= suitKingId);
+  console.log(`matchingSuits: ${JSON.stringify(matchingSuits)}`);
+  
+  if (matchingSuits.length === 0) {
     return true;
   }
+  
   return false;
 };
 
