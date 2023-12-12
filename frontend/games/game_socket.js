@@ -20,6 +20,7 @@ const playerOneFloor = document.getElementById("player-one-floor");
 const playerTwoFloor = document.getElementById("player-two-floor");
 const playerThreeFloor = document.getElementById("player-three-floor");
 const playerFourFloor = document.getElementById("player-four-floor");
+const userSocketId = document.querySelector("#user-socket-id").value;
 
 const instructions = document.querySelector("#instructions");
 
@@ -53,6 +54,8 @@ const configure = (socketId) => {
   gameSocket = io({ query: { id: socketId } });
 
   gameSocket.on(GAME_CONSTANTS.STATE_UPDATED, stateUpdated);
+
+  gameSocket.on(GAME_CONSTANTS.INVALID_PLAY, displayWarning);
 
   console.log("Game socket configured");
 
@@ -256,6 +259,10 @@ const stateUpdated = ({ game_id, current_player, players, turn_number, currentUs
   }
 };
 
+const displayWarning = (message) => {
+  instructions.innerHTML = message;
+};
+
 passButton.addEventListener("click", () => {
   console.log(`USER ID ${userId} PRESSED PASS BUTTON`);
   instructions.innerHTML = "Waiting on other players to pass cards...";
@@ -282,6 +289,7 @@ playButton.addEventListener("click", () => {
     body: JSON.stringify({
       cards: selectedCards[mapUserIdToSeat[userId]],
       userId: userId,
+      userSocketId
     }),
   });
 

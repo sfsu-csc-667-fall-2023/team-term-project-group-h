@@ -8,7 +8,7 @@ const handler = async (request, response) => {
   const io = request.app.get("io");
   const { id: gameId } = request.params;
   const { id: userId } = request.session.user;
-  const { cards: selectedCards } = request.body;
+  const { cards: selectedCards, userSocketId } = request.body;
   const cardPlayed = selectedCards[0];
   const cardPlayedSuit = (await Games.getCardSuit(cardPlayed)).suits;
   console.log("--- ENTERED PLAY ROUTE ---");
@@ -29,7 +29,8 @@ const handler = async (request, response) => {
   console.log(`isCurrentPlayer: ${isCurrentPlayer}`);
 
   if (!isCurrentPlayer) {
-    return response.status(403).send("Not your turn!");
+    io.to(userSocketId).emit(GAME_CONSTANTS.INVALID_PLAY, "It's not your turn.");
+    return response.status(200).send();
   }
 
   // const firstTurnInHand = currentTurn % 52;
@@ -41,7 +42,8 @@ const handler = async (request, response) => {
   console.log(`currentTurn: ${currentTurn}`);
   if (currentTurn === 1) {
     if (cardPlayed != 15) {
-      return response.status(403).send("Must play 2 of clubs first!");
+      io.to(userSocketId).emit(GAME_CONSTANTS.INVALID_PLAY, "You must play 2 of clubs first.");
+      return response.status(200).send();
     } else {
       await Games.setDominantSuit(gameId, 1);
       await Games.setDominantPlayer(userId, gameId);
@@ -56,9 +58,10 @@ const handler = async (request, response) => {
     if (!noSuitInHand(currentSuit, userId, gameId) && cardPlayedSuit !== currentSuit) {
       //Also, before this check, need to check the player's hand, if they have no cards with suit === currentSuit,
       //they can play whatever suit
-      return response
-        .status(403)
-        .send("Must play according to the leading suit!");
+      io.to(userSocketId)
+        .emit(GAME_CONSTANTS.INVALID_PLAY, "You must play according to the leading suit.");
+
+      return response.status(200).send();
     }
   }
 
@@ -105,12 +108,10 @@ const handler = async (request, response) => {
   response.status(200).send();
 };
 
-
 // NEED TO FIX THIS 
 // THE CARD DOES NOT HAVE A SUIT PROPERTY
 // PROB CHANGE getPlayerHand to return the card's suit
 const noSuitInHand = async (currentSuit, userId, gameId) => {
-
   const playerHand = await Games.getPlayerHand(gameId, userId);
   console.log(`playerHand: ${JSON.stringify(playerHand)}`);
   const playerHandSuit = playerHand.filter((card) => card.suit === currentSuit);
