@@ -10,6 +10,7 @@ const handler = async (request, response) => {
   const { id: userId } = request.session.user;
   const { cards: selectedCards } = request.body;
   const cardPlayed = selectedCards[0];
+  const cardPlayedSuit = (await Games.getCardSuit(cardPlayed)).suits;
   console.log("--- ENTERED PLAY ROUTE ---");
   console.log(`gameId: ${gameId}`);
   console.log(`userId: ${userId}`);
@@ -36,7 +37,7 @@ const handler = async (request, response) => {
   // The first turn of each hand, 2clubs must be played, so
   // turn 0 % 52, must play 2clubs
   // turn 52 % 52, must play 2clubs, etc.
-  const currentTurn = await Games.getCurrentTurn(gameId);
+  const currentTurn = (await Games.getCurrentTurn(gameId));
   console.log(`currentTurn: ${currentTurn}`);
   if (currentTurn === 1) {
     if (cardPlayed != 15) {
@@ -49,9 +50,10 @@ const handler = async (request, response) => {
   } else {
     // if not first turn
 
-    const currentSuit = await Games.getDominantSuit(gameId);
-    console.log(`currentSuit: ${currentSuit}`);
-    if (!noSuitInHand(currentSuit, userId) && currentSuit !== suit) {
+    const currentSuit = (await Games.getDominantSuit(gameId)).suit_dominant;
+    console.log(`currentSuit Dominant: ${(currentSuit)}`);
+    console.log(`cardPlayed.suit: ${cardPlayedSuit}`);
+    if (!noSuitInHand(currentSuit, userId, gameId) && cardPlayedSuit !== currentSuit) {
       //Also, before this check, need to check the player's hand, if they have no cards with suit === currentSuit,
       //they can play whatever suit
       return response
@@ -103,9 +105,19 @@ const handler = async (request, response) => {
   response.status(200).send();
 };
 
-const noSuitInHand = async (currentSuit, userId) => {
-  const playerHand = await Games.getPlayerHand();
-  console.log(`playerHand: ${playerHand}`);
+
+// NEED TO FIX THIS 
+// THE CARD DOES NOT HAVE A SUIT PROPERTY
+// PROB CHANGE getPlayerHand to return the card's suit
+const noSuitInHand = async (currentSuit, userId, gameId) => {
+
+  const playerHand = await Games.getPlayerHand(gameId, userId);
+  console.log(`playerHand: ${JSON.stringify(playerHand)}`);
+  const playerHandSuit = playerHand.filter((card) => card.suit === currentSuit);
+  if (playerHandSuit.length === 0) {
+    return true;
+  }
+  return false;
 };
 
 module.exports = { method, route, handler };

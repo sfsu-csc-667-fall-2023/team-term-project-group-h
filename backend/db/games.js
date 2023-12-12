@@ -34,6 +34,7 @@ const { getDominantPlayer } = require("./games/get-dominant-player");
 const { getPlayerHand } = require("./games/get-player-hand");
 const { setBrokenHeart } = require("./games/set-broken-heart");
 const { playCard } = require("./games/play-card");
+const { getCardSuit } = require("./games/get-card-suit");
 
 
 
@@ -74,4 +75,5 @@ module.exports = {
   getPlayerHand,
   setBrokenHeart,
   playCard,
+  getCardSuit,
 };
