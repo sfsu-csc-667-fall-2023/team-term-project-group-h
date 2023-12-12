@@ -23,10 +23,7 @@ const getState = async (gameId) => {
     console.log(`user.game_points = ${user.game_points}, user.hand_points = ${user.hand_points}`);
 
     user.hand = dealtCards.filter((card) => card.user_id === user.user_id);
-    // user.hand.map((card) => {
-    //   card.order = Games.getCardOrder(card);
-    //   return card;
-    // });
+
     user.current_player = current_player === user.user_id;
   });
 

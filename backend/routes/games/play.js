@@ -1,7 +1,6 @@
 const { Games } = require("../../db");
 const GAME_CONSTANTS = require("../../../constants/games");
 
-
 const method = "post";
 const route = "/:id/play";
 
@@ -43,13 +42,12 @@ const handler = async (request, response) => {
     if (cardPlayed != 15) {
       return response.status(403).send("Must play 2 of clubs first!");
     } else {
-
       await Games.setDominantSuit(gameId, 1);
       await Games.setDominantPlayer(userId, gameId);
       await Games.setDominantNumber(2, gameId);
-
     }
-  } else { // if not first turn
+  } else {
+    // if not first turn
 
     const currentSuit = await Games.getDominantSuit(gameId);
     console.log(`currentSuit: ${currentSuit}`);
@@ -62,24 +60,24 @@ const handler = async (request, response) => {
     }
   }
 
-
-  
   // if the round is not over
   if (currentTurn % 4 !== 0) {
     console.log("currentTurn % 4 !== 0");
     const { seat: currentSeat } = await Games.getSeat(userId, gameId);
     const seatNextPlayer = (currentSeat + 1) % 4;
     console.log(`seatNextPlayer: ${seatNextPlayer}`);
-    const { user_id: nextPlayer } = await Games.getPlayerBySeat(seatNextPlayer, gameId);
+    const { user_id: nextPlayer } = await Games.getPlayerBySeat(
+      seatNextPlayer,
+      gameId
+    );
     console.log(`nextPlayer: ${nextPlayer}`);
     await Games.setCurrentPlayer(nextPlayer, gameId);
     console.log("set current player");
     await Games.incrementTurnNumber(gameId);
     console.log("incremented turn number");
-    const gameState = await Games.getState(gameId);
-
     // change card's order to zero
     await Games.playCard(gameId, cardPlayed);
+    const gameState = await Games.getState(gameId);
 
     // Emit state updated event
     io.to(gameState.game_socket_id).emit(
@@ -88,7 +86,8 @@ const handler = async (request, response) => {
     );
   } else {
     // if the round is over
-    const {player_dominant: nextPlayer} = await Games.getDominantPlayer(gameId);
+    const { player_dominant: nextPlayer } =
+    await Games.getDominantPlayer(gameId);
     await Games.setCurrentPlayer(nextPlayer, gameId);
     await Games.incrementTurnNumber(gameId);
     // add points to the player who won the round
