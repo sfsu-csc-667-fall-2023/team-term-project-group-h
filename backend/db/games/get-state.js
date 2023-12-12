@@ -1,3 +1,4 @@
+const { getUsername } = require("../users");
 const { getCards } = require("./get-cards");
 const { getGame } = require("./get-game");
 const { getUsers } = require("./get-users");
@@ -9,9 +10,11 @@ const getState = async (gameId) => {
   let current_player;
   // const current_player = await getCurrentTurn(gameId);
   const users = await getUsers(gameId);
+  const { username } = await getUsername(turn_player_id);
 
   const dealtCards = await getCards(gameId);
   // console.log({ dealtCards });
+  
 
   users.forEach((user) => {
     console.log(`user.game_points = ${user.game_points}, user.hand_points = ${user.hand_points}`);
@@ -30,7 +33,8 @@ const getState = async (gameId) => {
     current_player: turn_player_id,
     players: users,
     broken_hearts,
-    turn_number
+    turn_number,
+    username
   };
 };
 

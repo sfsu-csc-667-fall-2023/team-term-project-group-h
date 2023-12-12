@@ -51,7 +51,7 @@ const handler = async (request, response) => {
     await Games.setCurrentPlayer(firstPlayer, gameId); 
     await Games.incrementTurnNumber(gameId);
     const gameState = await Games.getState(gameId);
-    // Emit state updated event
+  
     io.to(gameState.game_socket_id).emit(GAME_CONSTANTS.STATE_UPDATED, gameState);
   }
 

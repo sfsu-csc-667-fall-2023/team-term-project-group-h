@@ -6,12 +6,10 @@ const { dealCards } = require("./deal-cards");
 const { setInitialized } = require("./set-initialized");
 const { getCards } = require("./get-cards");
 const { initializePoints } = require("./initialize-points");
-const { getCurrentTurn } = require("./get-current-turn");
 
 const initialize = async (gameId) => {
 
   const { game_socket_id, turn_number, broken_hearts, suit_dominant, player_dominant, Number_dominant, turn_player_id  } = await getGame(gameId);
-
   
   await createShuffledDeck(gameId);
 
@@ -22,17 +20,14 @@ const initialize = async (gameId) => {
   const dealtCards = await getCards(gameId);
  
   // const current_player = await getCurrentTurn(gameId);
-  let current_player;
 
   users.forEach((user) => {
     console.log({ user });
     user.hand = dealtCards.filter((card) => card.user_id === user.user_id);
     user.current_player = true;
   });
-
   
   await setInitialized(gameId);
-  
 
   return {
     game_id: gameId,

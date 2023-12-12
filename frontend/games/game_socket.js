@@ -24,13 +24,13 @@ const playerFourFloor = document.getElementById("player-four-floor");
 const instructions = document.querySelector("#instructions");
 
 const mapUserIdToSeat = {};
-
 const mapSeatToHand = {
   0: [],
   1: [],
   2: [],
   3: [],
 };
+
 const selectedCards = [[], [], [], []];
 const suitsMap = {
   0: "spades",
@@ -64,7 +64,7 @@ const updateHand = (
   floorContainer,
   cardList,
   game_id,
-  selectedCardsIndex,
+  seatIndex,
   turn_number,
   current_player
 ) => {
@@ -75,15 +75,17 @@ const updateHand = (
   handContainer.innerHTML = "";
   floorContainer.innerHTML = "";
 
+  mapSeatToHand[seatIndex] = [];
+
   cardList.forEach(({ suits, value, card_id, user_id, card_order }) => {
     if (
-      !mapSeatToHand[selectedCardsIndex].includes(card_id) &&
+      !mapSeatToHand[seatIndex].includes(card_id) &&
       card_order !== -1
     ) {
-      mapSeatToHand[selectedCardsIndex].push(card_id);
+      mapSeatToHand[seatIndex].push(card_id);
     }
 
-    mapUserIdToSeat[user_id] = selectedCardsIndex;
+    mapUserIdToSeat[user_id] = seatIndex;
 
     console.log(`THIS IS THE NEW MAP-SEATS ${JSON.stringify(mapSeatToHand)}`);
 
@@ -91,10 +93,10 @@ const updateHand = (
 
     console.log(
       `value: ${value}, suits: ${suits}, card_id: ${card_id}, card_order: ${card_order},
-       user_id: ${user_id}, selectedCardsIndex: ${selectedCardsIndex}`
+       user_id: ${user_id}, selectedCardsIndex: ${seatIndex}`
     );
     console.log(
-      `selectedCardsIndex: ${selectedCardsIndex}, this should be empty: selectedCards: ${selectedCards[selectedCardsIndex]}`
+      `selectedCardsIndex: ${seatIndex}, this should be empty: selectedCards: ${selectedCards[seatIndex]}`
     );
 
     const container = cardTemplate.content.cloneNode(true);
@@ -110,17 +112,17 @@ const updateHand = (
         console.log(`USER ID ${userId} PRESSED CARD ${card_id}`);
         const seat = mapUserIdToSeat[userId];
         if (
-          selectedCards[selectedCardsIndex].length < 3 &&
+          selectedCards[seatIndex].length < 3 &&
           mapSeatToHand[seat].includes(card_id)
         ) {
-          if (selectedCards[selectedCardsIndex].includes(card_id)) {
+          if (selectedCards[seatIndex].includes(card_id)) {
             return;
           } else {
             div.classList.toggle("selected");
-            selectedCards[selectedCardsIndex].push(card_id);
+            selectedCards[seatIndex].push(card_id);
             console.log(
               `SELECTED CARDS OF THIS USER ${JSON.stringify(
-                selectedCards[selectedCardsIndex]
+                selectedCards[seatIndex]
               )}`
             );
           }
@@ -133,18 +135,19 @@ const updateHand = (
         // opaque card if selected
         console.log(`USER ID ${userId} PRESSED CARD ${card_id}`);
         const seat = mapUserIdToSeat[userId];
+        console.log(`USER ID ${userId} IN SEAT ${seat}`);
         if (
-          selectedCards[selectedCardsIndex].length < 1 &&
+          selectedCards[seatIndex].length < 1 &&
           mapSeatToHand[seat].includes(card_id)
         ) {
-          if (selectedCards[selectedCardsIndex].includes(card_id)) {
+          if (selectedCards[seatIndex].includes(card_id)) {
             return;
           } else {
             div.classList.toggle("selected");
-            selectedCards[selectedCardsIndex].push(card_id);
+            selectedCards[seatIndex].push(card_id);
             console.log(
               `SELECTED CARDS OF THIS USER ${JSON.stringify(
-                selectedCards[selectedCardsIndex]
+                selectedCards[seatIndex]
               )}`
             );
           }
@@ -176,7 +179,7 @@ const updatePoints = (players) => {
   });
 };
 
-const stateUpdated = ({ game_id, current_player, players, turn_number }) => {
+const stateUpdated = ({ game_id, current_player, players, turn_number, username }) => {
   console.log(
     `STATE UPDATED: ${JSON.stringify({
       game_id,
@@ -192,7 +195,7 @@ const stateUpdated = ({ game_id, current_player, players, turn_number }) => {
       instructions.innerHTML = "Choose 3 cards to pass to the next player.";
     } else {
       showPlayButton();
-      instructions.innerHTML = `Player ${turn_number % 4}'s turn!`; //TODO need current_player's username here
+      instructions.innerHTML = `${username}'s turn!`;
     }
     // print points
     updatePoints(players);
