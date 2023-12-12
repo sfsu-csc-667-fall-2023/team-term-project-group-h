@@ -10,7 +10,10 @@ const getState = async (gameId) => {
   let current_player;
   // const current_player = await getCurrentTurn(gameId);
   const users = await getUsers(gameId);
-  const { username } = await getUsername(turn_player_id);
+  let currentUsername;
+  if(turn_player_id) {
+    currentUsername = await getUsername(turn_player_id);
+  }
 
   const dealtCards = await getCards(gameId);
   // console.log({ dealtCards });
@@ -34,7 +37,7 @@ const getState = async (gameId) => {
     players: users,
     broken_hearts,
     turn_number,
-    username
+    currentUsername
   };
 };
 

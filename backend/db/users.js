@@ -33,7 +33,7 @@ const getUserId = (username) => {
   return db.one(GET_USER_ID, [username]);
 };
 
-const getUsername = (userId) => db.one(GET_USERNAME, [userId]);
+const getUsername = (userId) => db.one(GET_USERNAME, [userId]).then((data) => data.username);;
 
 module.exports = {
   username_exists,
