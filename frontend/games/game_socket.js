@@ -36,8 +36,8 @@ const selectedCards = [[], [], [], []];
 const suitsMap = {
   0: "spades",
   1: "clubs",
-  2: "hearts",
-  3: "diamonds",
+  2: "diamonds",
+  3: "hearts",
 };
 
 const showPassButton = () => {

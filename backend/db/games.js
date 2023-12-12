@@ -36,6 +36,8 @@ const { setBrokenHeart } = require("./games/set-broken-heart");
 const { playCard } = require("./games/play-card");
 const { getCardSuit } = require("./games/get-card-suit");
 const { getCardNumber } = require("./games/get-card-number");
+const { getBrokenHearts } = require("./games/get-broken-hearts");
+const { getDominantNumber } = require("./games/get-dominant-number");
 
 module.exports = {
   create,
@@ -75,5 +77,7 @@ module.exports = {
   setBrokenHeart,
   playCard,
   getCardSuit,
-  getCardNumber
+  getCardNumber,
+  getBrokenHearts,
+  getDominantNumber
 };

@@ -14,6 +14,8 @@ const handler = async (request, response) => {
   const { suits: cardPlayedSuit } = await Games.getCardSuit(cardPlayed);
   const { value: cardPlayedNumber } = await Games.getCardNumber(cardPlayed);
   const { suit_dominant: currentSuit } = await Games.getDominantSuit(gameId);
+  const { broken_hearts: brokenHearts } = await Games.getBrokenHearts(gameId);
+  const { number_dominant: dominantNumber } = await Games.getDominantNumber(gameId);
 
   console.log("--- ENTERED PLAY ROUTE ---");
   console.log(`gameId: ${gameId}`);
@@ -37,38 +39,31 @@ const handler = async (request, response) => {
     return response.status(200).send();
   }
 
-  // const firstTurnInHand = currentTurn % 52;
-  // Each hand consists of 52 turns.
-  // The first turn of each hand, 2clubs must be played, so
-  // turn 0 % 52, must play 2clubs
-  // turn 52 % 52, must play 2clubs, etc.
+  //1st turn in 1st round: 2clubs check
   const currentTurn = (await Games.getCurrentTurn(gameId));
   console.log(`currentTurn: ${currentTurn}`);
-  if (currentTurn === 1) {
-    if (cardPlayed != 15) {
-      io.to(userSocketId).emit(GAME_CONSTANTS.INVALID_PLAY, "You must play 2 of clubs first.");
-      return response.status(200).send();
-    } else {
-      await Games.setDominantSuit(gameId, 1);
-      await Games.setDominantPlayer(userId, gameId);
-      await Games.setDominantNumber(2, gameId);
-    }
-  } else {
-    // if not first turn
-    console.log(`currentSuit Dominant: ${(currentSuit)}`);
-    console.log(`cardPlayed.suit: ${cardPlayedSuit}`);
-    if (cardPlayedSuit !== currentSuit && noSuitInHand(currentSuit, userId, gameId)) {
-      io.to(userSocketId)
-        .emit(GAME_CONSTANTS.INVALID_PLAY, "You must play according to the leading suit.");
-
-      return response.status(200).send();
-    }
+  if (currentTurn % 54 === 1 && cardPlayed != 15) {
+    io.to(userSocketId).emit(GAME_CONSTANTS.INVALID_PLAY, "You must play the 2 of clubs first.");
+    return response.status(200).send();
   }
 
-  
-  //TODO when currTurn % 4 = 1 (first turn in a round), there is no domSuit. Can play whatever suit except heart
-  //TODO need a check for heart not broken yet
-  //TODO remove setDomSuit in line 52, set dom suit down here when currTurn % 4 = 1
+  //1st turn in any round: "is heart broken?" check
+  //any other turn: matching suit check
+  if(currentTurn % 4 === 1) {
+    if(cardPlayedSuit === 3 && !brokenHearts) {
+      io.to(userSocketId).emit(GAME_CONSTANTS.INVALID_PLAY, "Cannot lead with a heart until hearts are broken.");
+      return response.status(200).send();
+    }
+
+    await Games.setDominantSuit(gameId, cardPlayedSuit);
+  } else if (cardPlayedSuit !== currentSuit && await suitInHand(currentSuit, userId, gameId)) {
+    console.log(`currentSuit Dominant: ${(currentSuit)}`);
+    console.log(`cardPlayed.suit: ${cardPlayedSuit}`);
+    io.to(userSocketId)
+      .emit(GAME_CONSTANTS.INVALID_PLAY, "You must play according to the leading suit.");
+
+    return response.status(200).send();
+  }
 
   // if the round is not over
   let nextPlayer;
@@ -85,16 +80,14 @@ const handler = async (request, response) => {
     // change card's order to zero
     await Games.playCard(gameId, cardPlayed);
 
-    if(currentSuit !== cardPlayedSuit && cardPlayedSuit) {
-      if(cardPlayedSuit === 3) {
-        await Games.setBrokenHeart(true, gameId);
+    if(currentSuit === cardPlayedSuit) {
+      if(cardPlayedNumber > dominantNumber) {
+        await Games.setDominantPlayer(userId, gameId);
+        await Games.setDominantNumber(cardPlayedNumber, gameId);
       }
+    } else if(cardPlayedSuit === 3 && !brokenHearts) {
+      await Games.setBrokenHeart(true, gameId);
     }
-
-    //TODO set dominant player only when playedSuit == currentSuit and playedNumber > dominantNumber
-
-    await Games.setDominantPlayer(userId, gameId);
-    await Games.setDominantNumber(cardPlayedNumber, gameId);
   } else {
     // if the round is over
     nextPlayer = (await Games.getDominantPlayer(gameId)).player_dominant;
@@ -114,7 +107,7 @@ const handler = async (request, response) => {
   response.status(200).send();
 };
 
-const noSuitInHand = async (currentSuit, userId, gameId) => {
+const suitInHand = async (currentSuit, userId, gameId) => {
   console.log("--- ENTERED noSuitInHand ---");
   const suitIdRange = [0, 14, 27, 40];
 
@@ -131,10 +124,12 @@ const noSuitInHand = async (currentSuit, userId, gameId) => {
   console.log(`matchingSuits: ${JSON.stringify(matchingSuits)}`);
   
   if (matchingSuits.length === 0) {
-    return true;
+    console.log("returning false");
+    return false;
   }
   
-  return false;
+  console.log("returning true");
+  return true;
 };
 
 module.exports = { method, route, handler };
