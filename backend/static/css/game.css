@@ -8,7 +8,6 @@
 .row-central-2{
     flex-direction: row;
     display: flex;
-
 }
 
 .row-central-3{
@@ -31,7 +30,6 @@
 [class*="col-aside-"]{
     writing-mode: vertical-rl;
     text-orientation: sideways;
-    
 }
 
 .card-side{
@@ -57,26 +55,26 @@
     height: 600px;
 }
 
-#lobbyChat {
+#lobbyChat{
     position: absolute;
     bottom: -250px;
     right: -13px;
 }
 
-#chatInput {
+#chatInput{
     position: absolute;
     bottom: 0.5px;
     right: 140px;
     width: 400px;
 }
 
-#chatSubmit {
+#chatSubmit{
     position: absolute;
     bottom: -2.5px;
     right: 50px;
 }
 
-#chatMessages {
+#chatMessages{
     position: absolute;
     bottom: 50px;
     right: 51px;
@@ -91,6 +89,21 @@ div p{
     color: black;
     text-align: left;
 }
+
 .selected{
     background-color: #0180ff;
+}
+
+#instructions {
+    padding-bottom: 10px;
+}
+
+#PlayButton {
+    display: none;
+    margin-bottom: 10px;
+}
+
+#PassButton {
+    display: none;
+    margin-bottom: 10px;
 }

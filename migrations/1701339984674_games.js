@@ -52,16 +52,17 @@ exports.up = (pgm) => {
       default: 0,
     },
     suit_dominant: {
-      type: "card_suits",
+      type: "int",
     },
     player_dominant: {
       type: "int",
     },
-    Number_dominant: {
-      type: "card_numbers",
+    number_dominant: {
+      type: "int",
     },
     broken_hearts: {
       type: "bool",
+      default: "false"
     },
     created_at: {
       type: "timestamp",

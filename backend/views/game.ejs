@@ -11,9 +11,10 @@
     <%- include('partials/navbar') %>
     <h1 class="m-5 text-center">Game <%= id %></h1>
 
-    
     <div class="main-container text-center">
+      <div id="instructions">Waiting for room to fill...</div>
       <button type="button" class="btn btn-primary m-6" id="PassButton" data-user="<%= user.id %>">Pass</button>
+      <button type="button" class="btn btn-primary m-6" id="PlayButton">Play</button>
       <div class="d-flex align-content-between flex-wrap">
         <div id="player-1-points" class="m-5"></div>
         <div class="hand player-one-hand d-flex flex-row horizontal-text"></div>
@@ -31,31 +32,28 @@
         <div class="hand player-four-hand d-flex flex-row horizontal-text"></div> 
       </div>
 
-
       <div class="d-flex align-items-start">
-        <div id="hand-one" class="m-5">HAND 1</div>
-        <div class="hand player-one-hand d-flex flex-row horizontal-text"></div>
+        <div id="player-one-floor" class="m-5">FLOOR 1</div>
+        <div class="hand player-one-floor d-flex flex-row horizontal-text"></div>
       </div>
       <div class="d-flex align-items-start">
-        <div id="hand-two" class="m-5">HAND 2</div>
-        <div class="hand player-one-hand d-flex flex-row horizontal-text"></div>
+        <div id="player-two-floor" class="m-5">FLOOR 2</div>
+        <div class="hand player-two-floor d-flex flex-row horizontal-text"></div>
       </div>
       <div class="d-flex align-items-start">
-        <div id="hand-three" class="m-5">HAND3</div>
-        <div class="hand player-one-hand d-flex flex-row horizontal-text"></div>
+        <div id="player-three-floor" class="m-5">FLOOR 3</div>
+        <div class="hand player-three-floor d-flex flex-row horizontal-text"></div>
       </div>
       <div class="d-flex align-items-start">
-        <div id="hand-four" class="m-5">HAND 4</div>
-        <div class="hand player-one-hand d-flex flex-row horizontal-text"></div>
+        <div id="player-four-floor" class="m-5">FLOOR 4</div>
+        <div class="hand player-four-floor d-flex flex-row horizontal-text"></div>
       </div>
         
-
-        <div id="lobbyChat" class="justify-content-center align-items-center">
+      <div id="lobbyChat" class="justify-content-center align-items-center">
           <%- include('partials/chat', { roomId: id }) %>
-        </div>
       </div>
+    </div>
       
-    
     <input
       type="hidden"
       name="game-socket-id"

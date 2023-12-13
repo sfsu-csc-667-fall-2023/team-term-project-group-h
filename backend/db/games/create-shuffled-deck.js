@@ -17,7 +17,7 @@ const createShuffledDeck = (gameId) =>
       user_id: 0,
       game_id: gameId,
       card_id: id,
-      card_order: index,
+      card_order: index+1,
     }));
 
     const query = pgp.helpers.insert(values, columns);
