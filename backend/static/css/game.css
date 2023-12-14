@@ -90,9 +90,7 @@ div p{
     text-align: left;
 }
 
-.selected{
-    background-color: #0180ff;
-}
+
 
 #instructions {
     padding-bottom: 10px;
@@ -107,3 +105,4 @@ div p{
     display: none;
     margin-bottom: 10px;
 }
+

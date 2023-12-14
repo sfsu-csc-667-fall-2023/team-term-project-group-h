@@ -1,0 +1,253 @@
+/* cards used: https://code.google.com/archive/p/vector-playing-cards/downloads */
+
+.card {
+  width: 5rem;
+  height: 6rem;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  background-color: transparent;
+  border: 1px solid transparent;
+  margin: 0.1rem;
+  /* unsure if we want to use inner-text for anything else remove from game socket*/
+  font-size: 5px;
+  color: transparent;
+}
+
+/* 
+suits = ['spades', 'clubs', 'hearts', 'diamonds'] # if change order
+
+for suit in suits:
+    for value in range(1, 14):
+        card_name = str(value)
+        if value == 11:
+            card_name = 'jack'
+        elif value == 12:
+            card_name = 'queen'
+        elif value == 13:
+            card_name = 'king'
+		elif card_name = '1':
+			card_name = ace;
+			
+		append = '2' if card_name in ['jack', 'queen', 'king'] else ''
+
+        print(f".card.suit-{suits.index(suit)}.value-{value} {{")
+        print(f"    background-image: url(\"/images/{card_name}_of_{suit}{append}.png\");")
+        print("}\n")
+*/
+
+.hiddencard {
+  background-image: url("/images/card-back-red.png") !important;
+}
+
+.card.suit-0.value-1 {
+  background-image: url("/images/ace_of_spades.png");
+}
+
+.card.suit-0.value-2 {
+  background-image: url("/images/2_of_spades.png");
+}
+
+.card.suit-0.value-3 {
+  background-image: url("/images/3_of_spades.png");
+}
+
+.card.suit-0.value-4 {
+  background-image: url("/images/4_of_spades.png");
+}
+
+.card.suit-0.value-5 {
+  background-image: url("/images/5_of_spades.png");
+}
+
+.card.suit-0.value-6 {
+  background-image: url("/images/6_of_spades.png");
+}
+
+.card.suit-0.value-7 {
+  background-image: url("/images/7_of_spades.png");
+}
+
+.card.suit-0.value-8 {
+  background-image: url("/images/8_of_spades.png");
+}
+
+.card.suit-0.value-9 {
+  background-image: url("/images/9_of_spades.png");
+}
+
+.card.suit-0.value-10 {
+  background-image: url("/images/10_of_spades.png");
+}
+
+.card.suit-0.value-11 {
+  background-image: url("/images/jack_of_spades2.png");
+}
+
+.card.suit-0.value-12 {
+  background-image: url("/images/queen_of_spades2.png");
+}
+
+.card.suit-0.value-13 {
+  background-image: url("/images/king_of_spades2.png");
+}
+
+.card.suit-1.value-1 {
+  background-image: url("/images/ace_of_clubs.png");
+}
+
+.card.suit-1.value-2 {
+  background-image: url("/images/2_of_clubs.png");
+}
+
+.card.suit-1.value-3 {
+  background-image: url("/images/3_of_clubs.png");
+}
+
+.card.suit-1.value-4 {
+  background-image: url("/images/4_of_clubs.png");
+}
+
+.card.suit-1.value-5 {
+  background-image: url("/images/5_of_clubs.png");
+}
+
+.card.suit-1.value-6 {
+  background-image: url("/images/6_of_clubs.png");
+}
+
+.card.suit-1.value-7 {
+  background-image: url("/images/7_of_clubs.png");
+}
+
+.card.suit-1.value-8 {
+  background-image: url("/images/8_of_clubs.png");
+}
+
+.card.suit-1.value-9 {
+  background-image: url("/images/9_of_clubs.png");
+}
+
+.card.suit-1.value-10 {
+  background-image: url("/images/10_of_clubs.png");
+}
+
+.card.suit-1.value-11 {
+  background-image: url("/images/jack_of_clubs2.png");
+}
+
+.card.suit-1.value-12 {
+  background-image: url("/images/queen_of_clubs2.png");
+}
+
+.card.suit-1.value-13 {
+  background-image: url("/images/king_of_clubs2.png");
+}
+
+.card.suit-2.value-1 {
+  background-image: url("/images/ace_of_hearts.png");
+}
+
+.card.suit-2.value-2 {
+  background-image: url("/images/2_of_hearts.png");
+}
+
+.card.suit-2.value-3 {
+  background-image: url("/images/3_of_hearts.png");
+}
+
+.card.suit-2.value-4 {
+  background-image: url("/images/4_of_hearts.png");
+}
+
+.card.suit-2.value-5 {
+  background-image: url("/images/5_of_hearts.png");
+}
+
+.card.suit-2.value-6 {
+  background-image: url("/images/6_of_hearts.png");
+}
+
+.card.suit-2.value-7 {
+  background-image: url("/images/7_of_hearts.png");
+}
+
+.card.suit-2.value-8 {
+  background-image: url("/images/8_of_hearts.png");
+}
+
+.card.suit-2.value-9 {
+  background-image: url("/images/9_of_hearts.png");
+}
+
+.card.suit-2.value-10 {
+  background-image: url("/images/10_of_hearts.png");
+}
+
+.card.suit-2.value-11 {
+  background-image: url("/images/jack_of_hearts2.png");
+}
+
+.card.suit-2.value-12 {
+  background-image: url("/images/queen_of_hearts2.png");
+}
+
+.card.suit-2.value-13 {
+  background-image: url("/images/king_of_hearts2.png");
+}
+
+.card.suit-3.value-1 {
+  background-image: url("/images/ace_of_diamonds.png");
+}
+
+.card.suit-3.value-2 {
+  background-image: url("/images/2_of_diamonds.png");
+}
+
+.card.suit-3.value-3 {
+  background-image: url("/images/3_of_diamonds.png");
+}
+
+.card.suit-3.value-4 {
+  background-image: url("/images/4_of_diamonds.png");
+}
+
+.card.suit-3.value-5 {
+  background-image: url("/images/5_of_diamonds.png");
+}
+
+.card.suit-3.value-6 {
+  background-image: url("/images/6_of_diamonds.png");
+}
+
+.card.suit-3.value-7 {
+  background-image: url("/images/7_of_diamonds.png");
+}
+
+.card.suit-3.value-8 {
+  background-image: url("/images/8_of_diamonds.png");
+}
+
+.card.suit-3.value-9 {
+  background-image: url("/images/9_of_diamonds.png");
+}
+
+.card.suit-3.value-10 {
+  background-image: url("/images/10_of_diamonds.png");
+}
+
+.card.suit-3.value-11 {
+  background-image: url("/images/jack_of_diamonds2.png");
+}
+
+.card.suit-3.value-12 {
+  background-image: url("/images/queen_of_diamonds2.png");
+}
+
+.card.suit-3.value-13 {
+  background-image: url("/images/king_of_diamonds2.png");
+}
+
+.selected{
+    border: blue 4px solid;
+}

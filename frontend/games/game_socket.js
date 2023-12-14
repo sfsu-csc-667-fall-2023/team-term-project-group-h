@@ -107,6 +107,9 @@ const updateHand = (
 
     div.classList.add(`suit-${suits}`);
     div.classList.add(`value-${value}`);
+    if(userId !== user_id){
+      div.classList.add("hiddencard");
+    }
 
     div.innerText = `${value} of ${suitsMap[suits]}`;
     if (turn_number == 0) {
