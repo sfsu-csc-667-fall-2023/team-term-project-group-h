@@ -38,6 +38,10 @@ const { getCardSuit } = require("./games/get-card-suit");
 const { getCardNumber } = require("./games/get-card-number");
 const { getBrokenHearts } = require("./games/get-broken-hearts");
 const { getDominantNumber } = require("./games/get-dominant-number");
+const { getFloorCards } = require("./games/get-floor-cards");
+const { getCardPoints } = require("./games/get-card-points");
+const { addPlayerPoints } = require("./games/add-player-points");
+const { cleanFloor } = require("./games/clean-floor");
 
 module.exports = {
   create,
@@ -79,5 +83,9 @@ module.exports = {
   getCardSuit,
   getCardNumber,
   getBrokenHearts,
-  getDominantNumber
+  getDominantNumber,
+  getFloorCards,
+  getCardPoints,
+  addPlayerPoints,
+  cleanFloor
 };

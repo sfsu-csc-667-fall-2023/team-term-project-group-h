@@ -112,7 +112,7 @@ const updateHand = (
       div.classList.add("hiddencard");
     }
 
-    div.innerText = `${value} of ${suitsMap[suits]}`;
+    // div.innerText = `${value} of ${suitsMap[suits]}`;
     if (turn_number == 0) {
       div.addEventListener("click", () => {
         // opaque card if selected

@@ -1,4 +1,7 @@
-
+.main-container {
+    position: relative;
+    left: -20px;
+}
 
 .central{
     flex-direction: column;
@@ -25,7 +28,6 @@
     flex-direction: row;
     display: flex;
 }
-
 
 [class*="col-aside-"]{
     writing-mode: vertical-rl;
@@ -56,9 +58,9 @@
 }
 
 #lobbyChat{
-    position: absolute;
-    bottom: -250px;
-    right: -13px;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
 }
 
 #chatInput{
@@ -90,18 +92,16 @@ div p{
     text-align: left;
 }
 
-
-
-#instructions {
+#instructions{
     padding-bottom: 10px;
 }
 
-#PlayButton {
+#PlayButton{
     display: none;
     margin-bottom: 10px;
 }
 
-#PassButton {
+#PassButton{
     display: none;
     margin-bottom: 10px;
 }

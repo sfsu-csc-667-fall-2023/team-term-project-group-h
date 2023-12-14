@@ -144,107 +144,107 @@ for suit in suits:
   background-image: url("/images/king_of_clubs2.png");
 }
 
-.card.suit-2.value-1 {
+.card.suit-3.value-1 {
   background-image: url("/images/ace_of_hearts.png");
 }
 
-.card.suit-2.value-2 {
+.card.suit-3.value-2 {
   background-image: url("/images/2_of_hearts.png");
 }
 
-.card.suit-2.value-3 {
+.card.suit-3.value-3 {
   background-image: url("/images/3_of_hearts.png");
 }
 
-.card.suit-2.value-4 {
+.card.suit-3.value-4 {
   background-image: url("/images/4_of_hearts.png");
 }
 
-.card.suit-2.value-5 {
+.card.suit-3.value-5 {
   background-image: url("/images/5_of_hearts.png");
 }
 
-.card.suit-2.value-6 {
+.card.suit-3.value-6 {
   background-image: url("/images/6_of_hearts.png");
 }
 
-.card.suit-2.value-7 {
+.card.suit-3.value-7 {
   background-image: url("/images/7_of_hearts.png");
 }
 
-.card.suit-2.value-8 {
+.card.suit-3.value-8 {
   background-image: url("/images/8_of_hearts.png");
 }
 
-.card.suit-2.value-9 {
+.card.suit-3.value-9 {
   background-image: url("/images/9_of_hearts.png");
 }
 
-.card.suit-2.value-10 {
+.card.suit-3.value-10 {
   background-image: url("/images/10_of_hearts.png");
 }
 
-.card.suit-2.value-11 {
+.card.suit-3.value-11 {
   background-image: url("/images/jack_of_hearts2.png");
 }
 
-.card.suit-2.value-12 {
+.card.suit-3.value-12 {
   background-image: url("/images/queen_of_hearts2.png");
 }
 
-.card.suit-2.value-13 {
+.card.suit-3.value-13 {
   background-image: url("/images/king_of_hearts2.png");
 }
 
-.card.suit-3.value-1 {
+.card.suit-2.value-1 {
   background-image: url("/images/ace_of_diamonds.png");
 }
 
-.card.suit-3.value-2 {
+.card.suit-2.value-2 {
   background-image: url("/images/2_of_diamonds.png");
 }
 
-.card.suit-3.value-3 {
+.card.suit-2.value-3 {
   background-image: url("/images/3_of_diamonds.png");
 }
 
-.card.suit-3.value-4 {
+.card.suit-2.value-4 {
   background-image: url("/images/4_of_diamonds.png");
 }
 
-.card.suit-3.value-5 {
+.card.suit-2.value-5 {
   background-image: url("/images/5_of_diamonds.png");
 }
 
-.card.suit-3.value-6 {
+.card.suit-2.value-6 {
   background-image: url("/images/6_of_diamonds.png");
 }
 
-.card.suit-3.value-7 {
+.card.suit-2.value-7 {
   background-image: url("/images/7_of_diamonds.png");
 }
 
-.card.suit-3.value-8 {
+.card.suit-2.value-8 {
   background-image: url("/images/8_of_diamonds.png");
 }
 
-.card.suit-3.value-9 {
+.card.suit-2.value-9 {
   background-image: url("/images/9_of_diamonds.png");
 }
 
-.card.suit-3.value-10 {
+.card.suit-2.value-10 {
   background-image: url("/images/10_of_diamonds.png");
 }
 
-.card.suit-3.value-11 {
+.card.suit-2.value-11 {
   background-image: url("/images/jack_of_diamonds2.png");
 }
 
-.card.suit-3.value-12 {
+.card.suit-2.value-12 {
   background-image: url("/images/queen_of_diamonds2.png");
 }
 
-.card.suit-3.value-13 {
+.card.suit-2.value-13 {
   background-image: url("/images/king_of_diamonds2.png");
 }
 
