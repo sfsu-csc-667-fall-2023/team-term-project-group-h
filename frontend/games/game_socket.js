@@ -104,10 +104,11 @@ const updateHand = (
 
     const container = cardTemplate.content.cloneNode(true);
     const div = container.querySelector(".card");
-
-    div.classList.add(`suit-${suits}`);
-    div.classList.add(`value-${value}`);
-    if(userId !== user_id){
+    
+    if(userId === user_id || card_order === 0) {
+      div.classList.add(`suit-${suits}`);
+      div.classList.add(`value-${value}`);
+    } else {
       div.classList.add("hiddencard");
     }
 
