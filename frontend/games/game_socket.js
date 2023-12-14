@@ -114,13 +114,18 @@ const updateHand = (
         // opaque card if selected
         console.log(`USER ID ${userId} PRESSED CARD ${card_id}`);
         const seat = mapUserIdToSeat[userId];
+        if(selectedCards[seatIndex].includes(card_id)){
+          const index = selectedCards[seatIndex].indexOf(card_id);
+          if(index > -1){
+            selectedCards[seatIndex].splice(index, 1);
+          }
+          div.classList.remove("selected");
+          return;
+        }
         if (
           selectedCards[seatIndex].length < 3 &&
           mapSeatToHand[seat].includes(card_id)
         ) {
-          if (selectedCards[seatIndex].includes(card_id)) {
-            return;
-          } else {
             div.classList.toggle("selected");
             selectedCards[seatIndex].push(card_id);
             console.log(
@@ -128,17 +133,28 @@ const updateHand = (
                 selectedCards[seatIndex]
               )}`
             );
-          }
         }
       });
     } else {
       // this is for every other turn
-
       div.addEventListener("click", () => {
         // opaque card if selected
         console.log(`USER ID ${userId} PRESSED CARD ${card_id}`);
         const seat = mapUserIdToSeat[userId];
         console.log(`USER ID ${userId} IN SEAT ${seat}`);
+        // change selected card
+        if (
+          selectedCards[seatIndex].length == 1 &&
+          mapSeatToHand[seat].includes(card_id)
+        ){
+          const index = selectedCards[seatIndex].indexOf(card_id);
+          if(index > -1){
+            selectedCards[seatIndex].splice(index, 1);
+          }
+          div.classList.remove("selected");
+          return;
+        }
+        // select card
         if (
           selectedCards[seatIndex].length < 1 &&
           mapSeatToHand[seat].includes(card_id)
@@ -293,6 +309,14 @@ playButton.addEventListener("click", () => {
     }),
   });
 
+  const cards = document.querySelectorAll(".selected");
+  cards.forEach((card) => {
+    card.classList.remove("selected");
+  });
+
+
+  console.log(selectedCards[mapUserIdToSeat[userId]]);
+  
   // clear selected cards
   selectedCards[mapUserIdToSeat[userId]] = [];
 });
