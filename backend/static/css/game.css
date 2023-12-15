@@ -60,7 +60,7 @@
 #lobbyChat{
     position: fixed;
     bottom: 10px;
-    right: 10px;
+    right: -35px;
 }
 
 #chatInput{

@@ -178,9 +178,9 @@ const updateHand = (
       });
     }
 
-    if (card_order > 0) {
+    if(card_order > 0) {
       handContainer.appendChild(div);
-    } else {
+    } else if(card_order === 0){
       floorContainer.appendChild(div);
     }
   });
