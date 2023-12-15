@@ -57,6 +57,8 @@ const configure = (socketId) => {
 
   gameSocket.on(GAME_CONSTANTS.INVALID_PLAY, displayWarning);
 
+  gameSocket.on(GAME_CONSTANTS.END_GAME, endGame);
+
   console.log("Game socket configured");
 
   return Promise.resolve(gameSocket);
@@ -139,7 +141,7 @@ const updateHand = (
             );
         }
       });
-    } else {
+    } else if(card_order !== 0){
       // this is for every other turn
       div.addEventListener("click", () => {
         // opaque card if selected
@@ -213,7 +215,7 @@ const stateUpdated = ({ game_id, current_player, players, turn_number, currentUs
   );
 
   if (players.length === 4) {
-    if (turn_number % 52 === 0) {
+    if (turn_number === 0) {
       showPassButton();
       instructions.innerHTML = "Choose 3 cards to pass to the next player.";
     } else {
@@ -281,6 +283,10 @@ const stateUpdated = ({ game_id, current_player, players, turn_number, currentUs
 
 const displayWarning = (message) => {
   instructions.innerHTML = message;
+};
+
+const endGame = (winnerUsername) => {
+  instructions.innerHTML = `${winnerUsername} won the match. Well played!`;
 };
 
 passButton.addEventListener("click", () => {

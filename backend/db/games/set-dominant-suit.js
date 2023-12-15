@@ -8,6 +8,6 @@ const SET_SUIT_DOMINANT = `
 `;
 
 const setDominantSuit = (gameId, suit) =>
-  db.one(SET_SUIT_DOMINANT, [suit, gameId]);
+  db.one(SET_SUIT_DOMINANT, [suit, gameId]).then((data) => data.suit_dominant);
 
 module.exports = { setDominantSuit };

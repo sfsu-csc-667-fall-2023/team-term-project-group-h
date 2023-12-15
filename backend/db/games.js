@@ -42,6 +42,7 @@ const { getFloorCards } = require("./games/get-floor-cards");
 const { getCardPoints } = require("./games/get-card-points");
 const { addPlayerPoints } = require("./games/add-player-points");
 const { cleanFloor } = require("./games/clean-floor");
+const { getWinner } = require("./games/get-winner");
 
 module.exports = {
   create,
@@ -87,5 +88,6 @@ module.exports = {
   getFloorCards,
   getCardPoints,
   addPlayerPoints,
-  cleanFloor
+  cleanFloor,
+  getWinner
 };

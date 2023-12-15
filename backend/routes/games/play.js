@@ -1,4 +1,4 @@
-const { Games } = require("../../db");
+const { Games, Users } = require("../../db");
 const GAME_CONSTANTS = require("../../../constants/games");
 
 const method = "post";
@@ -35,14 +35,14 @@ const handler = async (request, response) => {
   const currentTurn = await Games.getCurrentTurn(gameId);
   console.log(`currentTurn: ${currentTurn}`);
   //1st turn in 1st round: 2clubs check
-  if (currentTurn % 54 === 1 && cardPlayed != 15) {
+  if (currentTurn % 52 === 1 && cardPlayed != 15) {
     io.to(userSocketId).emit(GAME_CONSTANTS.INVALID_PLAY, "You must play the 2 of clubs first.");
     return response.status(200).send();
   }
 
   const { suits: cardPlayedSuit } = await Games.getCardSuit(cardPlayed);
   const { broken_hearts: brokenHearts } = await Games.getBrokenHearts(gameId);
-  const { suit_dominant: currentSuit } = await Games.getDominantSuit(gameId);
+  let { suit_dominant: currentSuit } = await Games.getDominantSuit(gameId);
 
   //1st turn in any round: "is heart broken?" check
   //any other turn: matching suit check
@@ -54,7 +54,7 @@ const handler = async (request, response) => {
       return response.status(200).send();
     }
 
-    await Games.setDominantSuit(gameId, cardPlayedSuit);
+    currentSuit= await Games.setDominantSuit(gameId, cardPlayedSuit);
   } else if (cardPlayedSuit !== currentSuit && await suitInHand(currentSuit, userId, gameId)) {
     io.to(userSocketId)
       .emit(GAME_CONSTANTS.INVALID_PLAY, "You must play according to the leading suit.");
@@ -94,7 +94,12 @@ const handler = async (request, response) => {
     await Games.setDominantNumber(0, gameId);
     await calculateRoundPoints(gameId, nextPlayer);
   }
-  
+
+  if(currentTurn % 52 === 0) {
+    await endGame(gameId, io);
+    return response.status(200).send();
+  }
+
   await Games.incrementTurnNumber(gameId);
   await Games.setCurrentPlayer(nextPlayer, gameId);
 
@@ -116,7 +121,12 @@ const suitInHand = async (currentSuit, userId, gameId) => {
   // console.log(`playerHand: ${JSON.stringify(playerHand)}`);
 
   const suitAceId = suitIdRange[currentSuit];
-  const suitKingId = suitIdRange[currentSuit + 1] - 1;
+  let suitKingId
+  if(currentSuit === 3) {
+    suitKingId = 52;  
+  } else {
+    suitKingId = suitIdRange[currentSuit + 1] - 1;
+  }
   console.log(`suitAceId: ${suitAceId}`);
   console.log(`suitKingId: ${suitKingId}`);
     
@@ -143,6 +153,28 @@ const calculateRoundPoints = async (gameId, loser) => {
   console.log(`roundPoints: ${roundPoints}`);
   await Games.addPlayerPoints(gameId, loser, roundPoints);
   await Games.cleanFloor(gameId);
+}
+
+const endGame = async (gameId, io) => {
+  const gameState = await Games.getState(gameId);
+
+  const winners = await Games.getWinner(gameId);
+  console.log(JSON.stringify(winners));
+  if(winners.length > 1)  {
+    io.to(gameState.game_socket_id).emit(
+      GAME_CONSTANTS.END_GAME,
+      `ITS A ${winners.length} WAY TIE`
+    );
+
+    return;
+  }
+  
+  const winnerUsername = await Users.getUsername(winners[0].user_id);
+
+  io.to(gameState.game_socket_id).emit(
+    GAME_CONSTANTS.END_GAME,
+    winnerUsername
+  );
 }
 
 module.exports = { method, route, handler };
