@@ -95,12 +95,6 @@ const handler = async (request, response) => {
     await calculateRoundPoints(gameId, nextPlayer);
   }
 
-  if(currentTurn % 52 === 0) {
-    await endGame(gameId, io);
-    return response.status(200).send();
-  }
-
-  await Games.incrementTurnNumber(gameId);
   await Games.setCurrentPlayer(nextPlayer, gameId);
 
   const gameState = await Games.getState(gameId);
@@ -109,6 +103,13 @@ const handler = async (request, response) => {
     GAME_CONSTANTS.STATE_UPDATED,
     gameState
   );
+
+  if(currentTurn % 52 === 0) {
+    await endGame(gameId, io);
+    return response.status(200).send();
+  }
+
+  await Games.incrementTurnNumber(gameId);
 
   response.status(200).send();
 };
@@ -163,7 +164,7 @@ const endGame = async (gameId, io) => {
   if(winners.length > 1)  {
     io.to(gameState.game_socket_id).emit(
       GAME_CONSTANTS.END_GAME,
-      `ITS A ${winners.length} WAY TIE`
+      `ITS A ${winners.length} WAY TIE!`
     );
 
     return;
@@ -173,7 +174,7 @@ const endGame = async (gameId, io) => {
 
   io.to(gameState.game_socket_id).emit(
     GAME_CONSTANTS.END_GAME,
-    winnerUsername
+    `${winnerUsername} won the match. Well played!`
   );
 }
 

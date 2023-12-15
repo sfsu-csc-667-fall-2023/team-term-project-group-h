@@ -285,11 +285,17 @@ const displayWarning = (message) => {
   instructions.innerHTML = message;
 };
 
-const endGame = (winnerUsername) => {
-  instructions.innerHTML = `${winnerUsername} won the match. Well played!`;
+const endGame = (winMessage) => {
+  instructions.innerHTML = winMessage;
 };
 
 passButton.addEventListener("click", () => {
+  if(selectedCards[mapUserIdToSeat[userId]].length !== 3) {
+    instructions.innerHTML = "Please select 3 cards to pass.";
+
+    return;
+  } 
+
   console.log(`USER ID ${userId} PRESSED PASS BUTTON`);
   instructions.innerHTML = "Waiting on other players to pass cards...";
   passButton.style.display = "none";
