@@ -59,8 +59,6 @@ const configure = (socketId) => {
 
   gameSocket.on(GAME_CONSTANTS.END_GAME, endGame);
 
-  console.log("Game socket configured");
-
   return Promise.resolve(gameSocket);
 };
 
@@ -73,10 +71,6 @@ const updateHand = (
   turn_number,
   current_player
 ) => {
-  // console.log(`THIS IS USER ID ${userId}`);
-
-  // console.log(`Updating hand for game ${game_id} in handContainer ${handContainer}`);
-
   handContainer.innerHTML = "";
   floorContainer.innerHTML = "";
 
@@ -92,18 +86,6 @@ const updateHand = (
 
     mapUserIdToSeat[user_id] = seatIndex;
 
-    console.log(`THIS IS THE NEW MAP-SEATS ${JSON.stringify(mapSeatToHand)}`);
-
-    console.log(`THIS IS THE NEW MAP ${JSON.stringify(mapUserIdToSeat)}`);
-
-    console.log(
-      `value: ${value}, suits: ${suits}, card_id: ${card_id}, card_order: ${card_order},
-       user_id: ${user_id}, selectedCardsIndex: ${seatIndex}`
-    );
-    console.log(
-      `selectedCardsIndex: ${seatIndex}, this should be empty: selectedCards: ${selectedCards[seatIndex]}`
-    );
-
     const container = cardTemplate.content.cloneNode(true);
     const div = container.querySelector(".card");
     
@@ -114,67 +96,54 @@ const updateHand = (
       div.classList.add("hiddencard");
     }
 
-    // div.innerText = `${value} of ${suitsMap[suits]}`;
     if (turn_number == 0) {
       div.addEventListener("click", () => {
-        // opaque card if selected
-        console.log(`USER ID ${userId} PRESSED CARD ${card_id}`);
         const seat = mapUserIdToSeat[userId];
-        if(selectedCards[seatIndex].includes(card_id)){
+
+        if(selectedCards[seatIndex].includes(card_id)) {
           const index = selectedCards[seatIndex].indexOf(card_id);
+
           if(index > -1){
             selectedCards[seatIndex].splice(index, 1);
           }
+
           div.classList.remove("selected");
           return;
         }
-        if (
+        if(
           selectedCards[seatIndex].length < 3 &&
           mapSeatToHand[seat].includes(card_id)
         ) {
             div.classList.toggle("selected");
             selectedCards[seatIndex].push(card_id);
-            console.log(
-              `SELECTED CARDS OF THIS USER ${JSON.stringify(
-                selectedCards[seatIndex]
-              )}`
-            );
         }
       });
     } else if(card_order !== 0){
-      // this is for every other turn
       div.addEventListener("click", () => {
-        // opaque card if selected
-        console.log(`USER ID ${userId} PRESSED CARD ${card_id}`);
         const seat = mapUserIdToSeat[userId];
-        console.log(`USER ID ${userId} IN SEAT ${seat}`);
-        // change selected card
-        if (
+
+        if(
           selectedCards[seatIndex].length == 1 &&
           mapSeatToHand[seat].includes(card_id)
-        ){
+        ) {
           const index = selectedCards[seatIndex].indexOf(card_id);
+
           if(index > -1){
             selectedCards[seatIndex].splice(index, 1);
           }
           div.classList.remove("selected");
           return;
         }
-        // select card
-        if (
+
+        if(
           selectedCards[seatIndex].length < 1 &&
           mapSeatToHand[seat].includes(card_id)
         ) {
-          if (selectedCards[seatIndex].includes(card_id)) {
+          if(selectedCards[seatIndex].includes(card_id)) {
             return;
-          } else {
+          }else {
             div.classList.toggle("selected");
             selectedCards[seatIndex].push(card_id);
-            console.log(
-              `SELECTED CARDS OF THIS USER ${JSON.stringify(
-                selectedCards[seatIndex]
-              )}`
-            );
           }
         }
       });
@@ -193,11 +162,9 @@ const updatePoints = (players) => {
     const playerPoints = document.getElementById(
       `player-${player.seat + 1}-points`
     );
+
     if (playerPoints) {
       playerPoints.innerText = `USER: ${player.username}, POINTS: ${player.hand_points} `;
-      console.log(
-        `Player ${player.seat} has ${player.game_points} game points, ${player.hand_points} hand points`
-      );
     } else {
       console.error(`Element not found for seat ${player.seat}`);
     }
@@ -205,24 +172,15 @@ const updatePoints = (players) => {
 };
 
 const stateUpdated = ({ game_id, current_player, players, turn_number, currentUsername }) => {
-  console.log(
-    `STATE UPDATED: ${JSON.stringify({
-      game_id,
-      current_player,
-      players,
-      turn_number,
-    })}`
-  );
-
   if (players.length === 4) {
     if (turn_number === 0) {
       showPassButton();
       instructions.innerHTML = "Choose 3 cards to pass to the next player.";
-    } else {
+    }else {
       showPlayButton();
       instructions.innerHTML = `${currentUsername}'s turn!`;
     }
-    // print points
+
     updatePoints(players);
     const seatZeroCards = players
       .find((player) => player.seat === 0)
@@ -237,7 +195,6 @@ const stateUpdated = ({ game_id, current_player, players, turn_number, currentUs
       .find((player) => player.seat === 3)
       .hand.sort((a, b) => a.card_id - b.card_id);
 
-    // console.log({ seatZeroCards, seatOneCards });
     updateHand(
       playerOneHand,
       playerOneFloor,
@@ -274,10 +231,6 @@ const stateUpdated = ({ game_id, current_player, players, turn_number, currentUs
       turn_number,
       current_player
     );
-
-    if (turn_number > 0) {
-      // update Floor
-    }
   }
 };
 
@@ -296,7 +249,6 @@ passButton.addEventListener("click", () => {
     return;
   } 
 
-  console.log(`USER ID ${userId} PRESSED PASS BUTTON`);
   instructions.innerHTML = "Waiting on other players to pass cards...";
   passButton.style.display = "none";
 
@@ -308,13 +260,11 @@ passButton.addEventListener("click", () => {
       userId: userId,
     }),
   });
-  // clear selected cards
+  
   selectedCards[mapUserIdToSeat[userId]] = [];
 });
 
 playButton.addEventListener("click", () => {
-  console.log(`USER ID ${userId} PRESSED PLAY BUTTON`);
-
   fetch(`${roomId}/play/`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
@@ -329,11 +279,7 @@ playButton.addEventListener("click", () => {
   cards.forEach((card) => {
     card.classList.remove("selected");
   });
-
-
-  console.log(selectedCards[mapUserIdToSeat[userId]]);
   
-  // clear selected cards
   selectedCards[mapUserIdToSeat[userId]] = [];
 });
 

@@ -15,9 +15,6 @@ const connectionState = {
   }
   
   const ready = (gameSocket, userSocket) => {
-  
-    console.log("READY CALLED", connectionState)
-  
     gameSocket.on("connect", () => { 
       connectionState.game = true;
       connectionState.updated = Date.now();

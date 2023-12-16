@@ -52,7 +52,7 @@ const sessionMiddleware = session({
 });
 
 if (process.env.NODE_ENV === "production") {
-  app.set("trust proxy", 1); // trust first proxy
+  app.set("trust proxy", 1);
 }
 
 app.use(sessionMiddleware);
@@ -62,15 +62,11 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use(sessionLocals);
-/*
-* Sockets have traditionally been the solution around which most real-time chat systems are architected, 
-* providing a bi-directional communication channel between a client and a server.
-*/
+
 const io = new Server(httpServer);
 io.engine.use(sessionMiddleware);
 app.set("io", io);
 
-// every time a new socket connects, it will be added to the socket.io server
 io.on("connection", (socket) => {
   socket.join(socket.request.session.id);
   console.log("a user connected to socket.io");
@@ -90,7 +86,6 @@ app.use("/waiting", isAuthenticated, Routes.waiting, Routes.chat);
 
 const PORT = process.env.PORT || 3000;
 
-// these lines below are telling the server to listen for requests on port 3000 and to console.log a message when the server is ready 
 httpServer.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
