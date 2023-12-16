@@ -82,7 +82,6 @@ app.use("/", Routes.root);
 app.use("/login", Routes.authentication);
 app.use("/game", isAuthenticated, Routes.game, Routes.chat);
 app.use("/lobby", isAuthenticated, Routes.lobby, Routes.chat);
-app.use("/waiting", isAuthenticated, Routes.waiting, Routes.chat);
 
 const PORT = process.env.PORT || 3000;
 
