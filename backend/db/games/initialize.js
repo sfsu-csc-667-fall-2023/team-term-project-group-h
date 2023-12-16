@@ -18,11 +18,8 @@ const initialize = async (gameId) => {
   const users = await getUsers(gameId);
   await dealCards(users, cards, gameId);
   const dealtCards = await getCards(gameId);
- 
-  // const current_player = await getCurrentTurn(gameId);
 
   users.forEach((user) => {
-    console.log({ user });
     user.hand = dealtCards.filter((card) => card.user_id === user.user_id);
     user.current_player = true;
   });

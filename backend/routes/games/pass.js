@@ -30,14 +30,6 @@ const handler = async (request, response) => {
 
   const { user_id: targetUser } = await Games.getPlayerBySeat(targetSeat, gameId);
 
-  // console.log(targetUser);
-  // for( const card of selectedCards) {
-  //     console.log("PASSING CARDS");
-  //     console.log(card);
-  //     console.log(targetUser);
-  //     console.log(gameId);
-  // }
-
   for(const card of selectedCards) {
     await Games.passCard(card, targetUser, gameId);
   } 
