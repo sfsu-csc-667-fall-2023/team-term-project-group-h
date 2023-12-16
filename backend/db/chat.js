@@ -19,7 +19,6 @@ const chat_exists = (game_id) => {
 const get_messages = async (game_id) => {
   try {
     const results = await db.any(GET_MESSAGES, [game_id]);
-    // substitute user_id for username
     const processedResults = await Promise.all(
       
       results.map(async (result) => {

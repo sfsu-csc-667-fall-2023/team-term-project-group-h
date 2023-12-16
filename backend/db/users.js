@@ -9,6 +9,7 @@ const SIGN_USER_IN = "SELECT * FROM users WHERE username = $1";
 const GET_USER_SOCKET =
   "SELECT sid FROM session WHERE sess->'user'->>'id'='$1' ORDER BY expire DESC LIMIT 1";
 const GET_USER_ID = "SELECT id FROM users WHERE username = $1";
+const GET_USERNAME = "SELECT username FROM users where id=$1";
 
 const username_exists = (username) =>
   db
@@ -32,6 +33,8 @@ const getUserId = (username) => {
   return db.one(GET_USER_ID, [username]);
 };
 
+const getUsername = (userId) => db.one(GET_USERNAME, [userId]).then((data) => data.username);;
+
 module.exports = {
   username_exists,
   create,
@@ -39,4 +42,5 @@ module.exports = {
   email_exists,
   getUserSocket,
   getUserId,
+  getUsername
 };

@@ -2,12 +2,12 @@ const database = require("../connection");
 const { connection: db } = database;
 
 const SET_CURRENT_PLAYER = `
-  UPDATE games SET turn_number=$1
+  UPDATE games SET turn_player_id=$1
   WHERE id=$2
-  RETURNING turn_number
+  RETURNING turn_player_id
 `;
 
-const setCurrentPlayer = (seatIndex, gameId) =>
-  db.one(SET_CURRENT_PLAYER, [seatIndex, gameId]);
+const setCurrentPlayer = (playerId, gameId) =>
+  db.one(SET_CURRENT_PLAYER, [playerId, gameId]);
 
 module.exports = { setCurrentPlayer };

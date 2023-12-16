@@ -15,7 +15,7 @@ const getMapCountPlayers = async () => {
     GROUP BY
         gu.game_id, g.title;
         `);
-    //  we need an object where the key is the game_id and the value is the total_players
+
     const results = {};
     mapCountPlayers.forEach((game) => {
         results[game.game_id] = game.total_players;

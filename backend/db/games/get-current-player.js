@@ -2,7 +2,7 @@ const database = require("../connection");
 const { connection: db } = database;
 
 const GET_CURRENT_PLAYER = `
-  SELECT turn_number FROM games
+  SELECT turn_player_id FROM games
   WHERE id=$1
 `;
 

@@ -8,7 +8,7 @@ router.get("/", async (request, response) => {
   const currentGames  = await Games.currentGamesForUser(id);
   const messages = await Chat.get_messages(0);
   const mapCountPlayers = await Games.getMapCountPlayers();
-  console.log(`availableGames: ${JSON.stringify(availableGames)}`);
+  
   response.render("lobby", { availableGames, currentGames, messages, mapCountPlayers });
 });
 

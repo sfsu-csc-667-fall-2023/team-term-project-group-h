@@ -8,25 +8,6 @@ exports.shorthands = undefined;
  */
 exports.up = (pgm) => {
   pgm.createTable("games", {
-    /*
-        table games {
-  table games {
-  id int PK // game_id
-  // players_allowed int // not null
-  password varchar(100)
-  active bool
-  turn_player_id int
-  turn_number int // default 0
-  suit_dominant suits
-  player_dominant int // FK
-  broken_hearts bool // hearts cannot be played first until someone breaks heart  
-  created_at timestamp  // default now() not null
-  updated_at timestamp  // not null
-  started_at timestamp
-}
-}  
-        */
-
     id: {
       type: "id",
       primaryKey: true,
@@ -52,16 +33,17 @@ exports.up = (pgm) => {
       default: 0,
     },
     suit_dominant: {
-      type: "card_suits",
+      type: "int",
     },
     player_dominant: {
       type: "int",
     },
-    Number_dominant: {
-      type: "card_numbers",
+    number_dominant: {
+      type: "int",
     },
     broken_hearts: {
       type: "bool",
+      default: "false"
     },
     created_at: {
       type: "timestamp",

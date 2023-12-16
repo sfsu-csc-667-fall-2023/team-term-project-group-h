@@ -1,10 +1,14 @@
 var displayForm = true;
 var form = document.getElementById("Sign-Up");
+
 form.addEventListener("click", SignUp);
+
 var form2 = document.getElementById("Sign-Up-Form");
+
 function SignUp(event) {
   event.preventDefault();
   displayForm = !displayForm;
+  
   if (displayForm === false) {
     form2.innerHTML = `
     <form class="card" method="POST" action="/login/sign_up">

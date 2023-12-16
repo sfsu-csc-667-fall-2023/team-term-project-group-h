@@ -12,15 +12,10 @@ const handler = async (request, response) => {
 
   const { active } = await Games.isInitialized(gameId);
   const { ready_count, player_count } = await Games.readyPlayer(userId, gameId);
-  console.log({ ready_count, player_count, active });
 
-  // Change from 4 to 2 to test.
-
-  const method = ready_count !== 2 || active ? "getState" : "initialize";
+  const method = ready_count !== 4 || active ? "getState" : "initialize";
 
   const gameState = await Games[method](parseInt(gameId));
-
-  console.log({ gameState, method, });
 
   io.to(gameState.game_socket_id).emit(GAME_CONSTANTS.STATE_UPDATED, gameState);
 
