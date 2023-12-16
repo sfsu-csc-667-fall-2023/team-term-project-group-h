@@ -69,8 +69,7 @@ app.set("io", io);
 
 io.on("connection", (socket) => {
   socket.join(socket.request.session.id);
-  console.log("a user connected to socket.io");
-  console.log(`socket.request.session.id: ${socket.request.session.id}`);
+
   if (socket.handshake.query !== undefined) {
     socket.join(socket.handshake.query.id);
   }
