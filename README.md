@@ -7,6 +7,8 @@ Requirements:
 4. To run the website run the following command: npm run start:dev
 5. Game requires 4 different browsers to be ran.
 
+Demonstration: can be found in demo folder.
+
 Welcome To Hearts Game
 
 Game Rules:
